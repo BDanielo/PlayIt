@@ -18,22 +18,49 @@
 		{% endblock %}
 	</head>
 	<body>
+		<h1 class="text-3xl text-white fixed top-2 left-2 z-20">Play<span class="text-font-blue">It</span>
+		</h1>
 
-		<div class="">
-			<a href="#" class="text-xl font-bold">Games</a>
-			<a href="#">MyGames</a>
-			<a href="#">Cart</a>
-			<a href="{{ path('app_published_games') }}">Published games</a>
-			<a href="#">Profile</a>
-			<a href="/register">Register</a>
-			<a href="/login">Login</a>
-			<a href="/logout">Logout</a>
+		<div class="px-2 h-full w-48 fixed  top-0 left-0 overflow-x-hidden pt-20 text-xl bg-dark-purple text-transparent-white flex flex-col justify-between pb-10">
+
+			<div>
+				<h2 class="text-white">Games</h2>
+
+				<ul class="px-2 pt-4">
+					<li class="my-2">
+						<a href="#" class="hover:text-transparent-hover">Games</a>
+					</li>
+					<li class="my-2">
+						<a href="#" class="hover:text-transparent-hover">My Games</a>
+					</li>
+					<li class="my-2">
+						<a href="#" class="text-white">Cart</a>
+					</li>
+					<li class="my-2">
+						<a href="{{ path('app_published_games') }}" class="hover:text-transparent-hover">Published Games</a>
+					</li>
+					<li class="my-2">
+						<a href="#" class="hover:text-transparent-hover">Profile</a>
+					</li>
+					<li class="my-2">
+						<a href="/register" class="hover:text-transparent-hover">Register</a>
+					</li>
+					<li class="my-2">
+						<a href="/login" class="hover:text-transparent-hover">Login</a>
+					</li>
+					<li class="my-2">
+						<a href="/logout" class="hover:text-transparent-hover">Logout</a>
+					</li>
+				</ul>
+			</div>
+
+			<a href="#" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
+				<h2 class="text-xl text-white text-center">Login</h2>
+			</a>
 		</div>
-
 		<!-- Page content -->
-		<div class="main">
-			...
-		</div>
-		{% block body %}{% endblock %}
-	</body>
-</html>
+		<div class="ml-48"> {% block body %}{% endblock %}
+
+			</div>
+		</body>
+	</html>

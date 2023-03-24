@@ -12,7 +12,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(GamesRepository $gamesRepository): Response
     {
-        return $this->render('home/home.html.twig', [
+        return $this->render('home.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }

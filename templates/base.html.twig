@@ -15,8 +15,10 @@
         {% endblock %}
     </head>
     <body>
-        <div class="">
-			<a href="#" class="text-xl font-bold">Games</a>
+        <div class="flex flex-col">
+            <input type="search" placeholder="Search..."><a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="#" class="text-xl font-bold"><i class="fa-solid fa-house"></i>Home</a>
+			<a href="#" >Games</a>
 			<a href="#">MyGames</a>
 			<a href="#">Cart</a>
 			<a href="#">Published games</a>
@@ -24,5 +26,6 @@
 			<a href="#">Login</a>
 		</div>
         {% block body %}{% endblock %}
+        
     </body>
 </html>

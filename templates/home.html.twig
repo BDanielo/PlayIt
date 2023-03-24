@@ -57,7 +57,7 @@
 
     <h1 class="self-center m-10 text-3xl">Sales</h1>
 
-    <div class="flex justify-around mb-10">
+    <div class="flex justify-around">
         
         {% for sale in sales %}
             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -89,7 +89,7 @@
 
     <h1 class="self-center m-10 text-3xl">Popular</h1>
 
-    <div class="flex justify-around mb-10">
+    <div class="flex justify-around">
         
         {% for popular in populars %}
             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -118,6 +118,16 @@
     </div>
 
     <span class="rounded-full self-center bg-cyan-400 p-2"><a href="#">see more</a></span>
+
+    <h1 class="self-center m-10 text-3xl">Categories</h1>
+
+    <div class="flex justify-around">
+        {% for category in categories %}   
+            <a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ category.name }}</h5>
+            </a>
+        {% endfor %}
+    </div>
 
 
 </div>

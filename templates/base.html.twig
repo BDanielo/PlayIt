@@ -15,14 +15,14 @@
         {% endblock %}
     </head>
     <body>
-        <div class="sidemenu">
-            <ul>
-                <li><input type="text" placeholder="Search..."><i class="fa-solid fa-magnifying-glass"></i></li>
-                <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i>Home</a></li>
-                <li><a href="{{ path('about') }}">About</a></li>
-                <li><a href="{{ path('contact') }}">Contact</a></li>
-            </ul>
-        </div>
+        <div class="">
+			<a href="#" class="text-xl font-bold">Games</a>
+			<a href="#">MyGames</a>
+			<a href="#">Cart</a>
+			<a href="#">Published games</a>
+			<a href="#">Profile</a>
+			<a href="#">Login</a>
+		</div>
         {% block body %}{% endblock %}
     </body>
 </html>

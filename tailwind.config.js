@@ -10,6 +10,8 @@ module.exports = {
       transparent: 'transparent',
       current: 'currentColor',
       'white': colors.white,
+      'gray': colors.gray,
+      'cyan': colors.cyan,
       'transparent-white': '#7C767F',
       'transparent-hover': '#CECBD0',
       'dark-purple': "#14081B",

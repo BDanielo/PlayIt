@@ -15,10 +15,12 @@ class HomeController extends AbstractController
         $games = $gamesRepository->findAll();
 
         $sales = [1,2,3];
+        $populars = [1,2,3];
 
         return $this->render('home.html.twig', [
             'controller_name' => 'HomeController',
             'sales' => $sales,
+            'populars' => $populars,
         ]);
     }
 }

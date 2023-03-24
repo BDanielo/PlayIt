@@ -9,11 +9,14 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>My Published Games</h1>
-    {% if games is defined %}
-    {% else %}
-        <p>You don't have any published games.</p>
-        <p><a href="{{ path('app_published_games_add') }}"><button type="button">Add your game !</button></a></p>
+    <h1>Add a new Game</h1>
+    {% if message is defined %}
+    <p>{{ message }}</p>
     {% endif %}
+        {{ form_start(form) }}
+        {# add form error #}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+
 </div>
 {% endblock %}

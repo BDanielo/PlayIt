@@ -36,6 +36,12 @@ class Games
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Review::class)]
     private Collection $reviews;
 
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $picture = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -176,6 +182,30 @@ class Games
                 $review->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }

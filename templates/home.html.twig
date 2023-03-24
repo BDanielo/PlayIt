@@ -77,7 +77,8 @@
                         <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
                     </div>
                     <div class="flex items-center justify-between">
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
+                        <span class="text-3xl font-bold text-red-500 dark:text-red-500 line-through">$599</span>
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">$499</span>
                         <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
                     </div>
                 </div>
@@ -85,7 +86,7 @@
         {% endfor %}
     </div>
 
-    <span class="rounded-full self-center bg-cyan-400 p-2"><a href="#">see more</a></span>
+    <span class="rounded-full self-center bg-cyan-400 p-2 mt-4"><a href="#">see more</a></span>
 
     <h1 class="self-center m-10 text-3xl">Popular</h1>
 
@@ -117,13 +118,13 @@
         {% endfor %}
     </div>
 
-    <span class="rounded-full self-center bg-cyan-400 p-2"><a href="#">see more</a></span>
+    <span class="rounded-full self-center bg-cyan-400 p-2 mt-4"><a href="#">see more</a></span>
 
     <h1 class="self-center m-10 text-3xl">Categories</h1>
 
     <div class="flex justify-around">
         {% for category in categories %}   
-            <a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <a href="{{ path('app_list_categories') }}" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ category.name }}</h5>
             </a>
         {% endfor %}

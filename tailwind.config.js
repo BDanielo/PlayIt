@@ -12,6 +12,8 @@ module.exports = {
       'white': colors.white,
       'gray': colors.gray,
       'cyan': colors.cyan,
+      'blue': colors.blue,
+      'red': colors.red,
       'transparent-white': '#7C767F',
       'transparent-hover': '#CECBD0',
       'dark-purple': "#14081B",

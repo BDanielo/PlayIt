@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --background-color: #222;
+    --color-start: #2B1534;
+    --color-end: #832cae;
+    --gradient: linear-gradient(
+                  180deg, 
+                  var(--color-start) 0%,
+                  var(--color-start) 40%,
+                  var(--color-end) 100%
+                ); 
+ }
+
 body {
     background-color: lightgray;
+}
+
+.border-glow {
+    box-shadow: 0 0 1rem 0 var(--color-start);
+}
+  
+
+.border-gradient {
+background: linear-gradient(#2B1534, #2B1534), 
+            var(--gradient);
+background-origin: padding-box, border-box;
+background-repeat: no-repeat; /* this is important */
+border: 0.2rem solid transparent;
+border-radius: 5px;
 }

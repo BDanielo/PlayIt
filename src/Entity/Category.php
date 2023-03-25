@@ -21,7 +21,7 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Games::class, mappedBy: 'category')]
+    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'category')]
     private Collection $games;
 
     public function __construct()
@@ -59,14 +59,14 @@ class Category
     }
 
     /**
-     * @return Collection<int, Games>
+     * @return Collection<int, Game>
      */
     public function getGames(): Collection
     {
         return $this->games;
     }
 
-    public function addGame(Games $game): self
+    public function addGame(Game $game): self
     {
         if (!$this->games->contains($game)) {
             $this->games->add($game);
@@ -76,7 +76,7 @@ class Category
         return $this;
     }
 
-    public function removeGame(Games $game): self
+    public function removeGame(Game $game): self
     {
         if ($this->games->removeElement($game)) {
             $game->removeCategory($this);

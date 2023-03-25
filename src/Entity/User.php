@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -18,16 +21,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstname = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $email = null;
 
+    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'owners')]
+    private Collection $gamesOwned;
+
+    #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'authors')]
+    private Collection $gamesPublished;
+
     #[ORM\Column(length: 255)]
-    private ?string $adress = null;
+    private ?string $address = null;
 
     #[ORM\Column(type: 'json')]
     private $roles = ['ROLE_USER'];
@@ -35,27 +44,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(inversedBy: 'user')]
-    private ?Games $games = null;
-
     #[ORM\Column(length: 255)]
     private ?string $username = null;
+
+    #[ORM\Column]
+    private ?int $points = 0;
+
+    #[ORM\Column]
+    private ?int $levels = 0;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $signupDate = null;
+
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $lastSigninDateTime = null;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Review::class)]
+    private Collection $reviews;
+
+    public function __construct()
+    {
+        $this->gamesOwned = new ArrayCollection();
+        $this->gamesPublished = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getFirstname(): ?string
@@ -82,14 +99,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(string $adress): self
+    public function setAddress(string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -118,18 +135,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function getGames(): ?Games
-    {
-        return $this->games;
-    }
-
-    public function setGames(?Games $games): self
-    {
-        $this->games = $games;
 
         return $this;
     }
@@ -163,5 +168,146 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(int $points): self
+    {
+        $this->points = $points;
+
+        return $this;
+    }
+
+    public function getLevels(): ?int
+    {
+        return $this->levels;
+    }
+
+    public function setLevels(int $levels): self
+    {
+        $this->levels = $levels;
+
+        return $this;
+    }
+
+    public function getSignupDate(): ?\DateTimeInterface
+    {
+        return $this->signupDate;
+    }
+
+    public function setSignupDate(\DateTimeInterface $signupDate): self
+    {
+        $this->signupDate = $signupDate;
+
+        return $this;
+    }
+
+    public function getLastSigninDateTime(): ?\DateTimeInterface
+    {
+        return $this->lastSigninDateTime;
+    }
+
+    public function setLastSigninDateTime(\DateTimeInterface $lastSigninDateTime): self
+    {
+        $this->lastSigninDateTime = $lastSigninDateTime;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getGamesOwned(): Collection
+    {
+        return $this->gamesOwned;
+    }
+
+    public function addGamesOwned(Game $gamesOwned): self
+    {
+        if (!$this->gamesOwned->contains($gamesOwned)) {
+            $this->gamesOwned->add($gamesOwned);
+            $gamesOwned->addOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGamesOwned(Game $gamesOwned): self
+    {
+        if ($this->gamesOwned->removeElement($gamesOwned)) {
+            $gamesOwned->removeOwner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getGamesPublished(): Collection
+    {
+        return $this->gamesPublished;
+    }
+
+    public function addGamesPublished(Game $gamesPublished): self
+    {
+        if (!$this->gamesPublished->contains($gamesPublished)) {
+            $this->gamesPublished->add($gamesPublished);
+        }
+
+        return $this;
+    }
+
+    public function removeGamesPublished(Game $gamesPublished): self
+    {
+        $this->gamesPublished->removeElement($gamesPublished);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getAuthor() === $this) {
+                $review->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 }

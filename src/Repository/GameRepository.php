@@ -67,11 +67,20 @@ class GameRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function getMostRecent(): array
+    public function orderByDate(): array
     {
         $query = $this->createQueryBuilder('game')
             ->groupBy('game.id')
-            ->orderBy('game.creation_date', 'DESC')
+            ->orderBy('game.creationDate', 'DESC')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findByName($name): array
+    {
+        $query = $this->createQueryBuilder('game')
+            ->andWhere('game.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
             ->getQuery();
         return $query->getResult();
     }

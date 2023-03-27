@@ -71,12 +71,38 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.price }}$</span>
-                        <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                        <a onclick="addToCartAjax({{game.id}})" id="btnAddCart{{game.id}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><i class="fa-solid fa-plus"></i> Add to cart</a>
                     </div>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
-
+    
 </div>
+
+<script>
+function addToCartAjax(id) {
+    var btnId = 'btnAddCart' + id;
+    
+    var btn = document.getElementById(btnId);
+    var saveBtn = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
+
+    var finalUrl = '/cart/add/' + id;
+    $.ajax({
+        url: finalUrl, 
+        type: 'GET',
+        success: function (res) {
+            btn.innerHTML = "<i class='fa-solid fa-check'></i> Added";
+            setTimeout(function () {
+                btn.innerHTML = saveBtn;
+            }, 500);
+        },
+        error: function () {
+            alert('Error!');
+        }
+    });
+}
+</script>
 {% endblock %}

@@ -1,21 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Register
+{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.address) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+	<div class="flex flex-col items-center justify-center h-screen bg-dark-medium-purple">
+		<div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+			{{ form_start(registrationForm) }}
+			<h1 class="h3 mb-3 font-weight-normal text-4xl">Register</h1>
+			<br>
+
+			<label>Email</label>
+			{{ form_widget(registrationForm.email,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>UserName</label>
+			{{ form_widget(registrationForm.username,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>FirstName</label>
+			{{ form_widget(registrationForm.firstname,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>LastName</label>
+			{{ form_widget(registrationForm.lastname,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>Address</label>
+			{{ form_widget(registrationForm.address,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>Password</label>
+			{{ form_widget(registrationForm.plainPassword,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>Agree terms </label>
+			{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'shadow-none focus:outline-none appearance-none checked:bg-electric-purple bg-dark-purple'}}) }}
+			<br>
+            <br>
+			{# {{ form_widget(form.name, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }} #}
+
+			<button class="inline-block rounded-full bg-danger px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#AE4CDC] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)]" type="submit">
+				Register
+			</button>
+			{{ form_end(registrationForm) }}
+
+		</div>
+	</div>
 {% endblock %}

@@ -24,10 +24,22 @@ body {
   
 
 .border-gradient {
-background: linear-gradient(#2B1534, #2B1534), 
-            var(--gradient);
-background-origin: padding-box, border-box;
-background-repeat: no-repeat; /* this is important */
-border: 0.2rem solid transparent;
-border-radius: 5px;
+    background: linear-gradient(#2B1534, #2B1534), 
+                var(--gradient);
+    background-origin: padding-box, border-box;
+    background-repeat: no-repeat; /* this is important */
+    border: 0.2rem solid transparent;
+    border-radius: 5px;
 }
+
+input[type="checkbox"]:focus{
+    outline:0;
+}
+
+input[type="checkbox"]{
+    box-shadow:none !important;
+}
+
+.checkbox input[type="checkbox"]:focus + label::before {
+    outline: none;
+  }

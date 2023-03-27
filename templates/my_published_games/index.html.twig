@@ -10,7 +10,44 @@
 
 <div class="example-wrapper">
     <h1>My Published Games</h1>
-    {% if games is defined %}
+    {% if message is defined %}
+        <p>{{ message }}</p>
+    {% endif %}
+    {% if games is defined and games is not null %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Sold</th>
+                    <th>Price</th>
+                    <th>Version</th>
+                    <th>Creation Date</th>
+                    <th>Update Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in games %}
+                    <tr>
+                        <td>{{ game.name }}</td>
+                        <td>{{ game.description }}</td>
+                        <td>{{ game.sold }}</td>
+                        <td>{{ game.price }}€</td>
+                        <td>{{ game.version }}</td>
+                        <td>{{ game.creationDate|date('Y-m-d H:i:s') }}</td>
+                        {% if game.updateDate is not null %}
+                        <td>{{ game.updateDate|date('Y-m-d H:i:s') }}</td>
+                        {% else %}
+                        <td>no updates</td>
+                        {% endif %}
+                            {# <a href="{{ path('app_published_games_edit', {'id': game.id}) }}"><button type="button">Edit</button></a>
+                            <a href="{{ path('app_published_games_delete', {'id': game.id}) }}"><button type="button">Delete</button></a> #}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+                <p><a href="{{ path('app_published_games_add') }}"><button type="button">+ Add a game !</button></a></p>
     {% else %}
         <p>You don't have any published games.</p>
         <p><a href="{{ path('app_published_games_add') }}"><button type="button">Add your game !</button></a></p>

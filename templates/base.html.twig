@@ -37,6 +37,11 @@
 				<h2 class="text-white">Games</h2>
 
 				<ul class="px-2 pt-4">
+					{% if is_granted('ROLE_ADMIN') %}
+					<li class="my-2">
+						<a href="{{ path('app_admin') }}" class="hover:text-transparent-hover">Admin</a>
+					</li>		
+					{% endif %}
 					<li class="my-2">
 						<a href="{{ path('app_all_games') }}" class="hover:text-transparent-hover">Games</a>
 					</li>
@@ -50,7 +55,7 @@
 						<a href="{{ path('app_published_games') }}" class="hover:text-transparent-hover">Published Games</a>
 					</li>
 					<li class="my-2">
-						<a href="#" class="hover:text-transparent-hover">Profile</a>
+						<a href="{{path('app_profil')}}" class="hover:text-transparent-hover">Profil</a>
 					</li>
 					<li class="my-2">
 						<a href="{{path('app_register')}}" class="hover:text-transparent-hover">Register</a>

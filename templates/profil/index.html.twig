@@ -9,12 +9,46 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Daniel/Documents/Cours/LPSMIN/M10 framework php/Semaine-projet-symfony/PlayIt/src/Controller/ProfilController.php'|file_link(0) }}">src/Controller/ProfilController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Daniel/Documents/Cours/LPSMIN/M10 framework php/Semaine-projet-symfony/PlayIt/templates/profil/index.html.twig'|file_link(0) }}">templates/profil/index.html.twig</a></code></li>
-    </ul>
+    {% for error in app.flashes('error') %}
+        {{ error }}
+    {% endfor %}
+        <p>SignUp date : {{app.user.signupDate|date('d/m/Y')}}</p>
+    {{ form_start(form) }}
+    <div class=\"form-group\">
+        {{ form_label(form.username) }}
+        {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class=\"form-group\">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {# firstname #}
+    <div class=\"form-group\">
+        {{ form_label(form.firstname) }}
+        {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {# lastname #}
+    <div class=\"form-group\">
+        {{ form_label(form.lastname) }}
+        {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {# address #}
+    <div class=\"form-group\">
+        {{ form_label(form.address) }}
+        {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class=\"form-group\">
+        {{ form_label(form.currentPassword) }}
+        {{ form_widget(form.currentPassword, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class=\"form-group\">
+        {{ form_label(form.newPassword) }}
+        {{ form_widget(form.newPassword, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class=\"form-group\">
+        {{ form_label(form.confirmNewPassword) }}
+        {{ form_widget(form.confirmNewPassword, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {{ form_widget(form) }}
 </div>
 {% endblock %}

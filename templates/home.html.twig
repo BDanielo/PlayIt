@@ -107,9 +107,9 @@
 
     <h1 class="self-center m-10 text-3xl">Categories</h1>
 
-    <div class="flex justify-around">
+    <div class="flex justify-center">
         {% for category in categories %}   
-            <a href="{{ path('app_list_categories') }}" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <a href="{{ path('app_list_categories') }}" class="block max-w-sm p-6 m-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ category.name }}</h5>
             </a>
         {% endfor %}

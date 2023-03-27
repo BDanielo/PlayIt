@@ -41,10 +41,37 @@ class GameRepository extends ServiceEntityRepository
 
     public function getBestSells(int $nbr): array
     {
-        $query = $this->createQueryBuilder('p')
-            ->groupBy('p.id')
-            ->orderBy('SUM(p.sold)', 'DESC')
+        $query = $this->createQueryBuilder('game')
+            ->groupBy('game.id')
+            ->orderBy('SUM(game.sold)', 'DESC')
             ->setMaxResults($nbr)
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function orderBySells(): array
+    {
+        $query = $this->createQueryBuilder('game')
+            ->groupBy('game.id')
+            ->orderBy('SUM(game.sold)', 'DESC')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function orderByPrice(): array
+    {
+        $query = $this->createQueryBuilder('game')
+            ->groupBy('game.id')
+            ->orderBy('game.price', 'ASC')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function getMostRecent(): array
+    {
+        $query = $this->createQueryBuilder('game')
+            ->groupBy('game.id')
+            ->orderBy('game.creation_date', 'DESC')
             ->getQuery();
         return $query->getResult();
     }

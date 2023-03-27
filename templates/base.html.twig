@@ -24,6 +24,16 @@
 		<div class="px-2 h-full w-48 fixed  top-0 left-0 overflow-x-hidden pt-20 text-xl bg-dark-purple text-transparent-white flex flex-col justify-between pb-10">
 
 			<div>
+			{% if is_granted('ROLE_USER') %}
+				<div>
+					<h2 class="text-xl text-white text-center">{{app.user.username}}</h2>
+					<h2 class="text-xl text-white text-center">Level</h2>
+					<h2 class="text-xl text-white text-center">{{app.user.levels}}</h2>
+					<h2 class="text-xl text-white text-center">points</h2>
+					<h2 class="text-xl text-white text-center">{{app.user.points}}</h2>
+				</div>
+			{% endif %}
+
 				<h2 class="text-white">Games</h2>
 
 				<ul class="px-2 pt-4">
@@ -31,7 +41,7 @@
 						<a href="{{ path('app_all_games') }}" class="hover:text-transparent-hover">Games</a>
 					</li>
 					<li class="my-2">
-						<a href="#" class="hover:text-transparent-hover">My Games</a>
+						<a href="{{path('app_my_games')}}" class="hover:text-transparent-hover">My Games</a>
 					</li>
 					<li class="my-2">
 						<a href="#" class="text-white">Cart</a>
@@ -43,20 +53,23 @@
 						<a href="#" class="hover:text-transparent-hover">Profile</a>
 					</li>
 					<li class="my-2">
-						<a href="/register" class="hover:text-transparent-hover">Register</a>
-					</li>
-					<li class="my-2">
-						<a href="/login" class="hover:text-transparent-hover">Login</a>
-					</li>
-					<li class="my-2">
-						<a href="/logout" class="hover:text-transparent-hover">Logout</a>
+						<a href="{{path('app_register')}}" class="hover:text-transparent-hover">Register</a>
 					</li>
 				</ul>
 			</div>
+			{% if is_granted('ROLE_USER') %}
+				{# <a href="{{path('app_profile')}}" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
+					<h2 class="text-xl text-white text-center">Profile</h2>
+				</a> #}
+				<a href="{{path('app_logout')}}" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
+					<h2 class="text-xl text-white text-center">Logout</h2>
+				</a>
+			{% else %}
+				<a href="{{path('app_login')}}" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
+					<h2 class="text-xl text-white text-center">Login</h2>
+				</a>
+			{% endif %}
 
-			<a href="/login" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
-				<h2 class="text-xl text-white text-center">Login</h2>
-			</a>
 		</div>
 		<!-- Page content -->
 		<div class="ml-48 h-full"> {% block body %}{% endblock %}

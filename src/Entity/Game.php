@@ -116,6 +116,16 @@ class Game
         return $this;
     }
 
+    public function getCategoryName(): string
+    {
+        $categoryName = '';
+        foreach ($this->category as $category) {
+            $categoryName .= $category->getName() . ', ';
+        }
+
+        return substr($categoryName, 0, -2);
+    }
+
     /**
      * @return Collection<int, User>
      */

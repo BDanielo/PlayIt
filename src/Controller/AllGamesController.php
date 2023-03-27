@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CategoryRepository;
-use App\Repository\GamesRepository;
+use App\Repository\GameRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AllGamesController extends AbstractController
 {
     #[Route('/all/games', name: 'app_all_games')]
-    public function index(GamesRepository $gamesRepository, CategoryRepository $categoryRepository): Response
+    public function index(GameRepository $gamesRepository, CategoryRepository $categoryRepository): Response
     {
 
         //$games = $gamesRepository->findAll();

@@ -6,8 +6,10 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 		<link
-		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet"/>
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
@@ -18,22 +20,32 @@
 		{% endblock %}
 	</head>
 	<body>
-	<a href="{{path('app_home')}}">
-		<h1 class="text-3xl text-white fixed top-2 left-2 z-20">Play<span class="text-font-blue">It</span>
-		</h1>
-	</a>
+		<a href="{{path('app_home')}}">
+			<h1 class="text-3xl text-white fixed top-2 left-2 z-20">Play<span class="text-font-blue">It</span>
+			</h1>
+		</a>
 
 		<aside class="px-2 h-full w-1/6 fixed pt-20 text-xl bg-dark-purple text-transparent-white flex flex-col justify-between pb-10">
 
 			<div>
+				{% if is_granted('ROLE_USER') %}
+					<div>
+						<h2 class="text-xl text-white text-center">{{app.user.username}}</h2>
+						<h2 class="text-xl text-white text-center">Level</h2>
+						<h2 class="text-xl text-white text-center">{{app.user.levels}}</h2>
+						<h2 class="text-xl text-white text-center">points</h2>
+						<h2 class="text-xl text-white text-center">{{app.user.points}}</h2>
+					</div>
+				{% endif %}
+
 				<h2 class="text-white">Games</h2>
 
 				<ul class="px-2 pt-4">
 					<li class="my-2">
-						<a href="#" class="hover:text-transparent-hover">Games</a>
+						<a href="{{ path('app_all_games') }}" class="hover:text-transparent-hover">Games</a>
 					</li>
 					<li class="my-2">
-						<a href="#" class="hover:text-transparent-hover">My Games</a>
+						<a href="{{path('app_my_games')}}" class="hover:text-transparent-hover">My Games</a>
 					</li>
 					<li class="my-2">
 						<a href="#" class="text-white">Cart</a>
@@ -45,16 +57,22 @@
 						<a href="#" class="hover:text-transparent-hover">Profile</a>
 					</li>
 					<li class="my-2">
-						<a href="/register" class="hover:text-transparent-hover">Register</a>
-					</li>
-					<li class="my-2">
-						<a href="/login" class="hover:text-transparent-hover">Login</a>
-					</li>
-					<li class="my-2">
-						<a href="/logout" class="hover:text-transparent-hover">Logout</a>
+						<a href="{{path('app_register')}}" class="hover:text-transparent-hover">Register</a>
 					</li>
 				</ul>
 			</div>
+			{% if is_granted('ROLE_USER') %}
+				{# <a href="{{path('app_profile')}}" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
+									<h2 class="text-xl text-white text-center">Profile</h2>
+								</a> #}
+				<a href="{{path('app_logout')}}" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
+					<h2 class="text-xl text-white text-center">Logout</h2>
+				</a>
+			{% else %}
+				<a href="{{path('app_login')}}" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
+					<h2 class="text-xl text-white text-center">Login</h2>
+				</a>
+			{% endif %}
 
 			<a href="/login" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
 				<h2 class="text-xl text-white text-center">Login</h2>
@@ -64,5 +82,6 @@
 		<section class="w-5/6 float-right relative"> {% block body %}{% endblock %}
 			<p class="fixed bottom-0 right-0 text-white text-sm">Mentions légales</p>
 		</section>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 	</body>
 </html>

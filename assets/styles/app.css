@@ -43,3 +43,11 @@ input[type="checkbox"]{
 .checkbox input[type="checkbox"]:focus + label::before {
     outline: none;
   }
+
+.trapezoid {
+    transform: perspective(10px) rotateX(-1deg);
+}
+
+.trapezoid:after {
+    border-radius: 40px 40px 40px 40px;
+}

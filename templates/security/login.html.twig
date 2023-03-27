@@ -23,30 +23,23 @@
 				<br>
 				<label for="inputEmail">Email</label>
 				<br>
-				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow bg-dark-purple" autocomplete="email" required autofocus>
 				<br>
 				<label for="inputPassword">Password</label>
 				<br>
-				<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+				<input type="password" name="password" id="inputPassword" class="form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow bg-dark-purple" autocomplete="current-password" required>
 
 				<br>
 				<input
 				type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-				{#
-														        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-														        See https://symfony.com/doc/current/security/remember_me.html
-														
-														        <div class="checkbox mb-3">
-														            <label>
-														                <input type="checkbox" name="_remember_me"> Remember me
-														            </label>
-														        </div>
-														    #}
-
-				<button class="btn btn-lg btn-primary" type="submit">
+				
+				<br>
+				<button class="inline-block rounded-full bg-danger px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#AE4CDC] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)]" type="submit">
 					Sign in
 				</button>
+				<br>
+				<br/>
+				<p class="text-sm px-2">First time ? <span class="text-electric-purple hover:text-electric-light-purple"><a href="/register">Register<a></span></p>
 			</form>
 		</div>
 

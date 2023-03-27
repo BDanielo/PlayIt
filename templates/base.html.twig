@@ -62,7 +62,7 @@
 					{% endif %}
 					
 					<li class="my-2">
-						<a href="#" class="hover:text-transparent-hover">Cart</a>
+						<a href="{{path('app_cart')}}" class="hover:text-transparent-hover">Cart</a>
 					</li>
 
 					<li class="my-2">
@@ -87,6 +87,7 @@
 		<section class="w-5/6 float-right relative"> {% block body %}{% endblock %}
 			<p class="fixed bottom-0 right-0 text-white text-sm">Mentions légales</p>
 		</section>
+		<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 		<script>
 		// update current page in menu based on current url

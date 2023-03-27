@@ -25,7 +25,7 @@ class HomeController extends AbstractController
         $slider = [];
         $randoms = [];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5 && $i < count($games); $i++) {
             $index = rand(0, count($games) - 1);
             while (in_array($index, $randoms)) {
                 $index = rand(0, count($games) - 1);
@@ -33,8 +33,8 @@ class HomeController extends AbstractController
             $randoms[] = $index;
             $slider[] = $games[$index];
         }
-        
-        
+
+
 
         return $this->render('home.html.twig', [
             'controller_name' => 'HomeController',

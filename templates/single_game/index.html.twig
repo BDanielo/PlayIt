@@ -3,18 +3,43 @@
 {% block title %}Hello SingleGameController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/Documents/GitHub/PlayIt/src/Controller/SingleGameController.php'|file_link(0) }}">src/Controller/SingleGameController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/Documents/GitHub/PlayIt/templates/single_game/index.html.twig'|file_link(0) }}">templates/single_game/index.html.twig</a></code></li>
-    </ul>
+<div class="h-screen bg-dark-medium-purple">
+    <div class="border-gradient border-glow bg-medium-purple text-white p-6 ml-10 mr-10 rounded-md">
+        <div class="grid grid-cols-2">
+            <div>
+                <img src="{{ game.picture }}/head.png" alt="image du jeu" class="max-w-sm">
+            </div>
+            <div class="flex flex-col">
+                <h1 class="text-3xl mb-10">{{ game.name }} </h1>
+                <div class="flex items-center">
+                    <h3 class="text-lg">Description : </h3>
+                    <p class="pl-5">{{ game.description }}</p>
+                </div>
+                <div class="flex items-center">
+                    <h3 class="text-lg">Catégories : </h3>
+                    {% for category in game.category %}
+                        <p class="pl-5">{{ category.name }}</p>
+                    {% endfor %}
+                </div>
+                <div class="flex items-center">
+                    <h3 class="text-lg">Développement : </h3>
+                    {% for author in game.authors %}
+                        <p class="pl-5">{{ author.username }}</p>
+                    {% endfor %}
+                </div>
+                <div class="flex items-center">
+                    <h3 class="text-lg">Prix : </h3>
+                    <p class="pl-5">{{ game.price }} $</p>
+                </div>
+                <div>
+                    <button class="inline-block rounded-full bg-electric-light-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#AE4CDC] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] mt-5" type="submit">
+                        Add to cart
+                    </button>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

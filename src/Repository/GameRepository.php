@@ -39,6 +39,16 @@ class GameRepository extends ServiceEntityRepository
         }
     }
 
+    public function getBestSells(int $nbr): array
+    {
+        $query = $this->createQueryBuilder('p')
+            ->groupBy('p.id')
+            ->orderBy('SUM(p.sold)', 'DESC')
+            ->setMaxResults($nbr)
+            ->getQuery();
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Game[] Returns an array of Game objects
 //     */

@@ -16,8 +16,10 @@
 		{% endblock %}
 	</head>
 	<body>
-		<a href="{{ path('app_home') }}"><h1 class="text-3xl text-white fixed top-2 left-2 z-20">Play<span class="text-font-blue">It</span>
-		</h1></a>
+	<a href="{{path('app_home')}}">
+		<h1 class="text-3xl text-white fixed top-2 left-2 z-20">Play<span class="text-font-blue">It</span>
+		</h1>
+	</a>
 
 		<div class="px-2 h-full w-48 fixed  top-0 left-0 overflow-x-hidden pt-20 text-xl bg-dark-purple text-transparent-white flex flex-col justify-between pb-10">
 
@@ -52,12 +54,12 @@
 				</ul>
 			</div>
 
-			<a href="#" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
+			<a href="/login" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
 				<h2 class="text-xl text-white text-center">Login</h2>
 			</a>
 		</div>
 		<!-- Page content -->
-		<div class="ml-48"> {% block body %}{% endblock %}
+		<div class="ml-48 h-full"> {% block body %}{% endblock %}
 
 		</div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>

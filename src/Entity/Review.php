@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ReviewRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
@@ -14,7 +17,7 @@ class Review
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $tittle = null;
+    private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     private ?string $comment = null;
@@ -22,8 +25,20 @@ class Review
     #[ORM\Column]
     private ?int $rate = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $creationDate = null;
+
     #[ORM\ManyToOne(inversedBy: 'reviews')]
-    private ?Games $game = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Game $games = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    private ?User $author = null;
+
+    public function __construct()
+    {
+    }
+
 
     public function getId(): ?int
     {
@@ -32,12 +47,12 @@ class Review
 
     public function getTittle(): ?string
     {
-        return $this->tittle;
+        return $this->title;
     }
 
-    public function setTittle(string $tittle): self
+    public function setTittle(string $title): self
     {
-        $this->tittle = $tittle;
+        $this->title = $title;
 
         return $this;
     }
@@ -66,14 +81,38 @@ class Review
         return $this;
     }
 
-    public function getGame(): ?Games
+    public function getCreationDate(): ?\DateTimeInterface
     {
-        return $this->game;
+        return $this->creationDate;
     }
 
-    public function setGame(?Games $game): self
+    public function setCreationDate(\DateTimeInterface $creationDate): self
     {
-        $this->game = $game;
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getGames(): ?Game
+    {
+        return $this->games;
+    }
+
+    public function setGames(?Game $games): self
+    {
+        $this->games = $games;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

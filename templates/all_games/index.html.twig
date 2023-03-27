@@ -9,12 +9,40 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Daniel/Documents/Cours/LPSMIN/M10 framework php/Semaine-projet-symfony/PlayIt/src/Controller/AllGamesController.php'|file_link(0) }}">src/Controller/AllGamesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Daniel/Documents/Cours/LPSMIN/M10 framework php/Semaine-projet-symfony/PlayIt/templates/all_games/index.html.twig'|file_link(0) }}">templates/all_games/index.html.twig</a></code></li>
-    </ul>
+    {# show all games #}
+    <h1>Games</h1>
+    {# check games lenght #}
+    {% if games|length > 0 %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Picture</th>
+                <th>Name</th>
+                <th>Categories</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in games %}
+                <tr>
+                    <td><img src="{{ game.picture }}" alt="game picture" width="100px"></td>
+                    <td>{{ game.name }}</td>
+                    <td>
+                    {% for category in game.category %}
+                        {{ category.name }}
+                    {% endfor %}
+                    </td>
+                    <td>{{ game.price }}</td>
+                    <td>
+                        {# <a href="{{ path('game_show', {'id': game.id}) }}">show</a>
+                        <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a> #}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No games found</p>
+    {% endif %}
 </div>
 {% endblock %}

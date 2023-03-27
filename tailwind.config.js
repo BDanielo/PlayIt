@@ -14,7 +14,6 @@ module.exports = {
       'cyan': colors.cyan,
       'blue': colors.blue,
       'red': colors.red,
-      'slate': colors.slate,
       'transparent-white': '#7C767F',
       'transparent-hover': '#CECBD0',
       'dark-purple': "#14081B",

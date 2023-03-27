@@ -5,7 +5,7 @@
 {% block body %}
 
 
-<div class="container flex flex-col bg-dark-medium-purple">
+<div class="container flex flex-col">
     
     <div id="default-carousel" class="relative w-full" data-carousel="slide">
         <!-- Carousel wrapper -->
@@ -38,7 +38,7 @@
         </button>
     </div>
 
-    <h1 class="self-center m-10 text-3xl text-white">Sales</h1>
+    <h1 class="self-center m-10 text-3xl">Sales</h1>
 
     <div class="flex justify-around">
         
@@ -60,23 +60,23 @@
                         <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
                     </div>
                     <div class="flex items-center justify-between">
-                        <span class="text-3xl font-bold text-red-500 dark:text-red-500 line-through">$599</span>
+                        <span class="text-3xl font-bold text-red-500 dark:text-red-500 line-through">599$</span>
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ sale.price }}$</span>
-                        <a href="#" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">Add to cart</a>
+                        <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
 
-    <span class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4"><a href="#">see more</a></span>
+    <span class="rounded-full self-center bg-cyan-400 p-2 mt-4"><a href="#">see more</a></span>
 
-    <h1 class="self-center m-10 text-3xl text-white">Popular</h1>
+    <h1 class="self-center m-10 text-3xl">Popular</h1>
 
     <div class="flex justify-around">
         
         {% for popular in populars %}
-            <div class="border-gradient w-full max-w-sm border-glow bg-medium-purple w-full max-w-sm border rounded-lg">
+            <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="{{ path('app_single_game', {'id': popular.id}) }}">
                     <img class="p-8 rounded-t-lg" src="{{ popular.picture }}/head.png" alt="product image" />
                 </a>
@@ -94,16 +94,16 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ popular.price }}$</span>
-                        <a href="#" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">Add to cart</a>
+                        <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
 
-    <span class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4"><a href="#">see more</a></span>
+    <span class="rounded-full self-center bg-cyan-400 p-2 mt-4"><a href="#">see more</a></span>
 
-    <h1 class="self-center m-10 text-3xl text-white">Categories</h1>
+    <h1 class="self-center m-10 text-3xl">Categories</h1>
 
     <div class="flex justify-around">
         {% for category in categories %}   

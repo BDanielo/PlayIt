@@ -27,8 +27,10 @@ class HomeController extends AbstractController
 
         for ($i = 0; $i < 5 && $i < count($games); $i++) {
             $index = rand(0, count($games) - 1);
-            while (in_array($index, $randoms)) {
-                $index = rand(0, count($games) - 1);
+            if ($i != 0) {
+                while (in_array($index, $randoms)) {
+                    $index = rand(0, count($games) - 1);
+                }
             }
             $randoms[] = $index;
             $slider[] = $games[$index];

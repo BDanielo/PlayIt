@@ -18,6 +18,7 @@ class HomeController extends AbstractController
 
         $sales = [1,2,3];
         $populars = [1,2,3];
+        //coucou
 
         return $this->render('home.html.twig', [
             'controller_name' => 'HomeController',

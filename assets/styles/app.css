@@ -45,7 +45,7 @@ input[type="checkbox"]{
   }
 
 .trapezoid {
-    transform: perspective(10px) rotateX(-1deg);
+    transform: perspective(10px) rotateX(-0.6deg);
 }
 
 .trapezoid:after {

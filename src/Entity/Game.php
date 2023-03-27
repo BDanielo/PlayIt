@@ -290,4 +290,10 @@ class Game
 
         return $this;
     }
+
+    // tostring
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

@@ -25,7 +25,7 @@ body {
 
 .border-gradient {
     background: linear-gradient(#2B1534, #2B1534), 
-                var(--gradient);
+    var(--gradient);
     background-origin: padding-box, border-box;
     background-repeat: no-repeat; /* this is important */
     border: 0.2rem solid transparent;

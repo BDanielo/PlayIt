@@ -14,10 +14,8 @@ class AllGamesController extends AbstractController
     public function index(GameRepository $gamesRepository, CategoryRepository $categoryRepository): Response
     {
 
-        //$games = $gamesRepository->findAll();
+        $games = $gamesRepository->findAll();
         $categories = $categoryRepository->findAll();
-
-        $games = [1,2,3,4,5,6];
 
         return $this->render('all_games/index.html.twig', [
             'controller_name' => 'AllGamesController',

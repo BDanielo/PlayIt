@@ -16,15 +16,35 @@ class HomeController extends AbstractController
         $games = $gamesRepository->findAll();
         $categories = $categoryRepository->findAll();
 
-        $sales = [1,2,3];
-        $populars = [1,2,3];
-        //coucou
+        //TODO: add sales to games table
+
+        $sales = $games;
+
+        $populars = $gamesRepository->getBestSells(3);
+
+        $slider = [];
+        $randoms = [];
+
+        for ($i = 0; $i < 5 && $i< count($games) ; $i++) {
+            //$index = rand(0, count($games) - 1);
+            $index = rand(0, count($games) - 1);
+            if ($i != 0) {
+                while (in_array($index, $randoms)) {
+                    $index = rand(0, count($games) - 1);
+                }
+            }
+            $randoms[] = $index;
+            $slider[] = $games[$index];
+        }
+        
+        
 
         return $this->render('home.html.twig', [
             'controller_name' => 'HomeController',
             'sales' => $sales,
             'populars' => $populars,
             'categories' => $categories,
+            'slider' => $slider
         ]);
     }
 }

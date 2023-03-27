@@ -42,28 +42,32 @@
 				<h2 class="text-white">Games</h2>
 
 				<ul class="px-2 pt-4">
-					{% if is_granted('ROLE_ADMIN') %}
-						<li class="my-2">
-							<a href="{{ path('app_admin') }}" class="hover:text-transparent-hover">Admin</a>
-						</li>
-					{% endif %}
 					<li class="my-2">
 						<a href="{{ path('app_all_games') }}" class="hover:text-transparent-hover">Games</a>
 					</li>
 					<li class="my-2">
 						<a href="{{path('app_my_games')}}" class="hover:text-transparent-hover">My Games</a>
 					</li>
-					<li class="my-2">
-						<a href="#" class="text-white">Cart</a>
-					</li>
-					<li class="my-2">
+										<li class="my-2">
 						<a href="{{ path('app_published_games') }}" class="hover:text-transparent-hover">Published Games</a>
 					</li>
+				</ul>
+
+				<h2 class="text-white">Other</h2>
+
+				<ul class="px-2 pt-4">
+					{% if is_granted('ROLE_ADMIN') %}
 					<li class="my-2">
-						<a href="{{path('app_profil')}}" class="hover:text-transparent-hover">Profil</a>
+						<a href="{{ path('app_admin') }}" class="hover:text-transparent-hover">Admin</a>
+					</li>		
+					{% endif %}
+					
+					<li class="my-2">
+						<a href="#" class="hover:text-transparent-hover">Cart</a>
 					</li>
+
 					<li class="my-2">
-						<a href="{{path('app_register')}}" class="hover:text-transparent-hover">Register</a>
+						<a href="#" class="hover:text-transparent-hover">Profile</a>
 					</li>
 				</ul>
 			</div>
@@ -72,11 +76,11 @@
 																	<h2 class="text-xl text-white text-center">Profile</h2>
 																</a> #}
 				<a href="{{path('app_logout')}}" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
-					<h2 class="text-xl text-white text-center">Logout</h2>
+					<h2 class="text-xl text-white text-center"><i class="fa-solid fa-right-from-bracket fa-flip-horizontal"></i> Logout</h2>
 				</a>
 			{% else %}
 				<a href="{{path('app_login')}}" class="border-4 rounded-md border-medium-light-purple mx-2 py-1">
-					<h2 class="text-xl text-white text-center">Login</h2>
+					<h2 class="text-xl text-white text-center"><i class="fa-solid fa-right-to-bracket"></i> Login</h2>
 				</a>
 			{% endif %}
 
@@ -86,5 +90,16 @@
 			<p class="fixed bottom-0 right-0 text-white text-sm">Mentions légales</p>
 		</section>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+		<script>
+		// update current page in menu based on current url
+		const url = window.location.href;
+		const menu = document.querySelectorAll('li a');
+		menu.forEach((item) => {
+			if (item.href === url) {
+				item.classList.remove('hover:text-transparent-hover');
+				item.classList.add('text-white');
+			}
+		});
+		</script>
 	</body>
 </html>

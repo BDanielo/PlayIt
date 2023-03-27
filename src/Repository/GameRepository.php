@@ -49,7 +49,7 @@ class GameRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function orderBySells(): array
+    /*public function orderBySells(): array
     {
         $query = $this->createQueryBuilder('game')
             ->groupBy('game.id')
@@ -74,7 +74,7 @@ class GameRepository extends ServiceEntityRepository
             ->orderBy('game.creationDate', 'DESC')
             ->getQuery();
         return $query->getResult();
-    }
+    }*/
 
     public function findByName($name): array
     {
@@ -84,6 +84,7 @@ class GameRepository extends ServiceEntityRepository
             ->getQuery();
         return $query->getResult();
     }
+
 
 //    /**
 //     * @return Game[] Returns an array of Game objects

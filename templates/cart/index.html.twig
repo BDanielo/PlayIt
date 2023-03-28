@@ -14,10 +14,11 @@
 			</a>
 		</div>
 		{% if cart|length > 0 %}
-			{% for games in cart %}
-				{% for game  in games %}
-					<table class="block border text-center text-sm font-light dark:border-neutral-500 mx-32 text-white">
-						<tbody>
+			<table class="block border text-center text-sm font-light dark:border-neutral-500 mx-32 text-white">
+				<tbody>
+					{% for games in cart %}
+						{% for game  in games %}
+
 							<tr class="border-b dark:border-neutral-500">
 								<td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500 w-screen">
 									<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="{{ game.gameEntity.picture }}/head.png" alt="">
@@ -45,15 +46,16 @@
 									</div>
 								</td>
 							</tr>
-						</tbody>
-					</table>
 
-					<div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-						<a href="#" class=""></a>
-					</div>
 
-				{% endfor %}
-			{% endfor %}
+							<div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+								<a href="#" class=""></a>
+							</div>
+
+						{% endfor %}
+					{% endfor %}
+				</tbody>
+			</table>
 			<div class="text-white flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 				<h5>Checkout</h5>
 				<p>Total :

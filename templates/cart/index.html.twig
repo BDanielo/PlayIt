@@ -5,25 +5,27 @@
 
 {% block body %}
 
-	<div class="bg-dark-medium-purple h-screen py-20">
-		<div class="text-white text-3xl flex justify-between mx-32 bg-dark-purple p-5">
-			<h5>Cart</h5>
-			<a href="{{path('app_cart_clear')}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
-				<i class="fa-solid fa-trash">
-					Clear</i>
-			</a>
-		</div>
-		{% if cart|length > 0 %}
-			<table class="block border text-center text-sm font-light dark:border-neutral-500 mx-32 text-white">
-				<tbody>
-					{% for games in cart %}
-						{% for game  in games %}
+<div class="bg-medium-purple h-full py-20 min-h-screen">
+	<div class="text-white text-3xl flex justify-between mx-32 bg-dark-purple p-5">
+		<h5>Cart</h5>
+		<a href="{{path('app_cart_clear')}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
+			<i class="fa-solid fa-trash">
+				Clear</i>
+		</a>
+	</div>
+	{% if cart|length > 0 %}
+		<table class="block border text-center text-sm font-light dark:border-dark-purple mx-32 text-white">
+			<tbody>
+				{% for games in cart %}
+					{% for game  in games %}
 
-							<tr class="border-b dark:border-neutral-500">
-								<td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500 w-screen">
+						<tr class="border-b border-4 dark:border-dark-purple">
+							<td class="whitespace-nowrap px-6 py-4 font-medium border-dark-purple w-screen border-4">
+								<div class="flex justify-between">
 									<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="{{ game.gameEntity.picture }}/head.png" alt="">
-									<div class="flex flex-col justify-between p-4 leading-normal">
+									<div class="flex flex-col items-center justify-center p-4 leading-normal">
 										<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{game.gameEntity.name}}</h5>
+										<br>
 										<div class="flex flex-row">
 											<span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.gameEntity.price }}$/unit</span>
 										</div>
@@ -31,51 +33,54 @@
 											<span class="text-3xl font-bold text-gray-900 dark:text-white">Total :
 												{{ game.quantity * game.gameEntity.price }}$</span>
 										</div>
-										<div class="flex flex-row">
-											<a href="{{path('app_cart_decrease', {'id':game.gameEntity.id})}}" class="flex-col inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
+										<br>
+										<div class="flex flex-row px-2">
+											<span class="text-white text-3xl mx-2">{{game.quantity}}</span>
+											<a href="{{path('app_cart_decrease', {'id':game.gameEntity.id})}}" class="mx-1 flex-col inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
 												<i class="fa-solid fa-minus"></i>
 											</a>
-											<span class="text-white">{{game.quantity}}</span>
-											<a href="{{path('app_cart_add', {'id':game.gameEntity.id})}}" class="flex-col inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
+											<a href="{{path('app_cart_add', {'id':game.gameEntity.id})}}" class="mx-1 flex-col inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
 												<i class="fa-solid fa-plus"></i>
 											</a>
-											<a href="{{path('app_cart_remove', {'id':game.gameEntity.id})}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
+											<a href="{{path('app_cart_remove', {'id':game.gameEntity.id})}}" class="mx-1 inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
 												<i class="fa-solid fa-trash"></i>
 											</a>
 										</div>
 									</div>
-								</td>
-							</tr>
+								</div>
+							</td>
+						</tr>
 
-
-							<div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-								<a href="#" class=""></a>
-							</div>
-
-						{% endfor %}
 					{% endfor %}
-					<div class="text-white flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-						<h5>Checkout</h5>
-						<p>Total :
-							{{ cart.total }}</p>
-						<a href="{{path('app_cart')}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
-							Checkout</a>
-					</div>
-					<div class="text-white flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-						<h5>Checkout</h5>
-						<p>Total :
-							{{ cart.total }}$</p>
-						<p>Some tax maybe added at the checkout depending on your country</p>
-						<a href="{{path('app_cart_checkout')}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
-							Checkout</a>
-					</div>
-				{% else %}
-					<div class="text-white flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-						<p>
-							<a href="{{path('app_all_games')}}">There are no products in your cart, add some !</a>
-						</p>
-					</div>
+				{% endfor %}
+				<tr class="border-4 border-dark-purple">
+					<td>
+						<div class="text-white flex justify-between p-4">
+							<h1 class="text-3xl font-bold">Checkout</h1>
+							<div class="flex flex-col justify-end text-end text-l">
+								<p class="text-xl font-bold">Total :
+									{{ cart.total }}$</p>
+								<p>Some tax maybe added at the checkout depending on your country</p>
 
-				{% endif %}
-			</div>
-		{% endblock %}
+							</div>
+						</div>
+						<a href="{{path('app_cart_checkout')}}" class="m-4 block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
+							Checkout</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+	{% else %}
+		<table class="block border text-center text-sm font-light dark:border-dark-purple border-4 mx-32 text-white">
+			<tbody>
+				<tr class="border-b dark:border-dark-purple border-4">
+					<td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500 w-screen">
+						<a href="{{path('app_all_games')}}">There are no products in your cart, add some !</a>
+					</td>
+				</tr>
+			</tbody>
+		</div>
+	</tbody>
+</table>{% endif %}</div>{% endblock %}

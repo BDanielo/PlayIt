@@ -15,18 +15,9 @@ class AllGamesController extends AbstractController
     #[Route('/all/games', name: 'app_all_games')]
     public function index(GameRepository $gamesRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
-
+        $title = 'All Games';
         $games = $gamesRepository->findAll();
         $categories = $categoryRepository->findAll();
-
-        /*$maxPrice = 0;
-
-        foreach ($games as $game) {
-            if ($game->getPrice() > $maxPrice) {
-                $maxPrice = $game->getPrice();
-            }
-        }
-        $maxPrice = ceil($maxPrice);*/
 
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
@@ -44,6 +35,7 @@ class AllGamesController extends AbstractController
             'controller_name' => 'AllGamesController',
             'games' => $games,
             'categories' => $categories,
+            'title' => $title,
             'form' => $form->createView()
         ]);
     }
@@ -52,6 +44,7 @@ class AllGamesController extends AbstractController
 
     public function orderBy(string $sort, string $order, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
+        $title = 'All Games';
         $categories = $categoryRepository->findAll();
 
         $games = $gameRepository->sortBy($sort, $order, null);
@@ -73,6 +66,7 @@ class AllGamesController extends AbstractController
             'controller_name' => 'AllGamesController',
             'games' => $games,
             'categories' => $categories,
+            'title' => $title,
             'form' => $form->createView()
         ]);
 
@@ -82,7 +76,7 @@ class AllGamesController extends AbstractController
 
     public function search(string $input, int $rangePrice, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
-
+        $title = 'Personal filters';
         $games = $gameRepository->findByName($input, $rangePrice, null);
         $categories = $categoryRepository->findAll();
 
@@ -102,6 +96,7 @@ class AllGamesController extends AbstractController
             'controller_name' => 'AllGamesController',
             'games' => $games,
             'categories' => $categories,
+            'title' => $title,
             'form' => $form->createView()
         ]);
     }

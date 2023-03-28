@@ -16,7 +16,8 @@ class CategoriesController extends AbstractController
     public function index(int $id, CategoryRepository $categoryRepository, Request $request): Response
     {
         $categories = $categoryRepository->findAll();
-        $selectedCategory = $categoryRepository->find($id);
+        $selectedCategory = $categoryRepository->find($id)->getName();
+        $title = "All $selectedCategory";
 
         //$games = $gamesRepository->findBy(['category' => $id]);
         $cat = $categoryRepository->findCategoryById($id);
@@ -41,7 +42,7 @@ class CategoriesController extends AbstractController
             'controller_name' => 'CategoriesController',
             'games' => $games,
             'categories' => $categories,
-            'selectedCategory' => $selectedCategory,
+            'title' => $title,
             'form' => $form->createView()
         ]);
     }
@@ -51,7 +52,8 @@ class CategoriesController extends AbstractController
     public function orderBy(int $id, string $sort, string $order, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
         $categories = $categoryRepository->findAll();
-        $selectedCategory = $categoryRepository->find($id);
+        $selectedCategory = $categoryRepository->find($id)->getName();
+        $title = "All $selectedCategory";
 
         $cat = $categoryRepository->findCategoryById($id);
         $games = $cat[0]->getGames();
@@ -75,7 +77,7 @@ class CategoriesController extends AbstractController
             'controller_name' => 'CategoriesController',
             'games' => $games,
             'categories' => $categories,
-            'selectedCategory' => $selectedCategory,
+            'title' => $title,
             'form' => $form->createView()
         ]);
 
@@ -87,7 +89,8 @@ class CategoriesController extends AbstractController
 
         $games = $gameRepository->findByName($input, $rangePrice, $id);
         $categories = $categoryRepository->findAll();
-        $selectedCategory = $categoryRepository->find($id);
+        $selectedCategory = $categoryRepository->find($id)->getName();
+        $title = "Custom filters on $selectedCategory";
 
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
@@ -106,7 +109,7 @@ class CategoriesController extends AbstractController
             'controller_name' => 'CategoriesController',
             'games' => $games,
             'categories' => $categories,
-            'selectedCategory' => $selectedCategory,
+            'title' => $title,
             'form' => $form->createView()
         ]);
     }

@@ -38,22 +38,13 @@ class AllGamesController extends AbstractController
         ]);
     }
 
-    #[Route('/all/games/orderby/{filter}', name: 'app_ordered_games', methods: ['GET'])]
+    #[Route('/all/games/orderby/{sort}/{order}', name: 'app_sorted_games')]
 
-    public function orderBy(string $filter, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
+    public function orderBy(string $sort, string $order, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
         $categories = $categoryRepository->findAll();
-        $request->query->get('filter');
 
-        if( $filter == 'sells') {
-            $games = $gameRepository->orderBySells();
-        }
-        if ( $filter == 'date') {
-            $games = $gameRepository->orderByDate();
-        }
-        if ( $filter == 'price') {
-            $games = $gameRepository->orderByPrice();
-        }
+        $games = $gameRepository->sortBy($sort, $order, null);
 
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);

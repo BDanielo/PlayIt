@@ -19,5 +19,7 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> dotenv ###
-.env
-###< dotenv ###
+.env.local
+.env.*.local
+.env.*
+C:\Users\Daniel\Documents\Cours\LPSMIN\M10 framework php\Semaine-projet-symfony\PlayIt\.env

@@ -94,4 +94,19 @@ class CartService
             return true;
         }
     }
+
+    public function getCartPrice()
+    {
+        $cart = $this->session->get('cart');
+        $total = 0;
+        if ($cart == null || count($cart) == 0) {
+            return null;
+        } else {
+            foreach ($cart as $id => $quantity) {
+                $game = $this->gameRepository->find($id);
+                $total += $game->getPrice() * $quantity;
+            }
+            return $total;
+        }
+    }
 }

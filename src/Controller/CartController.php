@@ -162,9 +162,7 @@ class CartController extends AbstractController
             $message = 'Your order N°' . $order->getId() . ' of ' . $total . '$ has been placed.';
             $this->addFlash('success', $message);
             $cartService->clearCart();
-            return $this->render('cart/confirmed.html.twig', [
-                'controller_name' => 'CartController',
-            ]);
+            return $this->redirectToRoute('app_my_games');
         } else {
             $message = 'Payment failed.';
             // form errors

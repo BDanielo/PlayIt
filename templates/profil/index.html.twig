@@ -1,54 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfilController!{% endblock %}
+{% block title %}Hello ProfilController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="flex flex-col items-center justify-center h-screen bg-dark-medium-purple">
+		<div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
 
-<div class="example-wrapper">
-    {% for error in app.flashes('error') %}
-        {{ error }}
-    {% endfor %}
-        <p>SignUp date : {{app.user.signupDate|date('d/m/Y')}}</p>
-    {{ form_start(form) }}
-    <div class=\"form-group\">
-        {{ form_label(form.username) }}
-        {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class=\"form-group\">
-        {{ form_label(form.email) }}
-        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    {# firstname #}
-    <div class=\"form-group\">
-        {{ form_label(form.firstname) }}
-        {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    {# lastname #}
-    <div class=\"form-group\">
-        {{ form_label(form.lastname) }}
-        {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    {# address #}
-    <div class=\"form-group\">
-        {{ form_label(form.address) }}
-        {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class=\"form-group\">
-        {{ form_label(form.currentPassword) }}
-        {{ form_widget(form.currentPassword, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class=\"form-group\">
-        {{ form_label(form.newPassword) }}
-        {{ form_widget(form.newPassword, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class=\"form-group\">
-        {{ form_label(form.confirmNewPassword) }}
-        {{ form_widget(form.confirmNewPassword, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    {{ form_widget(form) }}
-</div>
+			{{ form_start(form) }}
+
+			{% for error in app.flashes('error') %}
+				{{ error }}
+			{% endfor %}
+			<h1 class="h3 mb-3 font-weight-normal text-4xl">Update profile</h1>
+			<br>
+
+			<p>SignUp date :
+				{{app.user.signupDate|date('d/m/Y')}}</p>
+            <br>
+			<label>Email</label>
+			{{ form_widget(form.email,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>UserName</label>
+			{{ form_widget(form.username,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>FirstName</label>
+			{{ form_widget(form.firstname,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>LastName</label>
+			{{ form_widget(form.lastname,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>Address</label>
+			{{ form_widget(form.address,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>Current Password</label>
+			{{ form_widget(form.currentPassword,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+			<label>New Password</label>
+			{{ form_widget(form.newPassword,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+            <label>Confirm Password</label>
+			{{ form_widget(form.confirmNewPassword,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+			<br>
+            <br>
+
+			{{ form_end(form) }}
+
+		</div>
+	</div>
 {% endblock %}

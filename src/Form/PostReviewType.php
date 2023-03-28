@@ -26,8 +26,7 @@ class PostReviewType extends AbstractType
                     '4' => 4,
                     '5' => 5,
                 ],
-            ])
-            ->add('submit', SubmitType::class);
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

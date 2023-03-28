@@ -98,7 +98,7 @@
     <div class="grid grid-cols-5 gap-6 p-2">
         {% for game in games %}
             <div class="w-full max-w-sm bg-white border-gradient border-glow rounded-lg bg-medium-purple">
-                <a href="#">
+                <a href="{{ path('app_single_game', {'id': game.id}) }}">
                     <img class="p-8 rounded-t-lg" src="{{ game.picture }}/head.png" alt="product image" />
                 </a>
                 <div class="px-5 pb-5">

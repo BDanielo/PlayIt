@@ -3,7 +3,7 @@
 {% block title %}Hello SingleGameController!{% endblock %}
 
 {% block body %}
-<div class="h-screen bg-dark-medium-purple">
+<div class="min-h-screen bg-dark-medium-purple">
     <div class="border-gradient border-glow bg-medium-purple text-white p-6 ml-10 mr-10 rounded-md">
         <div class="grid grid-cols-2">
             <div>
@@ -17,7 +17,7 @@
                             <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Rating star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">{{avgReview[0]}}</p>
                             <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                            <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{avgReview[1]}} reviews</a>
+                            <a href="#reviews" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{avgReview[1]}} reviews</a>
                         </div>
                     </div>
                 </div>
@@ -46,58 +46,64 @@
                         Add to cart
                     </button>
                 </div>
-                
+
+                {% if form is defined %}
+                    <div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
+                        {% for error in app.flashes('error') %}
+                            {{ error }}
+                        {% endfor %}
+                        {% for success in app.flashes('success') %}
+                            {{ success }}
+                        {% endfor %}
+                        {{ form_start(form, {'attr': {'class':''}}) }}
+                            {# title #}
+                            <div class="form-group">
+                                {{ form_label(form.title) }}
+                                {{ form_widget(form.title,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+                            </div>
+                            {# rate #}
+                            <div class="form-group">
+                                {{ form_label(form.rate) }}
+                                {{ form_widget(form.rate,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+                            </div>
+                            {# comment #}
+                            <div class="form-group">
+                                {{ form_label(form.comment) }}
+                                {{ form_widget(form.comment,  {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+                            </div>
+                            <button class="inline-block rounded-full bg-danger px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#AE4CDC] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)]" type="submit">
+                                Send review
+                            </button>
+                        {{ form_end(form) }}
+                    </div>
+                {% endif %}
                 
             </div>
         </div>
     </div>
 
-{% if form is defined %}
-    {% for error in app.flashes('error') %}
-        {{ error }}
-    {% endfor %}
-    {% for success in app.flashes('success') %}
-        {{ success }}
-    {% endfor %}
-    {{ form_start(form) }}
-        {# title #}
-        <div class=\"form-group\">
-            {{ form_label(form.title) }}
-            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        {# rate #}
-        <div class=\"form-group\">
-            {{ form_label(form.rate) }}
-            {{ form_widget(form.rate, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        {# comment #}
-        <div class=\"form-group\">
-            {{ form_label(form.comment) }}
-            {{ form_widget(form.comment, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    {{ form_end(form) }}
-{% endif %}
-
-{% if reviews|length > 0 %}
-    {% for review in reviews %}
-        <div class=\"border-gradient border-glow bg-medium-purple text-white p-6 ml-10 mr-10 rounded-md\">
-            <div class=\"flex items-center\">
-                <div class=\"flex items-center mt-2.5 mb-5\">
-                    <div class=\"flex items-center\">
-                        <svg aria-hidden=\"true\" class=\"w-5 h-5 text-yellow-400\" fill=\"currentColor\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><title>Rating star</title><path d=\"M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z\"></path></svg>
-                        <p class=\"ml-2 text-sm font-bold text-gray-900 dark:text-white\">{{ review.rate }}</p>
-                        <span class=\"w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400\"></span>
-                        <a href=\"#\" class=\"text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white\">{{ review.title }}</a>
-                    </div>
-                </div>
-            </div>
-            <div class=\"flex items-center\">
-                <h3 class=\"text-lg\">Commentaire : </h3>
-                {{ review.comment }}
-            </div>
-        </div>
-    {% endfor %}
-{% endif %}
+    {% if reviews|length > 0 %}
+                        {% for review in reviews %}
+                            
+                            <div id="reviews" class="border-gradient border-glow bg-medium-purple text-white p-6 ml-10 mr-10 rounded-md mt-10">
+                                <div class="flex flex-col items-start">
+                                    <p class="text-md font-medium text-gray-900 dark:text-white">{{ review.author.username }}</p>
+                                    <div class="flex items-center mt-2.5 mb-5">
+                                        <div class="flex items-center">
+                                            {% for i in range(0, review.rate - 1)  %}
+                                            <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Rating star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                            {% endfor %}
+                                            <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                            <p class="text-md text-gray-900 dark:text-white">{{ review.title }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    {{ review.comment }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
 </div>
 {% endblock %}

@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Repository\OrderLineRepository;
 use App\Repository\OrderRepository;
+use App\Repository\GameRepository;
+use App\Repository\UserRepository;
 use App\Entity\Order;
 use App\Entity\OrderLine;
 use App\Services\CartService;
@@ -14,11 +16,15 @@ class OrderService
 {
     protected OrderRepository $orderRepository;
     protected OrderLineRepository $orderLineRepository;
+    protected GameRepository $gameRepository;
+    protected UserRepository $userRepository;
 
-    public function __construct(OrderRepository $orderRepository, OrderLineRepository $orderLineRepository)
+    public function __construct(OrderRepository $orderRepository, OrderLineRepository $orderLineRepository, GameRepository $gameRepository, UserRepository $userRepository)
     {
         $this->orderRepository = $orderRepository;
         $this->orderLineRepository = $orderLineRepository;
+        $this->gameRepository = $gameRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function createOrder(CartService $cartService, User $user, $total): Order
@@ -52,6 +58,24 @@ class OrderService
     {
         $order->setStatus('paid at : ' . date('Y-m-d H:i:s'));
         $this->orderRepository->save($order, true);
+
+        $orderLines = $order->getOrderLines();
+        foreach ($orderLines as $orderLine) {
+            $game = $orderLine->getGame();
+
+            $user = $order->getUser();
+
+            //! ownership not working 
+            //
+            $game->addOwner($user);
+            dump($game);
+            $this->gameRepository->save($game, true);
+
+            $user->addGamesOwned($game);
+            dump($user);
+            $this->userRepository->save($user, true);
+        }
+
         return $order;
     }
 

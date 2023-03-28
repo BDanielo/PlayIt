@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AllGamesController extends AbstractController
 {
-    #[Route('/all/games', name: 'app_all_games')]
+    #[Route('/all-games', name: 'app_all_games')]
     public function index(GameRepository $gamesRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
         $title = 'All Games';
@@ -24,7 +24,7 @@ class AllGamesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            
+
             return $this->redirectToRoute('app_search', [
                 'input' => $data['input'],
                 'rangePrice' => $data['range']
@@ -40,7 +40,7 @@ class AllGamesController extends AbstractController
         ]);
     }
 
-    #[Route('/all/games/orderby/{sort}/{order}', name: 'app_sorted_games')]
+    #[Route('/all-games/orderby/{sort}/{order}', name: 'app_sorted_games')]
 
     public function orderBy(string $sort, string $order, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
@@ -59,9 +59,8 @@ class AllGamesController extends AbstractController
                 'input' => $data['input'],
                 'rangePrice' => $data['range']
             ]);
-
         }
-        
+
         return $this->render('all_games/index.html.twig', [
             'controller_name' => 'AllGamesController',
             'games' => $games,
@@ -69,10 +68,9 @@ class AllGamesController extends AbstractController
             'title' => $title,
             'form' => $form->createView()
         ]);
-
     }
 
-    #[Route('/all/games/search/{input}/{rangePrice}', name: 'app_search')]
+    #[Route('/all-games/search/{input}/{rangePrice}', name: 'app_search')]
 
     public function search(string $input, int $rangePrice, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
@@ -85,7 +83,7 @@ class AllGamesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            
+
             return $this->redirectToRoute('app_search', [
                 'input' => $data['input'],
                 'rangePrice' => $data['range']

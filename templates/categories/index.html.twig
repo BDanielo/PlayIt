@@ -8,92 +8,85 @@
  
     <div id="filters" class="flex justify-start">
 
-        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="mx-2 mb-2 inline-flex items-center rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4" type="button">Filters <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-        <!-- Dropdown menu -->
-        <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-dark-medium-purple">
-            <div class="p-3">
-                <label for="input-group-search" class="sr-only">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+        {{ form_start(form) }}
+
+            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="mx-2 mb-10 inline-flex items-center rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4" type="button">Filters <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+            <!-- Dropdown menu -->
+            <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-dark-medium-purple">
+                <div class="p-3">
+                    <div class="relative">
+                        <button type="submit" class="btn p-2.5 ml-2 text-sm font-medium text-white bg-electric-purple rounded-full border border-electric-purple hover:bg-light-electric-purple focus:ring-4 focus:outline-none focus:ring-dark-medium-purple">Apply filters</button>
                     </div>
-                    <input type="text" id="input-filter-search" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search filter">
                 </div>
+                <ul class="h-48 py-2 text-sm text-gray-700 dark:text-gray-200 overflow-y-auto" aria-labelledby="dropdownDefaultButton">
+                    <li>
+                        <label for="price-range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max price</label>
+                        
+                        {{ form_widget(form.range, {'attr': {'class': 'w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700', 'oninput':"this.nextElementSibling.value = this.value + '$'"}}) }}
+                        <output>100$</output>
+                    </li>
+                    
+                </ul>
             </div>
-            <ul class="h-48 py-2 text-sm text-gray-700 dark:text-gray-200 overflow-y-auto" aria-labelledby="dropdownDefaultButton">
-                <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">testFilter</a>
-                </li>
+
+            <button id="dropdownDefaultButton3" data-dropdown-toggle="dropdown3" class="mx-2 mb-10 inline-flex items-center rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4" type="button">Order by <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+            <!-- Dropdown menu -->
+            <div id="dropdown3" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                 
-            </ul>
-        </div>
-
-        <button id="dropdownDefaultButton3" data-dropdown-toggle="dropdown3" class="mx-2 mb-2 inline-flex items-center rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4" type="button">Order by <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-        <!-- Dropdown menu -->
-        <div id="dropdown3" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            <div class="p-3">
-                <label for="input-group-search3" class="sr-only">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <input type="text" id="input-filter-search3" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search filter">
-                </div>
+                <ul class="h-48 py-2 text-sm text-gray-700 dark:text-gray-200 overflow-y-auto" aria-labelledby="dropdownDefaultButton3">
+                    <li>
+                        <a href="{{ path('app_sorted_games', { 'sort': 'price', 'order': 'ASC' }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price<i class="fa-solid fa-arrow-up ml-3" style="color: #ffffff;"></i></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_sorted_games', { 'sort': 'price', 'order': 'DESC' }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price<i class="fa-solid fa-arrow-down ml-3" style="color: #ffffff;"></i></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_sorted_games', { 'sort': 'date', 'order': 'ASC' }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Date<i class="fa-solid fa-arrow-up ml-3" style="color: #ffffff;"></i></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_sorted_games', { 'sort': 'date', 'order': 'DESC' }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Date<i class="fa-solid fa-arrow-down ml-3" style="color: #ffffff;"></i></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_sorted_games', { 'sort': 'sells', 'order': 'ASC' }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sells<i class="fa-solid fa-arrow-up ml-3" style="color: #ffffff;"></i></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_sorted_games', { 'sort': 'sells', 'order': 'DESC' }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sells<i class="fa-solid fa-arrow-down ml-3" style="color: #ffffff;"></i></a>
+                    </li>
+                </ul>
             </div>
-            <ul class="h-48 py-2 text-sm text-gray-700 dark:text-gray-200 overflow-y-auto" aria-labelledby="dropdownDefaultButton3">
-                <li>
-                    <a href="{{ path('app_sorted_category', { 'sort': 'price', 'order': 'ASC', 'id': selectedCategory.id }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price<i class="fa-solid fa-arrow-up ml-3" style="color: #ffffff;"></i></a>
-                </li>
-                <li>
-                    <a href="{{ path('app_sorted_category', { 'sort': 'price', 'order': 'DESC', 'id': selectedCategory.id }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price<i class="fa-solid fa-arrow-down ml-3" style="color: #ffffff;"></i></a>
-                </li>
-                <li>
-                    <a href="{{ path('app_sorted_category', { 'sort': 'date', 'order': 'ASC', 'id': selectedCategory.id }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Date<i class="fa-solid fa-arrow-up ml-3" style="color: #ffffff;"></i></a>
-                </li>
-                <li>
-                    <a href="{{ path('app_sorted_category', { 'sort': 'date', 'order': 'DESC', 'id': selectedCategory.id }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Date<i class="fa-solid fa-arrow-down ml-3" style="color: #ffffff;"></i></a>
-                </li>
-                <li>
-                    <a href="{{ path('app_sorted_category', { 'sort': 'sells', 'order': 'ASC', 'id': selectedCategory.id }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sells<i class="fa-solid fa-arrow-up ml-3" style="color: #ffffff;"></i></a>
-                </li>
-                <li>
-                    <a href="{{ path('app_sorted_category', { 'sort': 'sells', 'order': 'DESC', 'id': selectedCategory.id }) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sells<i class="fa-solid fa-arrow-down ml-3" style="color: #ffffff;"></i></a>
-                </li>
-            </ul>
-        </div>
 
-        <button id="dropdownDefaultButton2" data-dropdown-toggle="dropdown2" class="mx-2 mb-2 inline-flex items-center rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4" type="button">Categories <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-        <!-- Dropdown menu -->
-        <div id="dropdown2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-dark-medium-purple">
-            <div class="p-3">
-                <label for="input-group-search2" class="sr-only">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+            <button id="dropdownDefaultButton2" data-dropdown-toggle="dropdown2" class="mx-2 mb-10 inline-flex items-center rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4" type="button">Categories <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+            <!-- Dropdown menu -->
+            <div id="dropdown2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-dark-medium-purple">
+                <div class="p-3">
+                    <label for="input-group-search2" class="sr-only">Search</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <input type="text" id="input-category-search2" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search category">
                     </div>
-                    <input type="text" id="input-category-search2" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search category">
                 </div>
+                <ul class="h-48 py-2 text-sm text-gray-700 dark:text-gray-200 overflow-y-auto" aria-labelledby="dropdownDefaultButton2">
+                    {% for category in categories %}
+                    <li>
+                        <a href="{{ path('app_categories', {'id': category.id}) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <ul class="h-48 py-2 text-sm text-gray-700 dark:text-gray-200 overflow-y-auto" aria-labelledby="dropdownDefaultButton2">
-                {% for category in categories %}
-                <li>
-                    <a href="{{ path('app_categories', {'id': category.id}) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ category.name }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
 
-        {{ form_start(form) }}    
             
-            <div class="flex items-center">   
+            
+            <div class="ml-5 mt-3 flex items-center">   
                 <label for="simple-search" class="sr-only">Search</label>
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                     </div>
-                    {{ form_widget(form.input, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full inline-flex pl-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white self-center', 'placeholder': 'Search'}}) }}
+                    {{ form_widget(form.input, {'attr': {'class': 'text-white pl-10 w-full py-1 rounded-full px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple', 'placeholder': 'Search'}}) }}
                 </div>
-                <button type="submit" class="mx-2 mb-2 inline-flex items-center rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4">
+                <button type="submit" class="btn p-2.5 ml-2 text-sm font-medium text-white bg-electric-purple rounded-full border border-electric-purple hover:bg-light-electric-purple focus:ring-4 focus:outline-none focus:ring-dark-medium-purple">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     <span class="sr-only">Search</span>
                 </button>

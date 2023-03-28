@@ -29,7 +29,8 @@ class CategoriesController extends AbstractController
             $data = $form->getData();
             
             return $this->redirectToRoute('app_search', [
-                'input' => $data['input']
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
             ]);
         }
 
@@ -63,7 +64,8 @@ class CategoriesController extends AbstractController
             $data = $form->getData();
             
             return $this->redirectToRoute('app_search', [
-                'input' => $data['input']
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
             ]);
         }
         

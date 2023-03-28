@@ -19,6 +19,15 @@ class AllGamesController extends AbstractController
         $games = $gamesRepository->findAll();
         $categories = $categoryRepository->findAll();
 
+        /*$maxPrice = 0;
+
+        foreach ($games as $game) {
+            if ($game->getPrice() > $maxPrice) {
+                $maxPrice = $game->getPrice();
+            }
+        }
+        $maxPrice = ceil($maxPrice);*/
+
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
 
@@ -26,7 +35,8 @@ class AllGamesController extends AbstractController
             $data = $form->getData();
             
             return $this->redirectToRoute('app_search', [
-                'input' => $data['input']
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
             ]);
         }
 
@@ -51,10 +61,12 @@ class AllGamesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            
+
             return $this->redirectToRoute('app_search', [
-                'input' => $data['input']
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
             ]);
+
         }
         
         return $this->render('all_games/index.html.twig', [
@@ -66,12 +78,12 @@ class AllGamesController extends AbstractController
 
     }
 
-    #[Route('/all/games/search/{input}', name: 'app_search')]
+    #[Route('/all/games/search/{input}/{rangePrice}', name: 'app_search')]
 
-    public function search(string $input, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
+    public function search(string $input, int $rangePrice, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
 
-        $games = $gameRepository->findByName($input);
+        $games = $gameRepository->findByName($input, $rangePrice);
         $categories = $categoryRepository->findAll();
 
         $form = $this->createForm(SearchType::class);
@@ -81,7 +93,8 @@ class AllGamesController extends AbstractController
             $data = $form->getData();
             
             return $this->redirectToRoute('app_search', [
-                'input' => $data['input']
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
             ]);
         }
 

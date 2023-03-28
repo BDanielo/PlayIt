@@ -107,11 +107,21 @@ class GameRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByName($name): array
+    public function findByName(string $name, int $priceRange): array
     {
+        if ($name == "all") {
+            $query = $this->createQueryBuilder('game')
+            ->andWhere('game.price <= :priceRange')
+            ->setParameter('priceRange', $priceRange)
+            ->getQuery();
+            return $query->getResult();
+        }
+
         $query = $this->createQueryBuilder('game')
             ->andWhere('game.name LIKE :name')
             ->setParameter('name', '%' . $name . '%')
+            ->andWhere('game.price <= :priceRange')
+            ->setParameter('priceRange', $priceRange)
             ->getQuery();
         return $query->getResult();
     }

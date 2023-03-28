@@ -49,32 +49,63 @@ class GameRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    /*public function orderBySells(): array
+    public function sortBy(string $sort, string $order, ?int $categoryId): array
     {
-        $query = $this->createQueryBuilder('game')
-            ->groupBy('game.id')
-            ->orderBy('SUM(game.sold)', 'DESC')
-            ->getQuery();
-        return $query->getResult();
-    }
 
-    public function orderByPrice(): array
-    {
-        $query = $this->createQueryBuilder('game')
-            ->groupBy('game.id')
-            ->orderBy('game.price', 'ASC')
-            ->getQuery();
-        return $query->getResult();
-    }
 
-    public function orderByDate(): array
-    {
-        $query = $this->createQueryBuilder('game')
-            ->groupBy('game.id')
-            ->orderBy('game.creationDate', 'DESC')
-            ->getQuery();
-        return $query->getResult();
-    }*/
+        switch ($sort) {
+            case 'sells':
+                if ($categoryId != null) {
+                    $query = $this->createQueryBuilder('game')
+                        ->join('game.category', 'category')
+                        ->andWhere('category.id = :categoryId')
+                        ->setParameter('categoryId', $categoryId)
+                        ->groupBy('game.id')
+                        ->orderBy('SUM(game.sold)', $order)
+                        ->getQuery();
+                    return $query->getResult();
+                }
+                $query = $this->createQueryBuilder('game')
+                    ->groupBy('game.id')
+                    ->orderBy('SUM(game.sold)', $order)
+                    ->getQuery();
+                return $query->getResult();
+            case 'price':
+                if ($categoryId != null) {
+                    $query = $this->createQueryBuilder('game')
+                        ->join('game.category', 'category')
+                        ->andWhere('category.id = :categoryId')
+                        ->setParameter('categoryId', $categoryId)
+                        ->setParameter('categoryId', $categoryId)
+                        ->groupBy('game.id')
+                        ->orderBy('game.price', $order)
+                        ->getQuery();
+                    return $query->getResult();
+                }
+                $query = $this->createQueryBuilder('game')
+                    ->groupBy('game.id')
+                    ->orderBy('game.price', $order)
+                    ->getQuery();
+                return $query->getResult();
+            case 'date':
+                if ($categoryId != null) {
+                    $query = $this->createQueryBuilder('game')
+                        ->join('game.category', 'category')
+                        ->andWhere('category.id = :categoryId')
+                        ->setParameter('categoryId', $categoryId)
+                        ->setParameter('categoryId', $categoryId)
+                        ->groupBy('game.id')
+                        ->orderBy('game.creationDate', $order)
+                        ->getQuery();
+                    return $query->getResult();
+                }
+                $query = $this->createQueryBuilder('game')
+                    ->groupBy('game.id')
+                    ->orderBy('game.creationDate', $order)
+                    ->getQuery();
+                return $query->getResult();
+        }
+    }
 
     public function findByName($name): array
     {

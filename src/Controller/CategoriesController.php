@@ -13,10 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoriesController extends AbstractController
 {
     #[Route('/categories/{id}', name: 'app_categories')]
-    public function index(int $id, GameRepository $gamesRepository, CategoryRepository $categoryRepository, Request $request): Response
+    public function index(int $id, CategoryRepository $categoryRepository, Request $request): Response
     {
         $categories = $categoryRepository->findAll();
-        $catName = $categoryRepository->find($id)->getName();
+        $selectedCategory = $categoryRepository->find($id);
 
         //$games = $gamesRepository->findBy(['category' => $id]);
         $cat = $categoryRepository->findCategoryById($id);
@@ -39,8 +39,41 @@ class CategoriesController extends AbstractController
             'controller_name' => 'CategoriesController',
             'games' => $games,
             'categories' => $categories,
-            'catName' => $catName,
+            'selectedCategory' => $selectedCategory,
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/categories/{id}/orderby/{sort}/{order}', name: 'app_sorted_category')]
+
+    public function orderBy(int $id, string $sort, string $order, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
+    {
+        $categories = $categoryRepository->findAll();
+        $selectedCategory = $categoryRepository->find($id);
+
+        $cat = $categoryRepository->findCategoryById($id);
+        $games = $cat[0]->getGames();
+
+        $games = $gameRepository->sortBy($sort, $order, $id);
+
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            
+            return $this->redirectToRoute('app_search', [
+                'input' => $data['input']
+            ]);
+        }
+        
+        return $this->render('categories/index.html.twig', [
+            'controller_name' => 'CategoriesController',
+            'games' => $games,
+            'categories' => $categories,
+            'selectedCategory' => $selectedCategory,
+            'form' => $form->createView()
+        ]);
+
     }
 }

@@ -20,10 +20,38 @@ class CartController extends AbstractController
         ]);
     }
 
+    #[Route('/cart/add/{id}/ajax', name: 'app_cart_add_ajax', methods: ['GET'])]
+    public function add_ajax(int $id, CartService $cartService): Response
+    {
+        $cartService->addToCart($id);
+        return $this->sendResponse(['status' => 'ok']);
+    }
+
     #[Route('/cart/add/{id}', name: 'app_cart_add', methods: ['GET'])]
     public function add(int $id, CartService $cartService): Response
     {
         $cartService->addToCart($id);
+        return $this->redirectToRoute('app_cart');
+    }
+
+    #[Route('/cart/decrease/{id}/ajax', name: 'app_cart_decrease_ajax', methods: ['GET'])]
+    public function decrease_ajax(int $id, CartService $cartService): Response
+    {
+        $cartService->decreaseInCart($id);
+        return $this->sendResponse(['status' => 'ok']);
+    }
+
+    #[Route('/cart/decrease/{id}', name: 'app_cart_decrease', methods: ['GET'])]
+    public function decrease(int $id, CartService $cartService): Response
+    {
+        $cartService->decreaseInCart($id);
+        return $this->redirectToRoute('app_cart');
+    }
+
+    #[Route('/cart/remove/{id}/ajax', name: 'app_cart_remove_ajax', methods: ['GET'])]
+    public function remove_ajax(int $id, CartService $cartService): Response
+    {
+        $cartService->removeFromCart($id);
         return $this->sendResponse(['status' => 'ok']);
     }
 
@@ -31,11 +59,18 @@ class CartController extends AbstractController
     public function remove(int $id, CartService $cartService): Response
     {
         $cartService->removeFromCart($id);
-        return $this->sendResponse(['status' => 'ok']);
+        return $this->redirectToRoute('app_cart');
     }
 
     #[Route('/cart/clear', name: 'app_cart_clear', methods: ['GET'])]
     public function clear(CartService $cartService): Response
+    {
+        $cartService->clearCart();
+        return $this->redirectToRoute('app_cart');
+    }
+
+    #[Route('/cart/clear/ajax', name: 'app_cart_clear_ajax', methods: ['GET'])]
+    public function clear_ajax(CartService $cartService): Response
     {
         $cartService->clearCart();
         return $this->sendResponse(['status' => 'ok']);

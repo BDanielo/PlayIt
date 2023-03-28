@@ -35,7 +35,7 @@ class CartService
     }
 
 
-    public function removeFromCart(int $id)
+    public function decreaseInCart(int $id)
     {
         $cart = $this->session->get('cart');
         $quantity = $cart[$id];
@@ -47,6 +47,13 @@ class CartService
             unset($cart[$id]);
         }
 
+        $this->session->set('cart', $cart);
+    }
+
+    public function removeFromCart(int $id)
+    {
+        $cart = $this->session->get('cart');
+        unset($cart[$id]);
         $this->session->set('cart', $cart);
     }
 

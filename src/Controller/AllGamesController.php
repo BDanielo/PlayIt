@@ -83,7 +83,7 @@ class AllGamesController extends AbstractController
     public function search(string $input, int $rangePrice, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
 
-        $games = $gameRepository->findByName($input, $rangePrice);
+        $games = $gameRepository->findByName($input, $rangePrice, null);
         $categories = $categoryRepository->findAll();
 
         $form = $this->createForm(SearchType::class);

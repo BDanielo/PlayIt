@@ -7,9 +7,8 @@
 <div class="container flex flex-col bg-dark-medium-purple h-full">
     <h1 class="self-center m-5 text-3xl text-white">All games</h1>
  
-    <div id="filters" class="flex justify-start">
 
-        {{ form_start(form) }}
+        {{ form_start(form, {'attr': {'class':'flex justify-start'}}) }}
 
             <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="mx-2 mb-10 inline-flex items-center rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4" type="button">Filters <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
             <!-- Dropdown menu -->
@@ -79,7 +78,7 @@
 
             
             
-            <div class="ml-5 mt-3 flex items-center">   
+            <div class="ml-5 mt-3 flex items-center mb-8">   
                 <label for="simple-search" class="sr-only">Search</label>
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -96,7 +95,6 @@
         {{ form_end(form) }}
 
     
-    </div>
 
     <div class="grid lg:grid-cols-3 xl:grid-cols-4 gap-6 p-2 sm:grid-cols-1 sm:mx-auto">
         {% for game in games %}
@@ -118,7 +116,7 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.price }}$</span>
-                        <a onclick="addToCartAjax({{game.id}})" id="btnAddCart{{game.id}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]"><i class="fa-solid fa-plus"></i> Add to cart</a>
+                        <a onclick="addToCartAjax({{game.id}})" id="btnAddCart{{game.id}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]"><i class="fa-solid fa-cart-arrow-down" style="color: #ffffff;"></i></a>
                     </div>
                 </div>
             </div>

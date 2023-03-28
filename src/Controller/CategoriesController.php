@@ -28,7 +28,8 @@ class CategoriesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             
-            return $this->redirectToRoute('app_search', [
+            return $this->redirectToRoute('category_search', [
+                'id' => $id,
                 'input' => $data['input'],
                 'rangePrice' => $data['range']
             ]);
@@ -63,7 +64,8 @@ class CategoriesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             
-            return $this->redirectToRoute('app_search', [
+            return $this->redirectToRoute('category_search', [
+                'id' => $id,
                 'input' => $data['input'],
                 'rangePrice' => $data['range']
             ]);
@@ -77,5 +79,35 @@ class CategoriesController extends AbstractController
             'form' => $form->createView()
         ]);
 
+    }
+
+    #[Route('/categories/{id}/search/{input}/{rangePrice}', name: 'category_search')]
+    public function search(int $id, string $input, int $rangePrice, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
+    {
+
+        $games = $gameRepository->findByName($input, $rangePrice, $id);
+        $categories = $categoryRepository->findAll();
+        $selectedCategory = $categoryRepository->find($id);
+
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            
+            return $this->redirectToRoute('category_search', [
+                'id' => $id,
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
+            ]);
+        }
+
+        return $this->render('categories/index.html.twig', [
+            'controller_name' => 'CategoriesController',
+            'games' => $games,
+            'categories' => $categories,
+            'selectedCategory' => $selectedCategory,
+            'form' => $form->createView()
+        ]);
     }
 }

@@ -55,12 +55,16 @@ class Game
     #[ORM\OneToMany(mappedBy: 'games', targetEntity: Review::class, orphanRemoval: true)]
     private Collection $reviews;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: OrderLine::class)]
+    private Collection $orderLines;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
         $this->owners = new ArrayCollection();
         $this->authors = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->orderLines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -295,5 +299,35 @@ class Game
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, OrderLine>
+     */
+    public function getOrderLines(): Collection
+    {
+        return $this->orderLines;
+    }
+
+    public function addOrderLine(OrderLine $orderLine): self
+    {
+        if (!$this->orderLines->contains($orderLine)) {
+            $this->orderLines->add($orderLine);
+            $orderLine->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderLine(OrderLine $orderLine): self
+    {
+        if ($this->orderLines->removeElement($orderLine)) {
+            // set the owning side to null (unless already changed)
+            if ($orderLine->getGame() === $this) {
+                $orderLine->setGame(null);
+            }
+        }
+
+        return $this;
     }
 }

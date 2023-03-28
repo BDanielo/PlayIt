@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\DTO\CardVerificationDTO;
 use App\Services\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\CardVerificationType;
 
 class CartController extends AbstractController
 {
@@ -83,5 +86,92 @@ class CartController extends AbstractController
         $response->headers->set('Content-Type', 'application/json');
         $response->setStatusCode($status);
         return $response;
+    }
+
+    #[Route('/cart/checkout', name: 'app_cart_checkout', methods: ['GET'])]
+    public function checkout(CartService $cartService): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $cart = $cartService->getCart();
+
+        if ($cart == null) {
+            return $this->redirectToRoute('app_cart');
+        }
+
+        $dto = new CardVerificationDTO();
+
+        $dto->cardOwner = $user->getFullName();
+
+        $form = $this->createForm(CardVerificationType::class, $dto);
+
+        $total = $cartService->getCartPrice();
+
+        // get taxes
+        $taxePercent = 20;
+        $taxes = $total * ($taxePercent / 100);
+        $total += $taxes;
+
+        return $this->render('cart/checkout.html.twig', [
+            'controller_name' => 'CartController',
+            'cart' => $cart,
+            'taxes' => $taxes,
+            'taxePercent' => $taxePercent,
+            'total' => $total,
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/cart/checkout', name: 'app_cart_checkout_post', methods: ['POST'])]
+    public function checkout_post(CartService $cartService, Request $request): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $cart = $cartService->getCart();
+
+        if ($cart == null) {
+            return $this->redirectToRoute('app_cart');
+        }
+
+        $dto = new CardVerificationDTO();
+
+        $form = $this->createForm(CardVerificationType::class, $dto);
+
+        $form->handleRequest($request);
+
+        $total = $cartService->getCartPrice();
+
+        // get taxes
+        $taxePercent = 20;
+        $taxes = $total * ($taxePercent / 100);
+        $total += $taxes;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = 'Your order number XX of ' . $total . ' has been placed.';
+            $this->addFlash('success', $message);
+            $cartService->clearCart();
+            return $this->render('cart/confirmed.html.twig', [
+                'controller_name' => 'CartController',
+            ]);
+        } else {
+            $message = 'Payment failed.';
+            // form errors
+            $message .= ' ' . $form->getErrors(true, false);
+            $this->addFlash('error', $message);
+            return $this->render('cart/checkout.html.twig', [
+                'controller_name' => 'CartController',
+                'cart' => $cart,
+                'taxes' => $taxes,
+                'taxePercent' => $taxePercent,
+                'total' => $total,
+                'form' => $form->createView()
+            ]);
+        }
     }
 }

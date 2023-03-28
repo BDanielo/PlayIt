@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\CardVerificationDTO;
 use App\Services\CartService;
+use App\Services\OrderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -126,7 +127,7 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/checkout', name: 'app_cart_checkout_post', methods: ['POST'])]
-    public function checkout_post(CartService $cartService, Request $request): Response
+    public function checkout_post(OrderService $orderService, CartService $cartService, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -153,7 +154,9 @@ class CartController extends AbstractController
         $total += $taxes;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $message = 'Your order number XX of ' . $total . ' has been placed.';
+            // create a new order using orderService
+            $order = $orderService->createOrder($cartService, $user);
+            $message = 'Your order N°' . $order->getId() . ' of ' . $total . '$ has been placed.';
             $this->addFlash('success', $message);
             $cartService->clearCart();
             return $this->render('cart/confirmed.html.twig', [

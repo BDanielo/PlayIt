@@ -1,77 +1,79 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Hello CartController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-<div class="text-white flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-    <h5>Order summary</h5>
-</div>
-<br>
-<div>
-    {% if cart|length > 0 %}
-        {% for games in cart %}
-            {% for game  in games %}
-                <div class="text-white flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                    <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <img src="{{ game.gameEntity.picture }}/head.png" alt="game image" class="w-32 h-32">
-                    </div>
-                    <div class="flex-row">
-                        <div class="flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <h5>{{ game.gameEntity.name }}</h5>
-                        </div>
-                    </div>
-                    <div class="flex-row">
-                        <div class="flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <h5>Unit price : {{ game.gameEntity.price }}$</h5>
-                        </div>
-                        <div class="flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <h5>Quantity : {{ game.quantity }}</h5>
-                        </div>
-                        <div class="flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <h5>Price : {{ game.gameEntity.price * game.quantity }}$</h5>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        {% endfor %}
-        <p>Total : {{ cart.total }}$</p>
-        <p>Taxes ({{taxePercent}}%) : {{ taxes }}$</p>
-        <p>Total with taxes : {{ total }}$</p>
-    {% endif %}
-</div>
-<br>
-<div class="text-white flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-    <h5>Payment</h5>
-</div>
-    {% for error in app.flashes('error') %}
-        {{ error }}
-    {% endfor %}
-    {% for success in app.flashes('success') %}
-        {{ success }}
-    {% endfor %}
-    {{ form_start(form) }}
-    <div class=\"form-group\">
-        {{ form_label(form.cardOwner) }}
-        {{ form_widget(form.cardOwner, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class=\"form-group\">
-        {{ form_label(form.cardNumber) }}
-        {{ form_widget(form.cardNumber, {'attr': {'class': 'form-control'}}) }}
-        {{ form_label(form.cvv) }}
-        {{ form_widget(form.cvv, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class=\"form-group\">
-        {{ form_label(form.expirationMonth,'Expiration Month/Year :') }}
-        {{ form_widget(form.expirationMonth, {'attr': {'class': 'form-control'}}) }}
-        /
-        {{ form_widget(form.expirationYear, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    {{ form_widget(form) }}
-</div>
+	<div class="bg-dark-medium-purple h-full py-20 min-h-screen">
+		<div class="text-white text-3xl flex justify-between mx-32 border-gradient border-glow p-5 rounded-md">
+
+			<div class="block w-full text-white">
+				<h5>Order summary</h5>
+				<br>
+				<div>
+					{% if cart|length > 0 %}
+						{% for games in cart %}
+							{% for game  in games %}
+								<div class="my-2 text-white flex flex-row items-center bg-white border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-dark-purple justify-between">
+									<div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+										<img src="{{ game.gameEntity.picture }}/head.png" alt="game image" class="w-32 h-32">
+									</div>
+									<h5>{{ game.gameEntity.name }}</h5>
+									<div class="flex-row text-end pr-4 text-xl">
+										<h5>Unit price :
+											{{ game.gameEntity.price }}$</h5>
+										<h5>Quantity :
+											{{ game.quantity }}</h5>
+										<h5>Price :
+											{{ game.gameEntity.price * game.quantity }}$</h5>
+									</div>
+								</div>
+							{% endfor %}
+						{% endfor %}
+						<p class="text-2xl">Total :
+							{{ cart.total }}$</p>
+						<p class="text-2xl">Taxes ({{taxePercent}}%) :
+							{{ taxes }}$</p>
+						<p class="text-2xl">Total with taxes :
+							{{ total }}$</p>
+					{% endif %}
+				</div>
+				<br>
+				<h5>Payment</h5>
+				<br>
+				{% for error in app.flashes('error') %}
+					{{ error }}
+				{% endfor %}
+				{% for success in app.flashes('success') %}
+					{{ success }}
+				{% endfor %}
+				{{ form_start(form) }}
+				<div class="\ text-xl" form-group\"">
+					{{ form_label(form.cardOwner) }}
+					<br>
+					{{ form_widget(form.cardOwner, {'attr': {'class': 'form-control shadow-none focus:outline-none appearance-none checked:bg-electric-purple bg-dark-purple'}}) }}
+				</div>
+				<div class="\ text-xl" form-group\"">
+					{{ form_label(form.cardNumber) }}
+					<br>
+					{{ form_widget(form.cardNumber, {'attr': {'class': 'form-control shadow-none focus:outline-none appearance-none checked:bg-electric-purple bg-dark-purple'}}) }}
+					<br>
+					{{ form_label(form.cvv) }}
+					<br>
+					{{ form_widget(form.cvv, {'attr': {'class': 'form-control shadow-none focus:outline-none appearance-none checked:bg-electric-purple bg-dark-purple'}}) }}
+				</div>
+				<div class="\ text-xl" form-group\"">
+					{{ form_label(form.expirationMonth,'Expiration Month/Year :') }}
+					<br>
+					{{ form_widget(form.expirationMonth, {'attr': {'class': 'form-control shadow-none focus:outline-none appearance-none checked:bg-electric-purple bg-dark-purple'}}) }}
+																				        /
+					{{ form_widget(form.expirationYear, {'attr': {'class': 'form-control shadow-none focus:outline-none appearance-none checked:bg-electric-purple bg-dark-purple'}}) }}
+				</div>
+				<br>
+				{{ form_widget(form) }}
+			</div>
+
+		</div>
+	</div>
 {% endblock %}

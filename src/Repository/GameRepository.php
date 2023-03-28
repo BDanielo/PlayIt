@@ -107,11 +107,45 @@ class GameRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByName($name): array
+    public function findByName(string $name, int $priceRange, ?int $categoryId): array
     {
+
+        if ($categoryId != null) {
+            if ($name == "all") {
+                $query = $this->createQueryBuilder('game')
+                    ->join('game.category', 'category')
+                    ->andWhere('category.id = :categoryId')
+                    ->setParameter('categoryId', $categoryId)
+                    ->andWhere('game.price <= :priceRange')
+                    ->setParameter('priceRange', $priceRange)
+                    ->getQuery();
+                return $query->getResult();
+            }
+            $query = $this->createQueryBuilder('game')
+                ->join('game.category', 'category')
+                ->andWhere('category.id = :categoryId')
+                ->setParameter('categoryId', $categoryId)
+                ->andWhere('game.name LIKE :name')
+                ->setParameter('name', '%' . $name . '%')
+                ->andWhere('game.price <= :priceRange')
+                ->setParameter('priceRange', $priceRange)
+                ->getQuery();
+            return $query->getResult();
+        }
+
+        if ($name == "all") {
+            $query = $this->createQueryBuilder('game')
+            ->andWhere('game.price <= :priceRange')
+            ->setParameter('priceRange', $priceRange)
+            ->getQuery();
+            return $query->getResult();
+        }
+
         $query = $this->createQueryBuilder('game')
             ->andWhere('game.name LIKE :name')
             ->setParameter('name', '%' . $name . '%')
+            ->andWhere('game.price <= :priceRange')
+            ->setParameter('priceRange', $priceRange)
             ->getQuery();
         return $query->getResult();
     }

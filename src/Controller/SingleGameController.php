@@ -3,21 +3,90 @@
 namespace App\Controller;
 
 use App\Repository\GameRepository;
+use App\Services\GameReviewService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\PostReviewType;
+use App\Entity\Review;
+use App\Repository\ReviewRepository;
 
 class SingleGameController extends AbstractController
 {
-    #[Route('/single/game/{id}', name: 'app_single_game')]
-    public function index(int $id, GameRepository $gameRepository): Response
+    #[Route('/game/{id}', name: 'app_single_game', methods: ['GET'])]
+    public function index(int $id, GameRepository $gameRepository, GameReviewService $gameReviewService): Response
     {
+        $user = $this->getUser();
 
         $game = $gameRepository->find($id);
 
+        $reviews = $game->getReviews();
+
+        $avgReview = $gameReviewService->getAvgReview($game);
+
+        if ($user) {
+
+            $reviewed = $gameReviewService->hasUserReviewedGame($user, $game);
+
+            if (!$reviewed) {
+
+                // create form using PostReviewType
+                $form = $this->createForm(PostReviewType::class);
+
+                return $this->render('single_game/index.html.twig', [
+                    'controller_name' => 'SingleGameController',
+                    'form' => $form,
+                    'game' => $game,
+                    'avgReview' => $avgReview,
+                    'reviews' => $reviews
+                ]);
+            }
+        }
+
+
+
         return $this->render('single_game/index.html.twig', [
             'controller_name' => 'SingleGameController',
-            'game' => $game
+            'game' => $game,
+            'avgReview' => $avgReview,
+            'reviews' => $reviews
         ]);
+    }
+
+    #[Route('/game/{id}', name: 'app_single_game_post', methods: ['POST'])]
+    public function postReview(int $id, GameRepository $gameRepository, GameReviewService $gameReviewService, Request $request, ReviewRepository $reviewRepository): Response
+    {
+        $user = $this->getUser();
+
+        $game = $gameRepository->find($id);
+
+        $avgReview = $gameReviewService->getAvgReview($game);
+
+        if ($user) {
+
+            $reviewed = $gameReviewService->hasUserReviewedGame($user, $game);
+
+            if (!$reviewed) {
+
+                // create form using PostReviewType
+                $form = $this->createForm(PostReviewType::class);
+
+                $form->handleRequest($request);
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $review = $form->getData();
+
+                    $review->setAuthor($user);
+                    $review->setGames($game);
+
+                    $review->setCreationDate(new \DateTime());
+
+                    $reviewRepository->save($review, true);
+
+                    return $this->redirectToRoute('app_single_game', ['id' => $id]);
+                }
+            }
+        }
     }
 }

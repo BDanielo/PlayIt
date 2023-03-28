@@ -16,7 +16,8 @@ class CategoriesController extends AbstractController
     public function index(int $id, CategoryRepository $categoryRepository, Request $request): Response
     {
         $categories = $categoryRepository->findAll();
-        $selectedCategory = $categoryRepository->find($id);
+        $selectedCategory = $categoryRepository->find($id)->getName();
+        $title = "All $selectedCategory";
 
         //$games = $gamesRepository->findBy(['category' => $id]);
         $cat = $categoryRepository->findCategoryById($id);
@@ -28,8 +29,10 @@ class CategoriesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             
-            return $this->redirectToRoute('app_search', [
-                'input' => $data['input']
+            return $this->redirectToRoute('category_search', [
+                'id' => $id,
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
             ]);
         }
 
@@ -39,7 +42,7 @@ class CategoriesController extends AbstractController
             'controller_name' => 'CategoriesController',
             'games' => $games,
             'categories' => $categories,
-            'selectedCategory' => $selectedCategory,
+            'title' => $title,
             'form' => $form->createView()
         ]);
     }
@@ -49,7 +52,8 @@ class CategoriesController extends AbstractController
     public function orderBy(int $id, string $sort, string $order, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
         $categories = $categoryRepository->findAll();
-        $selectedCategory = $categoryRepository->find($id);
+        $selectedCategory = $categoryRepository->find($id)->getName();
+        $title = "All $selectedCategory";
 
         $cat = $categoryRepository->findCategoryById($id);
         $games = $cat[0]->getGames();
@@ -62,8 +66,10 @@ class CategoriesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             
-            return $this->redirectToRoute('app_search', [
-                'input' => $data['input']
+            return $this->redirectToRoute('category_search', [
+                'id' => $id,
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
             ]);
         }
         
@@ -71,9 +77,40 @@ class CategoriesController extends AbstractController
             'controller_name' => 'CategoriesController',
             'games' => $games,
             'categories' => $categories,
-            'selectedCategory' => $selectedCategory,
+            'title' => $title,
             'form' => $form->createView()
         ]);
 
+    }
+
+    #[Route('/categories/{id}/search/{input}/{rangePrice}', name: 'category_search')]
+    public function search(int $id, string $input, int $rangePrice, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
+    {
+
+        $games = $gameRepository->findByName($input, $rangePrice, $id);
+        $categories = $categoryRepository->findAll();
+        $selectedCategory = $categoryRepository->find($id)->getName();
+        $title = "Custom filters on $selectedCategory";
+
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            
+            return $this->redirectToRoute('category_search', [
+                'id' => $id,
+                'input' => $data['input'],
+                'rangePrice' => $data['range']
+            ]);
+        }
+
+        return $this->render('categories/index.html.twig', [
+            'controller_name' => 'CategoriesController',
+            'games' => $games,
+            'categories' => $categories,
+            'title' => $title,
+            'form' => $form->createView()
+        ]);
     }
 }

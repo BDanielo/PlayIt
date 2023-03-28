@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\CardVerificationType;
+use App\Services\GameOwnershipService;
 
 class CartController extends AbstractController
 {
@@ -154,8 +155,10 @@ class CartController extends AbstractController
         $total += $taxes;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // create a new order using orderService
-            $order = $orderService->createOrder($cartService, $user);
+
+            $order = $orderService->createOrder($cartService, $user, $total);
+            $orderService->payOrder($order);
+
             $message = 'Your order N°' . $order->getId() . ' of ' . $total . '$ has been placed.';
             $this->addFlash('success', $message);
             $cartService->clearCart();

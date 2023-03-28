@@ -45,12 +45,12 @@ class Review
         return $this->id;
     }
 
-    public function getTittle(): ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTittle(string $title): self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 

@@ -26,6 +26,9 @@ class Order
     #[ORM\OneToMany(mappedBy: 'orderR', targetEntity: OrderLine::class, orphanRemoval: true)]
     private Collection $orderLines;
 
+    #[ORM\Column]
+    private ?float $total = null;
+
     public function __construct()
     {
         $this->orderLines = new ArrayCollection();
@@ -86,6 +89,18 @@ class Order
                 $orderLine->setOrderR(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(float $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

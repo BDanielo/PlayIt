@@ -21,11 +21,12 @@ class OrderService
         $this->orderLineRepository = $orderLineRepository;
     }
 
-    public function createOrder(CartService $cartService, User $user): Order
+    public function createOrder(CartService $cartService, User $user, $total): Order
     {
         $order = new Order();
         $order = $order->setStatus('pending');
         $order = $order->setUser($user);
+        $order = $order->setTotal($total);
         $this->orderRepository->save($order, true);
 
         $cart = $cartService->getCart();
@@ -41,6 +42,8 @@ class OrderService
             $orderLine->setOrderR($order);
             $this->orderLineRepository->save($orderLine, true);
         }
+
+
 
         return $order;
     }

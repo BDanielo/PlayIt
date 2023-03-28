@@ -9,12 +9,20 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Daniel/Documents/Cours/LPSMIN/M10 framework php/Semaine-projet-symfony/PlayIt/src/Controller/MyOrdersController.php'|file_link(0) }}">src/Controller/MyOrdersController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Daniel/Documents/Cours/LPSMIN/M10 framework php/Semaine-projet-symfony/PlayIt/templates/my_orders/index.html.twig'|file_link(0) }}">templates/my_orders/index.html.twig</a></code></li>
-    </ul>
+    {% if ordersWithLines is empty %}
+        <h1><a href="{{path('app_all_games')}}">You have no orders, buy some games here !</h1>
+    {% else %}
+    {% for orderWithLine in ordersWithLines %}
+        <h1>Order {{ orderWithLine.order.id }}</h1>
+        <p>Order status : {{ orderWithLine.order.status }}</p>
+        <p>Games :</p>
+        <ul>
+            {% for line in orderWithLine.orderLines %}
+                <li>{{line.game.name}} | Price/unit : {{line.price / line.quantity}} | Quantity : {{line.quantity}} | Price : {{line.price}}</li>
+            {% endfor %}
+        </ul>
+        <p>Total price : {{ orderWithLine.order.total }}</p>
+    {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}

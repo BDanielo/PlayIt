@@ -42,11 +42,6 @@
 				<h2 class="text-white">Games</h2>
 
 				<ul class="px-2 pt-4">
-					{% if is_granted('ROLE_ADMIN') %}
-						<li class="my-2">
-							<a href="{{ path('app_admin') }}" class="hover:text-transparent-hover">Admin</a>
-						</li>
-					{% endif %}
 					<li class="my-2">
 						<a href="{{ path('app_all_games') }}" class="hover:text-transparent-hover"><i class="fa-solid fa-shop"></i> Games</a>
 					</li>

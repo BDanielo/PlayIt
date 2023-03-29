@@ -166,10 +166,19 @@ class MyPublishedGamesController extends AbstractController
 
     public function delete(Game $game, GameRepository $gameRepository): Response
     {
-        // using the game repository, delete the game
-        $gameRepository->delete($game, true);
+        // check if the game exists
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
 
-        // if the game is deleted, show a success message and return to the published games page
+        if (($this->isGranted('ROLE_DEV') || !$game->getAuthors()->contains($this->getUser())) || $this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'You are not allowed to delete this game');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $gameRepository->remove($game, true);
+
         if (!$game->getId()) {
             $this->addFlash('success', 'Game deleted successfully');
             return $this->redirectToRoute('app_published_games');
@@ -236,5 +245,49 @@ class MyPublishedGamesController extends AbstractController
             'controller_name' => 'MyPublishedGamesController',
             'form' => $form
         ]);
+    }
+
+    #[Route('/dev/published-games/approve/{id}', name: 'app_published_games_approve', methods: ['GET'])]
+    public function approve(int $id, GameRepository $gameRepository): Response
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'You are not allowed to approve games');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $game = $gameRepository->find($id);
+
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $game->setStatus(1);
+        $gameRepository->save($game, true);
+
+        $this->addFlash('success', 'Game approved successfully');
+        return $this->redirectToRoute('app_published_games');
+    }
+
+    #[Route('/dev/published-games/reject/{id}', name: 'app_published_games_reject', methods: ['GET'])]
+    public function reject(int $id, GameRepository $gameRepository): Response
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'You are not allowed to reject games');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $game = $gameRepository->find($id);
+
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $game->setStatus(2);
+        $gameRepository->save($game, true);
+
+        $this->addFlash('success', 'Game rejected successfully');
+        return $this->redirectToRoute('app_published_games');
     }
 }

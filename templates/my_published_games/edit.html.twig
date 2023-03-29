@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Game
+{% endblock %}
+
+{% block body %}
+	<div class="flex flex-col items-center justify-center min-h-screen bg-dark-medium-purple">
+		<div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
+			<h1 class="text-4xl">Edit Game</h1>
+            <br>
+			{{ include('my_published_games/_form.html.twig') }}
+			<a href="{{ path('app_published_games') }}" class="my-4 inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">back to list</a>
+            {% if is_granted('ROLE_ADMIN') %}
+			    {{ include('my_published_games/_delete_form.html.twig') }}
+            {% endif %}
+
+		</div>
+	</div>
+{% endblock %}

@@ -16,12 +16,22 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class MyPublishedGamesController extends AbstractController
 {
     #[Route('/dev/published-games', name: 'app_published_games')]
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, GameRepository $gameRepository): Response
     {
 
         //get current user
         //** @var User $user */
         $user = $this->getUser();
+
+        if ($user->getRoles()[0] == 'ROLE_ADMIN') {
+            // get all published games
+            $games = $gameRepository->findAll();
+
+            return $this->render('my_published_games/index.html.twig', [
+                'controller_name' => 'MyPublishedGamesController',
+                'games' => $games,
+            ]);
+        }
 
         // get all published games of the current user
         $games = $userRepository->find($user->getId())->getGamesPublished();
@@ -114,6 +124,57 @@ class MyPublishedGamesController extends AbstractController
                 'controller_name' => 'MyPublishedGamesController',
                 'form' => $form->createView(),
                 'message' => 'yes sir',
+            ]);
+        }
+    }
+
+    #[Route('/dev/published-games/edit/{id}', name: 'app_published_games_edit', methods: ['GET', 'POST'])]
+
+    public function edit(Game $game, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
+    {
+        // get all categories
+        //$categories = $categoryRepository->findAll();
+
+        $form = $this->createForm(AddGameType::class, $game);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $game->setUpdateDate(new \DateTime('now'));
+            $gameRepository->save($game, true);
+
+            return $this->redirectToRoute('app_published_games', [], Response::HTTP_SEE_OTHER);
+        }
+
+        // add category to the form and show their names 
+        // $form->add('category', ChoiceType::class, [
+        //     'choices' => $categories,
+        //     'choice_label' => function ($category) {
+        //         return $category->getName();
+        //     },
+        // ]);
+
+        return $this->render('my_published_games/edit.html.twig', [
+            'controller_name' => 'MyPublishedGamesController',
+            'form' => $form->createView(),
+            'game' => $game,
+        ]);
+    }
+
+    #[Route('/dev/published-games/delete/{id}', name: 'app_published_games_delete', methods: ['GET', 'POST'])]
+
+    public function delete(Game $game, GameRepository $gameRepository): Response
+    {
+        // using the game repository, delete the game
+        $gameRepository->delete($game, true);
+
+        // if the game is deleted, show a success message and return to the published games page
+        if (!$game->getId()) {
+            $this->addFlash('success', 'Game deleted successfully');
+            return $this->redirectToRoute('app_published_games');
+        } else {
+            return $this->render('my_published_games/edit.html.twig', [
+                'controller_name' => 'MyPublishedGamesController',
+                'game' => $game,
             ]);
         }
     }

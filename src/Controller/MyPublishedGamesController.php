@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\CreatePromotionDTO;
 use App\Entity\Game;
 use App\Repository\GameRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\AddGameType;
 use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Form\CreatePromotionType;
 
 class MyPublishedGamesController extends AbstractController
 {
@@ -128,6 +129,7 @@ class MyPublishedGamesController extends AbstractController
         }
     }
 
+
     #[Route('/dev/published-games/edit/{id}', name: 'app_published_games_edit', methods: ['GET', 'POST'])]
 
     public function edit(Game $game, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
@@ -177,5 +179,56 @@ class MyPublishedGamesController extends AbstractController
                 'game' => $game,
             ]);
         }
+    }
+
+    #[Route('/dev/published-games/promotion/{id}', name: 'app_published_games_promotion', methods: ['GET'])]
+
+    public function promotion(int $id, GameRepository $gameRepository): Response
+    {
+        // check if the game exists
+        $game = $gameRepository->find($id);
+
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $dto = new CreatePromotionDTO();
+
+        $form = $this->createForm(CreatePromotionType::class, $dto);
+
+        return $this->render('my_published_games/promotion.html.twig', [
+            'controller_name' => 'MyPublishedGamesController',
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/dev/published-games/promotion{id}', name: 'app_published_games_promotion_post', methods: ['POST'])]
+    public function promotionPost(int $id, Request $request, GameRepository $gameRepository): Response
+    {
+        // check if the game exists
+        $game = $gameRepository->find($id);
+
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $dto = new CreatePromotionDTO();
+
+        $form = $this->createForm(CreatePromotionType::class, $dto);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $percent = $dto->percent;
+            $date_start = $dto->date_start;
+            $date_end = $dto->date_end;
+        }
+
+        return $this->render('my_published_games/promotion.html.twig', [
+            'controller_name' => 'MyPublishedGamesController',
+            'form' => $form
+        ]);
     }
 }

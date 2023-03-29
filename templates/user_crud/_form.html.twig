@@ -1,4 +1,22 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_label(form.firstname)}}<br>{{ form_widget(form.firstname, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+{{ form_label(form.lastname)}}<br>{{ form_widget(form.lastname, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+{{ form_label(form.email)}}<br>{{ form_widget(form.email, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+{{ form_label(form.address)}}<br>{{ form_widget(form.address, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+{{ form_label(form.roles)}}<br>{{ form_widget(form.roles, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+{{ form_label(form.password)}}<br>{{ form_widget(form.password, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+{{ form_label(form.username)}}<br>{{ form_widget(form.username, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+{{ form_label(form.points)}}<br>{{ form_widget(form.points, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+{{ form_label(form.levels)}}<br>{{ form_widget(form.levels, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+<br>
+<br>
+<button class="btn inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

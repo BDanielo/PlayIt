@@ -10,8 +10,8 @@
 		<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 			<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 				<caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-dark-purple">
-					Your Categories
-					<p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Here's the recap of your categories. You can edit or delete them here !</p>
+					All Users
+					<p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Here are all the users. You can create, see, edit or delete them !</p>
 				</caption>
 				<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-medium-purple dark:text-gray-400">
 					<tr>
@@ -84,12 +84,8 @@
 								{{ user.levels }}
 							</td>
 							<td class="px-6 py-4">
-								{{ user.signupDate ? user.signupDate|date('Y-m-d') : '' }}
-							</td>
-							<td class="px-6 py-4">
-
-								<a href="{{ path('app_category_crud_show', {'id': category.id}) }}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">show</a>
-								<a href="{{ path('app_category_crud_edit', {'id': category.id}) }}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">edit</a>
+								<a href="{{ path('app_user_crud_show', {'id': user.id}) }}" class="mb-2 inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">show</a>
+								<a href="{{ path('app_user_crud_edit', {'id': user.id}) }}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">edit</a>
 							</td>
 						</tr>
 					{% endfor %}
@@ -97,47 +93,10 @@
 			</table>
 		</div>
 		<br>
-		<a href="{{ path('app_category_crud_new') }}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
+		<a href="{{ path('app_user_crud_new') }}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
 			<i class="fa fa-plus"></i>
 			Create new
 		</a>
 	</div>
 
-	{# <h1>User index</h1>
-																	
-																	    <table class="table">
-																	        <thead>
-																	            <tr>
-																	               
-																	            </tr>
-																	        </thead>
-																	        <tbody>
-																	        {% for user in users %}
-																	            <tr>
-																	                <td>{{ user.id }}</td>
-																	                <td>{{ user.firstname }}</td>
-																	                <td>{{ user.lastname }}</td>
-																	                <td>{{ user.email }}</td>
-																	                <td>{{ user.address }}</td>
-																	                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-																	                <td>{{ user.password }}</td>
-																	                <td>{{ user.username }}</td>
-																	                <td>{{ user.points }}</td>
-																	                <td>{{ user.levels }}</td>
-																	                <td>{{ user.signupDate ? user.signupDate|date('Y-m-d') : '' }}</td>
-																	                <td>{{ user.lastSigninDateTime ? user.lastSigninDateTime|date('Y-m-d H:i:s') : '' }}</td>
-																	                <td>
-																	                    <a href="{{ path('app_user_crud_show', {'id': user.id}) }}">show</a>
-																	                    <a href="{{ path('app_user_crud_edit', {'id': user.id}) }}">edit</a>
-																	                </td>
-																	            </tr>
-																	        {% else %}
-																	            <tr>
-																	                <td colspan="13">no records found</td>
-																	            </tr>
-																	        {% endfor %}
-																	        </tbody>
-																	    </table>
-																	
-																	    <a href="{{ path('app_user_crud_new') }}">Create new</a> #}
 {% endblock %}

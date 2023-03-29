@@ -1,66 +1,97 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}User
+{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+	<div class="bg-dark-medium-purple h-full min-h-screen p-20">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ user.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ user.address }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Points</th>
-                <td>{{ user.points }}</td>
-            </tr>
-            <tr>
-                <th>Levels</th>
-                <td>{{ user.levels }}</td>
-            </tr>
-            <tr>
-                <th>SignupDate</th>
-                <td>{{ user.signupDate ? user.signupDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>LastSigninDateTime</th>
-                <td>{{ user.lastSigninDateTime ? user.lastSigninDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_user_crud_index') }}">back to list</a>
-
-    <a href="{{ path('app_user_crud_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user_crud/_delete_form.html.twig') }}
+		<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+			<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+				<caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-dark-purple">
+					Your Category
+					<p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Here's the informations about your category</p>
+				</caption>
+				<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-medium-purple dark:text-gray-400">
+					<tr>
+						<th scope="col" class="px-6 py-3">
+							Id
+						</th>
+						<th scope="col" class="px-6 py-3">
+							FirstName
+						</th>
+						<th scope="col" class="px-6 py-3">
+							LastName
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Email
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Address
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Roles
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Password
+						</th>
+						<th scope="col" class="px-6 py-3">
+							UserName
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Points
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Levels
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Actions
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="bg-white border-b dark:bg-dark-purple dark:border-medium-purple">
+						<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+							{{ user.id }}
+						</th>
+						<td class="px-6 py-4">
+							{{ user.firstName }}
+						</td>
+						<td class="px-6 py-4">
+							{{ user.lastName }}
+						</td>
+						<td class="px-6 py-4">
+							{{ user.email }}
+						</td>
+						<td class="px-6 py-4">
+							{{ user.address }}
+						</td>
+						<td class="px-6 py-4">
+							{% for role in user.roles %}
+								{{ role }}
+							{% endfor %}
+						</td>
+						<td class="px-6 py-4">
+							{{ user.password }}
+						</td>
+						<td class="px-6 py-4">
+							{{ user.userName }}
+						</td>
+						<td class="px-6 py-4">
+							{{ user.points }}
+						</td>
+						<td class="px-6 py-4">
+							{{ user.levels }}
+						</td>
+						<td class="px-6 py-4">
+							<a href="{{ path('app_user_crud_edit', {'id': user.id}) }}" class="mb-2 inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">edit</a>
+							{{ include('user_crud/_delete_form.html.twig') }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<a href="{{ path('app_user_crud_index') }}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">back to list</a>
+	</div>
 {% endblock %}

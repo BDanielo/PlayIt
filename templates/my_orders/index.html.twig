@@ -1,67 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MyOrdersController!
+{% block title %}
+    Hello MyOrdersController!
 {% endblock %}
 
 {% block body %}
-
-	<div class="bg-dark-medium-purple h-full min-h-screen p-20">
-
-		<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-			<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-				<caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-dark-purple">
-					Your Commands
-					<p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Here's the recap of your commands. You can see the list of products in each command !</p>
-				</caption>
-				<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-medium-purple dark:text-gray-400">
-					<tr>
-						<th scope="col" class="px-6 py-3">
-							Order number
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Order Status
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Product Name
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Price
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Quantity
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Total Price
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for orderWithLine in ordersWithLines %}
-						{% for line in orderWithLine.orderLines %}
-							<tr class="bg-white border-b dark:bg-dark-purple dark:border-medium-purple">
-								<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-									{{ orderWithLine.order.id }}
-								</th>
-								<td class="px-6 py-4">
-									{{ orderWithLine.order.status }}
-								</td>
-								<td class="px-6 py-4">
-									{{ line.game.name }}
-								</td>
-								<td class="px-6 py-4">
-									{{ line.price / line.quantity}}
-								</td>
-								<td class="px-6 py-4">
-									{{ line.quantity }}
-								</td>
-								<td class="px-6 py-4 ">
-									{{ line.price }}
-								</td>
-							</tr>
-						{% endfor %}
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
+    <div class="bg-dark-medium-purple h-full min-h-screen p-20">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-dark-purple">
+                    Your Commands<p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+                        Here's the recap of your commands. You can see the list
+                        of products in each command !
+                    </p>
+                </caption>
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-medium-purple dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Order number
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Order Status
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Product Name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Price
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Quantity
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Total Price
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for orderWithLine in ordersWithLines %}
+                        {% for line in orderWithLine.orderLines %}
+                            <tr class="bg-white border-b dark:bg-dark-purple dark:border-medium-purple">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ orderWithLine.order.id }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ orderWithLine.order.status }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ line.game.name }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ line.price / line.quantity }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ line.quantity }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ line.price }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

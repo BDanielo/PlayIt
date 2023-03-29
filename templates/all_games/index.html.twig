@@ -117,7 +117,12 @@
                         {% endif %}
                     </div>
                     <div class="flex items-center justify-between">
+                    {% if game.PromotionPrice is not null %}
+                        <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ game.price }}$</span>
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.PromotionPrice}}$</span>
+                    {% else %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.price }}$</span>
+                    {% endif %}
                         <a onclick="addToCartAjax({{game.id}})" id="btnAddCart{{game.id}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]"><i class="fa-solid fa-cart-arrow-down" style="color: #ffffff;"></i></a>
                     </div>
                 </div>

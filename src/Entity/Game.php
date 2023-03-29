@@ -202,6 +202,22 @@ class Game
         return $this;
     }
 
+    public function addSold(): self
+    {
+        $this->sold++;
+        return $this;
+    }
+
+    public function getPromotionPrice(): ?float
+    {
+        if ($this->promotion !== null && $this->promotionStart !== null && $this->promotionEnd !== null) {
+            if ($this->promotionStart <= new \DateTime() && $this->promotionEnd >= new \DateTime()) {
+                return $this->price - ($this->price * $this->promotion / 100);
+            }
+        }
+        return null;
+    }
+
     public function getPrice(): ?float
     {
         return $this->price;

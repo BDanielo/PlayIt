@@ -23,3 +23,9 @@ yarn-error.log
 .env.*.local
 .env.*
 C:\Users\Daniel\Documents\Cours\LPSMIN\M10 framework php\Semaine-projet-symfony\PlayIt\.env
+config/services.yaml
+config/packages/webpack_encore.yaml
+config/bundles.php
+composer.lock
+composer.json
+bin/console

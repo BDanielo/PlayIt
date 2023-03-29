@@ -24,10 +24,23 @@ class CategoriesController extends AbstractController
         $cat = $categoryRepository->findCategoryById($id);
         $games = $cat[0]->getGames();
 
+        $isPromoted = [];
+
         foreach ($games as $game) {
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
             $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
             $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
+
+            if ($game->getPromotion() !== null) {
+                $now = new \DateTime('now');
+                if ($game->getPromotionStart() <= $now && $game->getPromotionEnd() >= $now) {
+                    $isPromoted[$game->getId()] = true;
+                } else {
+                    $isPromoted[$game->getId()] = false;
+                }
+            } else {
+                $isPromoted[$game->getId()] = false;
+            }
         }
 
         $form = $this->createForm(SearchType::class);
@@ -52,6 +65,7 @@ class CategoriesController extends AbstractController
             'title' => $title,
             'avgRatings' => $avgRatings,
             'starsNbr' => $starsNbr,
+            'isPromoted' => $isPromoted,
             'form' => $form->createView()
         ]);
     }
@@ -67,10 +81,23 @@ class CategoriesController extends AbstractController
         $cat = $categoryRepository->findCategoryById($id);
         $games = $cat[0]->getGames();
 
+        $isPromoted = [];
+
         foreach ($games as $game) {
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
             $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
             $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
+
+            if ($game->getPromotion() !== null) {
+                $now = new \DateTime('now');
+                if ($game->getPromotionStart() <= $now && $game->getPromotionEnd() >= $now) {
+                    $isPromoted[$game->getId()] = true;
+                } else {
+                    $isPromoted[$game->getId()] = false;
+                }
+            } else {
+                $isPromoted[$game->getId()] = false;
+            }
         }
 
         $games = $gameRepository->sortBy($sort, $order, $id);
@@ -95,6 +122,7 @@ class CategoriesController extends AbstractController
             'title' => $title,
             'avgRatings' => $avgRatings,
             'starsNbr' => $starsNbr,
+            'isPromoted' => $isPromoted,
             'form' => $form->createView()
         ]);
 
@@ -109,10 +137,23 @@ class CategoriesController extends AbstractController
         $selectedCategory = $categoryRepository->find($id)->getName();
         $title = "Custom filters on $selectedCategory";
 
+        $isPromoted = [];
+
         foreach ($games as $game) {
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
             $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
             $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
+
+            if ($game->getPromotion() !== null) {
+                $now = new \DateTime('now');
+                if ($game->getPromotionStart() <= $now && $game->getPromotionEnd() >= $now) {
+                    $isPromoted[$game->getId()] = true;
+                } else {
+                    $isPromoted[$game->getId()] = false;
+                }
+            } else {
+                $isPromoted[$game->getId()] = false;
+            }
         }
 
         $form = $this->createForm(SearchType::class);
@@ -135,6 +176,7 @@ class CategoriesController extends AbstractController
             'title' => $title,
             'avgRatings' => $avgRatings,
             'starsNbr' => $starsNbr,
+            'isPromoted' => $isPromoted,
             'form' => $form->createView()
         ]);
     }

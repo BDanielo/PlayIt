@@ -4,15 +4,30 @@
 
 {% block body %}
 
-
 <div class="bg-dark-medium-purple h-full min-h-screen p-20">
+
+    {% for message in app.flashes('error') %}
+        <div class="flash-error text-white bg-red-600 p-2">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
         {{ form_start(form) }}
         <h1 class="text-4xl">Add a new promotion</h1>
         <br>
-        {# add form error #}
-        {{ form_errors(form) }}
-        {{ form_widget(form) }}
+        {{ form_label(form.promotion) }}
+        <br>
+        {{ form_widget(form.promotion, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}})}}
+        {{ form_label(form.promotionStart) }}
+        <br>
+        {{ form_widget(form.promotionStart, {'attr': {'class': 'text-black form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}})}}
+        {{ form_label(form.promotionEnd) }}
+        <br>
+        {{ form_widget(form.promotionEnd, {'attr': {'class': 'text-black form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}})}}
+        <br>
+        <br>
+        {{ form_end(form) }}
     </div>
 </div>
 {% endblock %}

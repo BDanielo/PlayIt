@@ -199,11 +199,12 @@ class MyPublishedGamesController extends AbstractController
 
         return $this->render('my_published_games/promotion.html.twig', [
             'controller_name' => 'MyPublishedGamesController',
-            'form' => $form
+            'form' => $form->createView(),
+            'game' => $game,
         ]);
     }
 
-    #[Route('/dev/published-games/promotion{id}', name: 'app_published_games_promotion_post', methods: ['POST'])]
+    #[Route('/dev/published-games/promotion/{id}', name: 'app_published_games_promotion_post', methods: ['POST'])]
     public function promotionPost(int $id, Request $request, GameRepository $gameRepository): Response
     {
         // check if the game exists
@@ -221,20 +222,32 @@ class MyPublishedGamesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $percent = $dto->percent;
-            $date_start = $dto->date_start;
-            $date_end = $dto->date_end;
+            $percent = $dto->promotion;
+            $date_start = $dto->promotionStart;
+            $date_end = $dto->promotionEnd;
+
+
+            if ($date_start > $date_end) {
+                $this->addFlash('error', 'The start date must be before the end date');
+                return $this->render('my_published_games/promotion.html.twig', [
+                    'controller_name' => 'MyPublishedGamesController',
+                    'form' => $form
+                ]);
+            }
 
             $game->setPromotion($percent);
             $game->setPromotionStart($date_start);
             $game->setPromotionEnd($date_end);
 
             $gameRepository->save($game, true);
+
+            return $this->redirectToRoute('app_published_games', [], Response::HTTP_SEE_OTHER);
         }
+
 
         return $this->render('my_published_games/promotion.html.twig', [
             'controller_name' => 'MyPublishedGamesController',
-            'form' => $form
+            'form' => $form->createView(),
         ]);
     }
 }

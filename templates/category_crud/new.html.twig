@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Category{% endblock %}
+{% block title %}New Category
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Category</h1>
+	<div class="flex flex-col items-center justify-center h-screen bg-dark-medium-purple">
+		<div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
+			<h1 class="text-4xl">Create new Category</h1>
+            <br>
+			{{ include('category_crud/_form.html.twig') }}
+            <br>
+			<a href="{{ path('app_category_crud_index') }}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">back to list</a>
 
-    {{ include('category_crud/_form.html.twig') }}
-
-    <a href="{{ path('app_category_crud_index') }}">back to list</a>
+		</div>
+	</div>
 {% endblock %}

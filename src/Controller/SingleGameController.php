@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\PostReviewType;
 use App\Entity\Review;
 use App\Repository\ReviewRepository;
+use App\Repository\UserRepository;
 
 class SingleGameController extends AbstractController
 {
@@ -39,7 +40,7 @@ class SingleGameController extends AbstractController
                     'form' => $form,
                     'game' => $game,
                     'avgReview' => $avgReview,
-                    'reviews' => $reviews
+                    'reviews' => $reviews,
                 ]);
             }
         }

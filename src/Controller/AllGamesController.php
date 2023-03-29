@@ -20,6 +20,10 @@ class AllGamesController extends AbstractController
         $games = $gamesRepository->findAll();
         $categories = $categoryRepository->findAll();
 
+        $starsNbr = [];
+        $avgRatings = [];
+        $isPromoted = [];
+
         foreach ($games as $game) {
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
             $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
@@ -69,6 +73,8 @@ class AllGamesController extends AbstractController
         $categories = $categoryRepository->findAll();
 
         $games = $gameRepository->sortBy($sort, $order, null);
+
+        $isPromoted = [];
 
         foreach ($games as $game) {
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);

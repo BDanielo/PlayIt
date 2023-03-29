@@ -70,7 +70,7 @@
                     <div class="flex items-center justify-between">
                     {% if isPromoted[sale.id] %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ sale.price }}$</span>
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ sale.PromotionPrice}}$</span>
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ sale.PromotionPrice|number_format(2, '.', '') }}$</span>
                     {% else %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ sale.price }}$</span>
                     {% endif %}
@@ -110,7 +110,7 @@
                         <div class="flex items-center justify-between">
                     {% if isPromoted[popular.id] %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ popular.price }}$</span>
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ popular.PromotionPrice}}$</span>
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ popular.PromotionPrice|number_format(2, '.', '') }}$</span>
                     {% else %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ popular.price }}$</span>
                     {% endif %}

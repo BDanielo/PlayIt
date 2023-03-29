@@ -95,7 +95,7 @@
 
     
 
-    <div class="grid grid-cols-5 gap-6 p-2">
+    <div class="grid grid-cols-4 gap-6 p-2">
         {% for game in games %}
             <div class="w-full max-w-sm bg-white border-gradient border-glow rounded-lg bg-medium-purple">
                 <a href="{{ path('app_single_game', {'id': game.id}) }}">
@@ -118,7 +118,7 @@
                     <div class="flex items-center justify-between">
                     {% if isPromoted[game.id] %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ game.price }}$</span>
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.PromotionPrice}}$</span>
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.PromotionPrice|number_format(2, '.', '') }}$</span>
                     {% else %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.price }}$</span>
                     {% endif %}

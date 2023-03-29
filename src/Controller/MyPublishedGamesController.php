@@ -26,7 +26,7 @@ class MyPublishedGamesController extends AbstractController
 
         if ($user->getRoles()[0] == 'ROLE_ADMIN') {
             // get all published games
-            $games = $gameRepository->findAll();
+            $games = $gameRepository->findAllCrud();
 
             return $this->render('my_published_games/index.html.twig', [
                 'controller_name' => 'MyPublishedGamesController',

@@ -51,7 +51,6 @@ class MyPublishedGamesController extends AbstractController
         return $this->render('my_published_games/add.html.twig', [
             'controller_name' => 'MyPublishedGamesController',
             'form' => $form->createView(),
-            'message' => 'base',
         ]);
     }
 

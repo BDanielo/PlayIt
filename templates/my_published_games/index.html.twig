@@ -97,7 +97,7 @@
                                     </td>
                                 {% endif %}
                                 <td class="px-6 py-4">
-                                    {% if game.status != 0 and game.status!=3 %}
+                                    {% if game.status == 1 %}
                                     <a href="{{
                                         path(
                                             'app_published_games_promotion',

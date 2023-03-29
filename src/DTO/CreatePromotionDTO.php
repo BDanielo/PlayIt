@@ -9,7 +9,7 @@ class CreatePromotionDTO
 {
 
     #[Assert\Length(max: 2)]
-    public ?string $promotion = null;
+    public ?string $promotion = '0';
 
     #[Assert\NotBlank]
     #[Assert\GreaterThan('today')]
@@ -19,5 +19,3 @@ class CreatePromotionDTO
     #[Assert\GreaterThan('today')]
     public ?DateTime $promotionEnd = null;
 }
-
-

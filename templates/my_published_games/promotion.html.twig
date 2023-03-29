@@ -12,6 +12,24 @@
         </div>
     {% endfor %}
 
+    {% for message in app.flashes('success') %}
+        <div class="flash-success text-white bg-green-600 p-2">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% if game.PromotionPrice is not null %}
+    {# show current promotion infos #}
+    <div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
+        <h1 class="text-4xl">Current promotion</h1>
+        <br>
+        <p class="text-xl">Promotion: {{ game.promotion }}%</p>
+        <p class="text-xl">Start: {{ game.promotionStart|date('d/m/Y') }}</p>
+        <p class="text-xl">End: {{ game.promotionEnd|date('d/m/Y') }}</p>
+        <br>
+        <a href="{{ path('app_published_games_promotion_delete', {'id': game.id}) }}" class="bg-red-600 text-white p-2 rounded-md">Delete</a>
+    </div>
+    {% endif %}
     <div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
         {{ form_start(form) }}
         <h1 class="text-4xl">Add a new promotion</h1>

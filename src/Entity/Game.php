@@ -58,6 +58,15 @@ class Game
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: OrderLine::class)]
     private Collection $orderLines;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $promotion = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $promotionStart = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $promotionEnd = null;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -327,6 +336,42 @@ class Game
                 $orderLine->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPromotion(): ?float
+    {
+        return $this->promotion;
+    }
+
+    public function setPromotion(float $promotion): self
+    {
+        $this->promotion = $promotion;
+
+        return $this;
+    }
+
+    public function getPromotionStart(): ?\DateTimeInterface
+    {
+        return $this->promotionStart;
+    }
+
+    public function setPromotionStart(?\DateTimeInterface $promotionStart): self
+    {
+        $this->promotionStart = $promotionStart;
+
+        return $this;
+    }
+
+    public function getPromotionEnd(): ?\DateTimeInterface
+    {
+        return $this->promotionEnd;
+    }
+
+    public function setPromotionEnd(\DateTimeInterface $promotionEnd): self
+    {
+        $this->promotionEnd = $promotionEnd;
 
         return $this;
     }

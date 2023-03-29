@@ -73,7 +73,11 @@
 									<td class="px-6 py-4">
 										no updates
 									</td>
+
 								{% endif %}
+																	<td>
+									<a href="{{ path('app_published_games_promotion', {'id': game.id}) }}"><button type="button">Promotion</button></a>
+									</td>
 							</tr>
 						{% endfor %}
 					</tbody>

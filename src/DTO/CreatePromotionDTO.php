@@ -2,19 +2,22 @@
 
 namespace App\DTO;
 
+use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CreatePromotionDTO
 {
 
-    #[Assert\Length(min: 3)]
-    public ?string $percent = null;
+    #[Assert\Length(max: 2)]
+    public ?string $promotion = null;
 
     #[Assert\NotBlank]
     #[Assert\GreaterThan('today')]
-    public ?\DateTimeInterface $date_start = null;
+    public ?DateTime $promotionStart = null;
 
     #[Assert\NotBlank]
     #[Assert\GreaterThan('today')]
-    public ?\DateTimeInterface $date_end = null;
+    public ?DateTime $promotionEnd = null;
 }
+
+

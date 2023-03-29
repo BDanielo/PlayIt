@@ -224,6 +224,12 @@ class MyPublishedGamesController extends AbstractController
             $percent = $dto->percent;
             $date_start = $dto->date_start;
             $date_end = $dto->date_end;
+
+            $game->setPromotion($percent);
+            $game->setPromotionStart($date_start);
+            $game->setPromotionEnd($date_end);
+
+            $gameRepository->save($game, true);
         }
 
         return $this->render('my_published_games/promotion.html.twig', [

@@ -24,10 +24,14 @@ class CreatePromotionType extends AbstractType
                 ],
             ])
             ->add('promotionStart', DateTimeType::class, [
-                'widget' => 'choice',
+                'html5' => true,
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
             ])
             ->add('promotionEnd', DateTimeType::class, [
-                'widget' => 'choice',
+                'html5' => true,
+                'widget' => 'single_text',
+                'data' => new \DateTime('+1 day'),
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Save',

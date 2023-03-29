@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DTO\CardVerificationDTO;
 use App\Services\CartService;
 use App\Services\OrderService;
+use App\Services\PointsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -128,7 +129,7 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/checkout', name: 'app_cart_checkout_post', methods: ['POST'])]
-    public function checkout_post(OrderService $orderService, CartService $cartService, Request $request): Response
+    public function checkout_post(OrderService $orderService, CartService $cartService, PointsService $pointsService, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -161,6 +162,9 @@ class CartController extends AbstractController
 
             $message = 'Your order N°' . $order->getId() . ' of ' . $total . '$ has been placed.';
             $this->addFlash('success', $message);
+
+            $pointsService->addPoints(ceil($total * 10), $user);
+
             $cartService->clearCart();
             return $this->redirectToRoute('app_my_games');
         } else {

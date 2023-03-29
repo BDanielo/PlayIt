@@ -67,6 +67,15 @@ class Game
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $promotionEnd = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $status = 0;
+    // 0 wating for approval
+    // 1 approved
+    // 2 rejected
+    // 3 deletion requested
+    // 
+
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -390,5 +399,33 @@ class Game
         $this->promotionEnd = $promotionEnd;
 
         return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getStatusString(): string
+    {
+        switch ($this->status) {
+            case 0:
+                return 'Waiting for approval';
+            case 1:
+                return 'Approved';
+            case 2:
+                return 'Rejected';
+            case 3:
+                return 'Deletion requested';
+            default:
+                return 'Unknown';
+        }
     }
 }

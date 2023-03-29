@@ -17,21 +17,30 @@ class CartService
         $this->session = $requestStack->getSession();
         $this->gameRepository = $repository;
     }
-    public function addToCart(int $id)
+    public function addToCart(int $id): array
     {
+        $result = ['', ''];
         if (!$this->checkProductValidity($id)) {
             throw new \Exception("Product not found");
         }
 
-        $cart = $this->session->get('cart');
+        $cart = $this->initCart();
         try {
             $quantity = $cart[$id];
         } catch (\Throwable $th) {
             $quantity = 0;
         }
 
-        $cart[$id] = $quantity + 1;
+        // $cart[$id] = $quantity + 1;
+        if ($quantity > 0) {
+            $cart[$id] = 1;
+            $result = ['error', 'already in cart'];
+        } else {
+            $cart[$id] = 1;
+            $result = ['success', 'added to cart'];
+        }
         $this->session->set('cart', $cart);
+        return $result;
     }
 
 
@@ -60,6 +69,18 @@ class CartService
     public function clearCart()
     {
         $this->session->set('cart', []);
+    }
+
+    public function initCart()
+    {
+        $cart = $this->session->get('cart');
+
+        if ($cart == null) {
+            $this->session->set('cart', []);
+            $cart = [];
+        }
+
+        return $cart;
     }
 
     public function getCart()

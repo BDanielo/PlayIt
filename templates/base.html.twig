@@ -125,13 +125,26 @@
 					url: finalUrl, 
 					type: 'GET',
 					success: function (res) {
-						btn.innerHTML = "<i class='fa-solid fa-check'></i> Added";
+						console.log(res);
+						for(key in res) {
+							if (key == 'status') {
+								if(res[key]=='success') {
+									btn.innerHTML = "<i class='fa-solid fa-check'></i> ";
+								} else {
+									btn.innerHTML = "<i class='fa-solid fa-xmark'></i> ";
+								}
+							} 
+							if (key == 'result') {
+								btn.innerHTML += res[key];
+							}
+						}
 						setTimeout(function () {
 							btn.innerHTML = saveBtn;
 						}, 500);
 					},
-					error: function () {
-						alert('Error!');
+					error: function(xhr, status, error) {
+						alert(xhr.responseText);
+						btn.innerHTML = saveBtn;
 					}
 				});
 			}

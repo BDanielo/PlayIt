@@ -46,6 +46,7 @@ class OrderService
             $orderLine->setQuantity($game['quantity']);
             $orderLine->setPrice($gameEntity->getPrice() * $game['quantity']);
             $orderLine->setOrderR($order);
+            $order->addOrderLine($orderLine);
             $this->orderLineRepository->save($orderLine, true);
         }
 
@@ -65,14 +66,10 @@ class OrderService
 
             $user = $order->getUser();
 
-            //! ownership not working 
-            //
             $game->addOwner($user);
-            dump($game);
             $this->gameRepository->save($game, true);
 
             $user->addGamesOwned($game);
-            dump($user);
             $this->userRepository->save($user, true);
         }
 

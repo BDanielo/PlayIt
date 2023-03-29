@@ -22,7 +22,8 @@ class AllGamesController extends AbstractController
 
         foreach ($games as $game) {
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
-            $avgRatings[$game->getId()][0] = round($avgRatings[$game->getId()][0], 1);
+            $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
+            $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
         }
 
         $form = $this->createForm(SearchType::class);
@@ -43,6 +44,7 @@ class AllGamesController extends AbstractController
             'categories' => $categories,
             'title' => $title,
             'avgRatings' => $avgRatings,
+            'starsNbr' => $starsNbr,
             'form' => $form->createView()
         ]);
     }
@@ -56,6 +58,12 @@ class AllGamesController extends AbstractController
 
         $games = $gameRepository->sortBy($sort, $order, null);
 
+        foreach ($games as $game) {
+            $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
+            $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
+            $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
+        }
+
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
 
@@ -73,6 +81,8 @@ class AllGamesController extends AbstractController
             'games' => $games,
             'categories' => $categories,
             'title' => $title,
+            'avgRatings' => $avgRatings,
+            'starsNbr' => $starsNbr,
             'form' => $form->createView()
         ]);
     }
@@ -85,6 +95,12 @@ class AllGamesController extends AbstractController
         $games = $gameRepository->findByName($input, $rangePrice, null);
         $categories = $categoryRepository->findAll();
 
+        foreach ($games as $game) {
+            $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
+            $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
+            $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
+        }
+
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
 
@@ -102,6 +118,8 @@ class AllGamesController extends AbstractController
             'games' => $games,
             'categories' => $categories,
             'title' => $title,
+            'avgRatings' => $avgRatings,
+            'starsNbr' => $starsNbr,
             'form' => $form->createView()
         ]);
     }

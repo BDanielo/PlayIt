@@ -24,6 +24,7 @@
                     <th>Version</th>
                     <th>Creation Date</th>
                     <th>Update Date</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,9 +41,13 @@
                         {% else %}
                         <td>no updates</td>
                         {% endif %}
+                        <td>
+                            <a href="{{ path('app_single_game', {'id': game.id}) }}"><button type="button">Show</button></a>
+                            <a href="{{ path('app_published_games_promotion', {'id': game.id}) }}"><button type="button">Promotion</button></a>
                             {# <a href="{{ path('app_published_games_edit', {'id': game.id}) }}"><button type="button">Edit</button></a>
                             <a href="{{ path('app_published_games_delete', {'id': game.id}) }}"><button type="button">Delete</button></a> #}
                         </td>
+
                     </tr>
                 {% endfor %}
             </tbody>

@@ -24,6 +24,17 @@ class AllGamesController extends AbstractController
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
             $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
             $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
+
+            if ($game->getPromotion() !== null) {
+                $now = new \DateTime('now');
+                if ($game->getPromotionStart() <= $now && $game->getPromotionEnd() >= $now) {
+                    $isPromoted[$game->getId()] = true;
+                } else {
+                    $isPromoted[$game->getId()] = false;
+                }
+            } else {
+                $isPromoted[$game->getId()] = false;
+            }
         }
 
         $form = $this->createForm(SearchType::class);
@@ -45,6 +56,7 @@ class AllGamesController extends AbstractController
             'title' => $title,
             'avgRatings' => $avgRatings,
             'starsNbr' => $starsNbr,
+            'isPromoted' => $isPromoted,
             'form' => $form->createView()
         ]);
     }
@@ -62,6 +74,17 @@ class AllGamesController extends AbstractController
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
             $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
             $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
+
+            if ($game->getPromotion() !== null) {
+                $now = new \DateTime('now');
+                if ($game->getPromotionStart() <= $now && $game->getPromotionEnd() >= $now) {
+                    $isPromoted[$game->getId()] = true;
+                } else {
+                    $isPromoted[$game->getId()] = false;
+                }
+            } else {
+                $isPromoted[$game->getId()] = false;
+            }
         }
 
         $form = $this->createForm(SearchType::class);
@@ -83,6 +106,7 @@ class AllGamesController extends AbstractController
             'title' => $title,
             'avgRatings' => $avgRatings,
             'starsNbr' => $starsNbr,
+            'isPromoted' => $isPromoted,
             'form' => $form->createView()
         ]);
     }
@@ -95,10 +119,23 @@ class AllGamesController extends AbstractController
         $games = $gameRepository->findByName($input, $rangePrice, null);
         $categories = $categoryRepository->findAll();
 
+        $isPromoted = [];
+
         foreach ($games as $game) {
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
             $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);
             $avgRatings[$game->getId()][0] = number_format($avgRatings[$game->getId()][0], 1, '.', '');
+
+            if ($game->getPromotion() !== null) {
+                $now = new \DateTime('now');
+                if ($game->getPromotionStart() <= $now && $game->getPromotionEnd() >= $now) {
+                    $isPromoted[$game->getId()] = true;
+                } else {
+                    $isPromoted[$game->getId()] = false;
+                }
+            } else {
+                $isPromoted[$game->getId()] = false;
+            }
         }
 
         $form = $this->createForm(SearchType::class);
@@ -120,6 +157,7 @@ class AllGamesController extends AbstractController
             'title' => $title,
             'avgRatings' => $avgRatings,
             'starsNbr' => $starsNbr,
+            'isPromoted' => $isPromoted,
             'form' => $form->createView()
         ]);
     }

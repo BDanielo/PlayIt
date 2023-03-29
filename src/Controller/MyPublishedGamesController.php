@@ -250,7 +250,11 @@ class MyPublishedGamesController extends AbstractController
     #[Route('/dev/published-games/approve/{id}', name: 'app_published_games_approve', methods: ['GET'])]
     public function approve(int $id, GameRepository $gameRepository): Response
     {
-        // check if the game exists
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'You are not allowed to approve games');
+            return $this->redirectToRoute('app_published_games');
+        }
+
         $game = $gameRepository->find($id);
 
         if (!$game) {
@@ -268,7 +272,11 @@ class MyPublishedGamesController extends AbstractController
     #[Route('/dev/published-games/reject/{id}', name: 'app_published_games_reject', methods: ['GET'])]
     public function reject(int $id, GameRepository $gameRepository): Response
     {
-        // check if the game exists
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'You are not allowed to reject games');
+            return $this->redirectToRoute('app_published_games');
+        }
+
         $game = $gameRepository->find($id);
 
         if (!$game) {

@@ -73,6 +73,7 @@ class Game
     // 1 approved
     // 2 rejected
     // 3 deletion requested
+    // 
 
 
     public function __construct()

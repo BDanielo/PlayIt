@@ -19,7 +19,6 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body>
 		<a href="{{path('app_home')}}">
 			<h1 class="text-3xl text-white fixed top-2 left-2 z-20">Play<span class="text-font-blue">It</span>
 			</h1>
@@ -107,65 +106,7 @@
 		});
 		</script>
 
-		<script>
-			function addToCartAjax(id) {
-				var btnId = 'btnAddCart' + id;
-				
-				var btn = document.getElementById(btnId);
-				var saveBtn = btn.innerHTML;
-				btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
-
-				var finalUrl = '/cart/add/' + id + '/ajax';
-				$.ajax({
-					url: finalUrl, 
-					type: 'GET',
-					success: function (res) {
-						console.log(res);
-						for(key in res) {
-							if (key == 'status') {
-								if(res[key]=='success') {
-									btn.innerHTML = "<i class='fa-solid fa-check'></i> ";
-								} else {
-									btn.innerHTML = "<i class='fa-solid fa-xmark'></i> ";
-								}
-							} 
-							if (key == 'result') {
-								btn.innerHTML += res[key];
-							}
-						}
-						setTimeout(function () {
-							btn.innerHTML = saveBtn;
-						}, 500);
-					},
-					error: function(xhr, status, error) {
-						alert(xhr.responseText);
-						btn.innerHTML = saveBtn;
-					}
-				});
-			}
-
-			function filterCategories(input) {
-				//console.log('test');
-				var filter = input.value.toUpperCase();
-				var ul = document.getElementById("categoriesDropdown");
-				var li = ul.getElementsByTagName('li');
-
-				if (filter.length >= 3) {
-					for (i=0; i < li.length; i++) {
-						var a = li[i].getElementsByTagName("a")[0];
-						var txtValue = a.textContent || a.innerText;
-						if (txtValue.toUpperCase().indexOf(filter) > -1) {
-							li[i].style.display = "";
-						} else {
-							li[i].style.display = "none";
-						}
-					}
-				} else {
-					for (i=0; i < li.length; i++) {
-						li[i].style.display = "";
-					}
-				}
-			}
-</script>
+		<script src="/js/CartAjax.js"></script>
+		<script src="/js/filters.js"></script>
 	</body>
 </html>

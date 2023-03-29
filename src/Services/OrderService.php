@@ -67,6 +67,7 @@ class OrderService
             $user = $order->getUser();
 
             $game->addOwner($user);
+            $game->addSold();
             $this->gameRepository->save($game, true);
 
             $user->addGamesOwned($game);

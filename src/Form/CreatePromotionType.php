@@ -20,7 +20,6 @@ class CreatePromotionType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'max' => 100,
-                    'value' => 0,
                 ],
             ])
             ->add('promotionStart', DateTimeType::class, [

@@ -275,7 +275,16 @@ class MyPublishedGamesController extends AbstractController
 
         $dto = new CreatePromotionDTO();
 
+        // fill dto with data from game promotion
+        // set promotion 
+        $dto->promotion = $game->getPromotion();
+        // promotionStart
+        $dto->promotionStart = $game->getPromotionStart();
+        // promotionEnd
+        $dto->promotionEnd = $game->getPromotionEnd();
+
         $form = $this->createForm(CreatePromotionType::class, $dto);
+
 
         return $this->render('my_published_games/promotion.html.twig', [
             'controller_name' => 'MyPublishedGamesController',
@@ -329,5 +338,25 @@ class MyPublishedGamesController extends AbstractController
             'controller_name' => 'MyPublishedGamesController',
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/dev/published-games/promotion/{id}', name: 'app_published_games_promotion_delete', methods: ['POST'])]
+    public function promotionDelete(int $id, GameRepository $gameRepository): Response
+    {
+        // check if the game exists
+        $game = $gameRepository->find($id);
+
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $game->setPromotion(null);
+        $game->setPromotionStart(null);
+        $game->setPromotionEnd(null);
+
+        $gameRepository->save($game, true);
+
+        return $this->redirectToRoute('app_published_games', [], Response::HTTP_SEE_OTHER);
     }
 }

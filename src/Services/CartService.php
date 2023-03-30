@@ -71,6 +71,19 @@ class CartService
         $this->session->set('cart', []);
     }
 
+    // get coupon
+    public function getCoupon()
+    {
+        $coupon = $this->session->get('coupon');
+        return $coupon;
+    }
+
+    // set coupon
+    public function setCoupon($coupon)
+    {
+        $this->session->set('coupon', $coupon);
+    }
+
     public function initCart()
     {
         $cart = $this->session->get('cart');

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\CardVerificationDTO;
+use App\Services\BadgeService;
 use App\Services\CartService;
 use App\Services\OrderService;
 use App\Services\PointsService;
@@ -129,7 +130,7 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/checkout', name: 'app_cart_checkout_post', methods: ['POST'])]
-    public function checkout_post(OrderService $orderService, CartService $cartService, PointsService $pointsService, Request $request): Response
+    public function checkout_post(OrderService $orderService, CartService $cartService, PointsService $pointsService, BadgeService $badgeService, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -164,6 +165,8 @@ class CartController extends AbstractController
             $this->addFlash('success', $message);
 
             $pointsService->addPoints(ceil($total * 10), $user);
+            $badgeService->checkOnOrder($user);
+
 
             $cartService->clearCart();
             return $this->redirectToRoute('app_my_games');

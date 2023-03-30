@@ -66,12 +66,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\ManyToMany(targetEntity: Badge::class, mappedBy: 'users')]
+    private Collection $badges;
+
     public function __construct()
     {
         $this->gamesOwned = new ArrayCollection();
         $this->gamesPublished = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->badges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -345,6 +349,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($order->getUser() === $this) {
                 $order->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Badge>
+     */
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges->add($badge);
+            $badge->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        if ($this->badges->removeElement($badge)) {
+            $badge->removeUser($this);
         }
 
         return $this;

@@ -215,9 +215,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_cart');
         }
 
-        $formCoupon = $this->createForm(AddCouponType::class, [
-            'action' => $this->generateUrl('app_cart_checkout_coupon'),
-        ]);
+        $formCoupon = $this->createForm(AddCouponType::class);
 
         $formCoupon->handleRequest($request);
 
@@ -227,15 +225,14 @@ class CartController extends AbstractController
             // get coupon from db by name
             $coupon = $couponRepository->findOneBy(['code' => $couponName]);
             // if coupon is valid
-            dd($coupon);
             if ($coupon != null) {
-                dd($cartService->setCoupon($coupon));
+                $cartService->setCoupon($coupon);
             } else {
                 $this->addFlash('error', 'Invalid coupon.');
             }
         }
 
-        // return $this->redirectToRoute('app_cart_checkout');
+        return $this->redirectToRoute('app_cart_checkout');
     }
 
     // add coupon then redirect to checkout with get request

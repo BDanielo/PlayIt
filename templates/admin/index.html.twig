@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Hello AdminController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    Admin panel :
-    <ul>
-        <li><a href="{{path('app_category_crud_index')}}">Category Crud</a></li>
-    </ul>
-</div>
+	<div class="flex items-center justify-around h-screen bg-dark-medium-purple">
+		<div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
+			<a href="{{path('app_category_crud_index')}}">Category Crud</a>
+		</div>
+		<div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
+			<a href="{{path('app_user_crud_index')}}">User Crud</a>
+		</div>
+        
+	</div>
+
 {% endblock %}

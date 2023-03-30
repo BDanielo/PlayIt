@@ -69,8 +69,7 @@ class Game
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = 0;
-
-    // 0 wating for approval
+    // 0 waiting for approval
     // 1 approved
     // 2 rejected
     // 3 deletion requested

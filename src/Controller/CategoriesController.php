@@ -26,6 +26,9 @@ class CategoriesController extends AbstractController
 
         $isPromoted = [];
 
+        $avgRatings = [];
+        $starsNbr = [];
+
         foreach ($games as $game) {
             $avgRatings[$game->getId()] = $gameReviewService->getAvgReview($game);
             $starsNbr[$game->getId()] = round($avgRatings[$game->getId()][0], 1);

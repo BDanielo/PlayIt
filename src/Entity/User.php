@@ -68,6 +68,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?WishList $wishList = null;
+    #[ORM\ManyToMany(targetEntity: Badge::class, mappedBy: 'users')]
+    private Collection $badges;
 
     public function __construct()
     {
@@ -75,6 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->gamesPublished = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->badges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -366,6 +369,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->wishList = $wishList;
+
+        return $this;
+
+    }
+
+    /**
+     * @return Collection<int, Badge>
+     */
+
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges->add($badge);
+            $badge->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        if ($this->badges->removeElement($badge)) {
+            $badge->removeUser($this);
+        }
 
         return $this;
     }

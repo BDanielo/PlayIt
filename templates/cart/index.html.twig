@@ -35,14 +35,33 @@
                                             <br />
                                             <div class="flex flex-row">
                                                 <span class="text-3xl font-bold text-gray-900 dark:text-white">
-                                                    {{ game.gameEntity.price }}$/unit
+                                                    {% if
+                                                        game.gameEntity.PromotionPrice is not null %}
+                                                        {{
+                                                            game.gameEntity.price
+                                                        }}$
+                                                        {{
+                                                            game.gameEntity.PromotionPrice
+                                                        }}$/unit
+                                                    {% else %}
+                                                        {{
+                                                            game.gameEntity.price
+                                                        }}$/unit
+                                                    {% endif %}
                                                 </span>
                                             </div>
                                             <div class="flex flex-row">
                                                 <span class="text-3xl font-bold text-gray-900 dark:text-white">
-                                                    Total :
-                                                    {{ game.quantity
-                                                        * game.gameEntity.price }}$
+                                                    Total :{% if
+                                                        game.gameEntity.PromotionPrice is not null %}
+                                                        {{
+                                                            game.gameEntity.PromotionPrice
+                                                        }}$
+                                                    {% else %}
+                                                        {{
+                                                            game.gameEntity.price
+                                                        }}$
+                                                    {% endif %}
                                                 </span>
                                             </div>
                                             <br />

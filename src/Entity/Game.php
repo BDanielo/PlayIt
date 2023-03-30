@@ -407,6 +407,15 @@ class Game
         return $this;
     }
 
+    public function deletePromotion(): self
+    {
+        $this->promotion = null;
+        $this->promotionStart = null;
+        $this->promotionEnd = null;
+
+        return $this;
+    }
+
     public function getStatus(): ?int
     {
         return $this->status;
@@ -434,4 +443,5 @@ class Game
                 return 'Unknown';
         }
     }
+
 }

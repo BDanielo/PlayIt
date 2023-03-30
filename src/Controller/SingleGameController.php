@@ -22,6 +22,16 @@ class SingleGameController extends AbstractController
 
         $game = $gameRepository->find($id);
 
+        $gameCategories = $game->getCategory()->map(function ($category) {
+            return $category->getId();
+        })->toArray();
+
+        // using findByCategories find related games
+        $gamesRelated = $gameRepository->findByCategories($gameCategories);
+
+
+        // dump($gamesRelated);
+
         $reviews = $game->getReviews();
 
         $avgReview = $gameReviewService->getAvgReview($game);
@@ -41,6 +51,7 @@ class SingleGameController extends AbstractController
                     'game' => $game,
                     'avgReview' => $avgReview,
                     'reviews' => $reviews,
+                    'gamesRelated' => $gamesRelated
                 ]);
             }
         }
@@ -51,7 +62,8 @@ class SingleGameController extends AbstractController
             'controller_name' => 'SingleGameController',
             'game' => $game,
             'avgReview' => $avgReview,
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'gamesRelated' => $gamesRelated
         ]);
     }
 

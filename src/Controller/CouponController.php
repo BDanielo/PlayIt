@@ -103,7 +103,7 @@ class CouponController extends AbstractController
 
         // set form values
         $dto->code = $coupon->getCode();
-        $dto->percent = $coupon->getPercent();
+        $dto->percent = $coupon->getPercentWithoutChecking();
         $dto->startDate = $coupon->getStartDate();
         $dto->endDate = $coupon->getEndDate();
 

@@ -18,7 +18,6 @@
                             <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">{{avgReview[0]}}</p>
                             <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                             <a href="#reviews" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{avgReview[1]}} reviews</a>
-                            {# sold #}
                             <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                             <p class="text-sm font-bold text-gray-900 dark:text-white">{{ game.sold }} sold</p>
                             
@@ -54,6 +53,11 @@
                     </a>
                 </div>
 
+                <div>
+            </div>
+
+
+
                 {% if form is defined %}
                     <div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
                         {% for error in app.flashes('error') %}
@@ -88,6 +92,34 @@
             </div>
         </div>
     </div>
+
+    {% if gamesRelated is defined and gamesRelated|length > 0 %}
+    <div>
+        <h1>Related games :</h1>
+        {% for games in gamesRelated %}
+        <div class="w-full max-w-sm bg-white border-gradient border-glow rounded-lg bg-medium-purple">
+            <a href="{{ path('app_single_game', {'id': game.id}) }}">
+                <img class="p-8 rounded-t-lg" src="{{ game.picture }}/head.png" alt="product image" />
+            </a>
+            <div class="px-5 pb-5">
+                <a href="{{ path('app_single_game', {'id': game.id}) }}">
+                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ game.name }}</h5>
+                </a>
+                <div class="flex items-center justify-between">
+                {% if games.PromotionPrice is not null %}
+                    <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ game.price }}$</span>
+                    <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.PromotionPrice|number_format(2, '.', '') }}$</span>
+                {% else %}
+                    <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.price }}$</span>
+                {% endif %}
+                    <a onclick="addToCartAjax({{game.id}})" id="btnAddCart{{game.id}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]"><i class="fa-solid fa-cart-arrow-down" style="color: #ffffff;"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    {% endif %}
 
     {% if reviews|length > 0 %}
                         {% for review in reviews %}

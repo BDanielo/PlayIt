@@ -164,6 +164,16 @@ class GameRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findByCategories(array $categories): array
+    {
+        $query = $this->createQueryBuilder('game')
+            ->join('game.category', 'category')
+            ->andWhere('category.id IN (:categories)')
+            ->setParameter('categories', $categories)
+            ->getQuery();
+        return $query->getResult();
+    }
+
 
     //    /**
     //     * @return Game[] Returns an array of Game objects

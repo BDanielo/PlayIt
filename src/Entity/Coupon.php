@@ -43,6 +43,12 @@ class Coupon
         return 0;
     }
 
+    // get percent without checking if the coupon is valid
+    public function getPercentWithoutChecking(): ?int
+    {
+        return $this->percent;
+    }
+
     public function setPercent(int $percent): self
     {
         $this->percent = $percent;

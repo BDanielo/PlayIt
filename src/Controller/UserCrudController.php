@@ -29,8 +29,9 @@ class UserCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setSignupDate(new \DateTime('now'));
+            $user->setLastSigninDateTime(new \DateTime('now'));
             $userRepository->save($user, true);
-
             return $this->redirectToRoute('app_user_crud_index', [], Response::HTTP_SEE_OTHER);
         }
 

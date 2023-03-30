@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Hello CouponController!
+{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font:
+        18px/1.5 sans-serif; } .example-wrapper code { background: #F5F5F5;
+        padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>
+            Coupons
+        </h1>
+        {% if (coupons|length) > 0 %}
+            {# show all coupon from coupons in a table #}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Percent</th>
+                        <th>startDate</th>
+                        <th>endDate</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for coupon in coupons %}
+                        <tr>
+                            <td>{{ coupon.code }}</td>
+                            <td>{{ coupon.percent }}</td>
+                            <td>{{ coupon.startDate|date('Y-m-d') }}</td>
+                            <td>{{ coupon.endDate|date('Y-m-d') }}</td>
+                            <td>
+                                <a href="{{ path('app_coupon_edit', {'id': coupon.id}) }}">Edit</a>
+                                <a href="{{ path('app_coupon_delete', {'id': coupon.id}) }}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+        {% else %}
+            <h1>
+                No coupons found
+            </h1>
+        {% endif %}
+        <a href="{{ path('app_coupon_new') }}">Create new coupon</a>
+    </div>
+{% endblock %}

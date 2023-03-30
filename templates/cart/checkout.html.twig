@@ -22,15 +22,29 @@
 									<h5>{{ game.gameEntity.name }}</h5>
 									<div class="flex-row text-end pr-4 text-xl">
 										<h5>Unit price :
+										{% if game.gameEntity.PromotionPrice is not null %}
 											{{ game.gameEntity.price }}$</h5>
+											{{ game.gameEntity.PromotionPrice }}$</h5>
+										{% else %}
+											{{ game.gameEntity.price }}$</h5>
+										{% endif %}
 										<h5>Quantity :
 											{{ game.quantity }}</h5>
 										<h5>Price :
-											{{ game.gameEntity.price * game.quantity }}$</h5>
+											{% if game.gameEntity.PromotionPrice is not null %}
+												{{ game.gameEntity.PromotionPrice * game.quantity }}$</h5>
+											{% else %}
+												{{ game.gameEntity.price * game.quantity }}$</h5>
+											{% endif %}
 									</div>
 								</div>
 							{% endfor %}
 						{% endfor %}
+						{{ form_start(formCoupon) }}
+						{{ form_widget(formCoupon) }}
+						{{ form_end(formCoupon) }}
+						<p class="text-2xl">Coupon :
+							{{ cart.coupon }}$</p>
 						<p class="text-2xl">Total :
 							{{ cart.total }}$</p>
 						<p class="text-2xl">Taxes ({{taxePercent}}%) :

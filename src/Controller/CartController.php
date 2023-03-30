@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\CardVerificationDTO;
+use App\Form\AddCouponType;
 use App\Services\CartService;
 use App\Services\OrderService;
 use App\Services\PointsService;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\CardVerificationType;
+use App\Repository\CouponRepository;
 use App\Services\GameOwnershipService;
 
 class CartController extends AbstractController
@@ -111,6 +113,11 @@ class CartController extends AbstractController
 
         $form = $this->createForm(CardVerificationType::class, $dto);
 
+        $formCoupon = $this->createForm(AddCouponType::class, [
+            'action' => $this->generateUrl('app_cart_checkout_coupon_post'),
+            'method' => 'POST',
+        ]);
+
         $total = $cartService->getCartPrice();
 
         // get taxes
@@ -124,7 +131,8 @@ class CartController extends AbstractController
             'taxes' => $taxes,
             'taxePercent' => $taxePercent,
             'total' => $total,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'formCoupon' => $formCoupon->createView()
         ]);
     }
 
@@ -147,6 +155,11 @@ class CartController extends AbstractController
         $form = $this->createForm(CardVerificationType::class, $dto);
 
         $form->handleRequest($request);
+
+        $formCoupon = $this->createForm(AddCouponType::class, [
+            'action' => $this->generateUrl('app_cart_checkout_coupon'),
+            'method' => 'POST',
+        ]);
 
         $total = $cartService->getCartPrice();
 
@@ -178,8 +191,74 @@ class CartController extends AbstractController
                 'taxes' => $taxes,
                 'taxePercent' => $taxePercent,
                 'total' => $total,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'formCoupon' => $formCoupon->createView()
             ]);
         }
+    }
+
+    // add coupon then redirect to checkout
+    #[Route('/cart/checkout/coupon', name: 'app_cart_checkout_coupon_post', methods: ['POST'])]
+    public function checkout_coupon(CartService $cartService, Request $request, CouponRepository $couponRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $cart = $cartService->getCart();
+
+        if ($cart == null) {
+            return $this->redirectToRoute('app_cart');
+        }
+
+        $formCoupon = $this->createForm(AddCouponType::class, [
+            'action' => $this->generateUrl('app_cart_checkout_coupon'),
+        ]);
+
+        $formCoupon->handleRequest($request);
+
+
+        if ($formCoupon->isSubmitted() && $formCoupon->isValid()) {
+            $couponName = $formCoupon->get('coupon')->getData();
+            // get coupon from db by name
+            $coupon = $couponRepository->findOneBy(['code' => $couponName]);
+            // if coupon is valid
+            dd($coupon);
+            if ($coupon != null) {
+                dd($cartService->setCoupon($coupon));
+            } else {
+                $this->addFlash('error', 'Invalid coupon.');
+            }
+        }
+
+        // return $this->redirectToRoute('app_cart_checkout');
+    }
+
+    // add coupon then redirect to checkout with get request
+    #[Route('/cart/checkout/coupon/{coupon}', name: 'app_cart_checkout_coupon_get', methods: ['GET'])]
+    public function checkout_coupon_get(CartService $cartService, CouponRepository $couponRepository, string $coupon): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $cart = $cartService->getCart();
+
+        if ($cart == null) {
+            return $this->redirectToRoute('app_cart');
+        }
+
+        // get coupon from db by name
+        $coupon = $couponRepository->findOneBy(['code' => $coupon]);
+        // if coupon is valid
+        if ($coupon != null) {
+            $cartService->setCoupon($coupon);
+        } else {
+            $this->addFlash('error', 'Invalid coupon.');
+        }
+
+        return $this->redirectToRoute('app_cart_checkout');
     }
 }

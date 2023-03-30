@@ -78,10 +78,25 @@ class CartService
         return $coupon;
     }
 
+    // get coupon price
+    public function getCouponPrice()
+    {
+        $coupon = $this->session->get('coupon');
+        if ($coupon == null) {
+            return 0;
+        } else {
+            return $coupon->getPrice();
+        }
+    }
+
     // set coupon
     public function setCoupon($coupon)
     {
         $this->session->set('coupon', $coupon);
+
+        $coupon = $this->getCoupon();
+
+        return $coupon;
     }
 
     public function initCart()
@@ -110,11 +125,26 @@ class CartService
                     'gameEntity' => $game,
                     'quantity' => $quantity
                 ];
-                $total += $game->getPrice() * $quantity;
+                if ($game->getPromotionPrice() == null) {
+                    $total += $game->getPrice() * $quantity;
+                } else {
+                    $total += $game->getPromotionPrice() * $quantity;
+                }
             }
+
+            $coupon = $this->getCoupon();
+            if ($coupon == null) {
+                $coupon = 0;
+            } else {
+                $coupon = $coupon->getPercent();
+            }
+            $coupon = $total * ($coupon / 100);
+            $total -= $coupon;
+
             return [
                 'games' => $games,
-                'total' => $total
+                'total' => $total,
+                'coupon' => $coupon
             ];
         }
     }
@@ -140,6 +170,16 @@ class CartService
                 $game = $this->gameRepository->find($id);
                 $total += $game->getPrice() * $quantity;
             }
+
+            $coupon = $this->getCoupon();
+            if ($coupon == null) {
+                $coupon = 0;
+            } else {
+                $coupon = $coupon->getPercent();
+            }
+            $coupon = $total * ($coupon / 100);
+            $total -= $coupon;
+
             return $total;
         }
     }

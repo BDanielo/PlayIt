@@ -1,144 +1,312 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}
+    PlayIt Home
+{% endblock %}
 
 {% block body %}
-
-
-<div class="container flex flex-col bg-dark-medium-purple">
-    
-    <div id="default-carousel" class="relative w-full" data-carousel="slide">
-        <!-- Carousel wrapper -->
-        <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-            {% if slider is not empty %}
-                {% for slide in slider %}
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <a href="{{ path('app_single_game', { 'id': slide.id }) }}">
-                        <img src="{{ slide.picture }}/banner.jpg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <!-- Slider indicators -->
-        <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
-            {% if slider is not empty %}
-                {% for key, slide in slider %}
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide {{ key }}" data-carousel-slide-to="{{ key }}"></button>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <!-- Slider controls -->
-        <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/50 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                <span class="sr-only">Previous</span>
-            </span>
-        </button>
-        <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                <span class="sr-only">Next</span>
-            </span>
-            <!--<i class="fa-solid fa-chevron-right"></i>-->
-        </button>
-    </div>
-
-    <h1 class="self-center m-10 text-3xl text-white">Sales</h1>
-
-    <div class="grid lg:grid-cols-3 gap-6 p-2 sm:grid-cols-1 sm:mx-auto">
-        {% if sales is not empty %}
-        {% for sale in sales %}
-             <div class="border-gradient w-full max-w-sm border-glow bg-medium-purple w-full max-w-sm border rounded-lg">
-                <a href="{{ path('app_single_game', {'id': sale.id}) }}">
-                    <img class="p-8 rounded-t-lg" src="{{ sale.picture }}/head.png" alt="product image" />
-                </a>
-                <div class="px-5 pb-5">
-                    <a href="{{ path('app_single_game', {'id': sale.id}) }}">
-                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ sale.name }}</h5>
-                    </a>
-                    <div class="flex items-center mt-2.5 mb-5">
-                        {% if avgRatings[sale.id][1] != 0 %}
-                            {% for i in range(0, starsNbr[sale.id] -1) %}
-                                <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            {% endfor %}
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ avgRatings[sale.id][0] }}</span>
-                        {% else %}
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">No ratings yet</span>
-                        {% endif %}
-                    </div>
-                    <div class="flex items-center justify-between">
-                    {% if isPromoted[sale.id] %}
-                        <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ sale.price }}$</span>
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ sale.PromotionPrice|number_format(2, '.', '') }}$</span>
-                    {% else %}
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ sale.price }}$</span>
-                    {% endif %}
-                        <a onclick="addToCartAjax({{sale.id}})" id="btnAddCart{{sale.id}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]"><i class="fa-solid fa-cart-arrow-down" style="color: #ffffff;"></i></a>
-                    </div>
-                </div>
+    <div class="container flex flex-col bg-dark-medium-purple">
+        <div id="default-carousel"
+            class="relative w-full"
+            data-carousel="slide">
+            <!-- Carousel wrapper -->
+            <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                {% if slider is not empty %}
+                    {% for slide in slider %}
+                        <div class="hidden duration-700 ease-in-out"
+                            data-carousel-item>
+                            <a href="{{
+                                path(
+                                    'app_single_game',
+                                    {
+                                        id: slide.id
+                                    }
+                                )
+                                }}">
+                                <img src="{{ slide.picture }}/banner.jpg"
+                                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                                    alt="..." />
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
-        {% endfor %}
-        {% endif %}
-    </div>
+            <!-- Slider indicators -->
+            <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+                {% if slider is not empty %}
+                    {% for key, slide in slider %}
+                        <button type="button"
+                            class="w-3 h-3 rounded-full"
+                            aria-current="true"
+                            aria-label="Slide {{ key }}"
+                            data-carousel-slide-to="{{ key }}">
 
-    <span class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4"><a href="#">see more</a></span>
+                        </button>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <!-- Slider controls -->
+            <button type="button"
+                class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                data-carousel-prev>
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/50 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    <svg aria-hidden="true"
+                        class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    <span class="sr-only">Previous</span>
+                </span>
+            </button>
+            <button type="button"
+                class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                data-carousel-next>
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    <svg aria-hidden="true"
+                        class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5l7 7-7 7"></path>
+                    </svg>
+                    <span class="sr-only">Next</span>
+                </span>
+                <!-- <i class="fa-solid fa-chevron-right"></i> -->
+            </button>
+        </div>
 
-    <h1 class="self-center m-10 text-3xl text-white">Popular</h1>
+        <h1 class="self-center m-10 text-3xl text-white">
+            Sales
+        </h1>
 
-    <div class="flex justify-around">
-        {% if populars is not empty %}
-            {% for popular in populars %}
-                <div class="border-gradient w-full max-w-sm border-glow bg-medium-purple w-full max-w-sm border rounded-lg">
-                    <a href="{{ path('app_single_game', {'id': popular.id}) }}">
-                        <img class="p-8 rounded-t-lg" src="{{ popular.picture }}/head.png" alt="product image" />
-                    </a>
-                    <div class="px-5 pb-5">
-                        <a href="{{ path('app_single_game', {'id': popular.id}) }}">
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ popular.name }}</h5>
+        <div class="grid lg:grid-cols-3 gap-6 p-2 sm:grid-cols-1 sm:mx-auto">
+            {% if sales is not empty %}
+                {% for sale in sales %}
+                    <div class="border-gradient w-full max-w-sm border-glow bg-medium-purple w-full max-w-sm border rounded-lg">
+                        <a href="{{
+                            path(
+                                'app_single_game',
+                                {
+                                    id: sale.id
+                                }
+                            )
+                            }}">
+                            <img class="p-8 rounded-t-lg"
+                                src="{{ sale.picture }}/head.png"
+                                alt="product image" />
                         </a>
-                        <div class="flex items-center mt-2.5 mb-5">
-                        {% if avgRatings[popular.id][1] != 0 %}
-                            {% for i in range(0, starsNbr[popular.id] -1) %}
-                                <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            {% endfor %}
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ avgRatings[popular.id][0] }}</span>
-                        {% else %}
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">No ratings yet</span>
-                        {% endif %}
-                    </div>
-                        <div class="flex items-center justify-between">
-                    {% if isPromoted[popular.id] %}
-                        <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ popular.price }}$</span>
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ popular.PromotionPrice|number_format(2, '.', '') }}$</span>
-                    {% else %}
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ popular.price }}$</span>
-                    {% endif %}
-                        <a onclick="addToCartAjax({{popular.id}})" id="btnAddCart{{popular.id}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]"><i class="fa-solid fa-cart-arrow-down" style="color: #ffffff;"></i></a>
-                    </div>
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
+                        <div class="px-5 pb-5">
+                            <a href="{{
+                                path(
+                                    'app_single_game',
+                                    {
+                                        id: sale.id
+                                    }
+                                )
+                                }}">
+                                <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                    {{ sale.name }}
+                                </h5>
+                            </a>
+                            <div class="flex items-center mt-2.5 mb-5">
+                                {% if avgRatings[sale.id][1] != 0 %}
+                                    {% for i in range(
+                                        0,
+                                        starsNbr[sale.id] - 1
+                                    ) %}
+                                        <svg aria-hidden="true"
+                                            class="w-5 h-5 text-yellow-300"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <title>
+                                                First star
+                                            </title>
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    {% endfor %}
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                                        {{ avgRatings[sale.id][0] }}
+                                    </span>
+                                {% else %}
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                                        No ratings yet
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center justify-between">
+                                {% if isPromoted[sale.id] %}
+                                    <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">
+                                        {{ sale.price }}$
+                                    </span>
+                                    <span class="text-3xl font-bold text-gray-900 dark:text-white">
+                                        {{
+                                            sale.PromotionPrice|number_format(
+                                                2,
+                                                '.',
+                                                ''
+                                            )
+                                        }}$
+                                    </span>
+                                {% else %}
+                                    <span class="text-3xl font-bold text-gray-900 dark:text-white">
+                                        {{ sale.price }}$
+                                    </span>
+                                {% endif %}
+                                <a onclick="addToCartAjax({{ sale.id }})"
+                                    id="btnAddCart{{ sale.id }}"
+                                    class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
+                                    <i class="fa-solid fa-cart-arrow-down"
+                                        style="color: #ffffff;">
 
-    <span class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4"><a href="#">see more</a></span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
 
-    <h1 class="self-center m-10 text-3xl text-white">Categories</h1>
+        <span class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4">
+            <a href="#">see more</a>
+        </span>
 
-    <div class="flex justify-center">
-        {% if categories is not empty %}
-            {% for category in featuredCategories %}   
-                <a href="{{ path('app_categories', { 'id': category.id }) }}" class="block max-w-sm p-6 m-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ category.name }}</h5>
+        <h1 class="self-center m-10 text-3xl text-white">
+            Popular
+        </h1>
+
+        <div class="flex justify-around">
+            {% if populars is not empty %}
+                {% for popular in populars %}
+                    <div class="border-gradient w-full max-w-sm border-glow bg-medium-purple w-full max-w-sm border rounded-lg">
+                        <a href="{{
+                            path(
+                                'app_single_game',
+                                {
+                                    id: popular.id
+                                }
+                            )
+                            }}">
+                            <img class="p-8 rounded-t-lg"
+                                src="{{ popular.picture }}/head.png"
+                                alt="product image" />
+                        </a>
+                        <div class="px-5 pb-5">
+                            <a href="{{
+                                path(
+                                    'app_single_game',
+                                    {
+                                        id: popular.id
+                                    }
+                                )
+                                }}">
+                                <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                    {{ popular.name }}
+                                </h5>
+                            </a>
+                            <div class="flex items-center mt-2.5 mb-5">
+                                {% if avgRatings[popular.id][1] != 0 %}
+                                    {% for i in range(
+                                        0,
+                                        starsNbr[popular.id] - 1
+                                    ) %}
+                                        <svg aria-hidden="true"
+                                            class="w-5 h-5 text-yellow-300"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <title>
+                                                First star
+                                            </title>
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    {% endfor %}
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                                        {{ avgRatings[popular.id][0] }}
+                                    </span>
+                                {% else %}
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                                        No ratings yet
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center justify-between">
+                                {% if isPromoted[popular.id] %}
+                                    <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">
+                                        {{ popular.price }}$
+                                    </span>
+                                    <span class="text-3xl font-bold text-gray-900 dark:text-white">
+                                        {{
+                                            popular.PromotionPrice|number_format(
+                                                2,
+                                                '.',
+                                                ''
+                                            )
+                                        }}$
+                                    </span>
+                                {% else %}
+                                    <span class="text-3xl font-bold text-gray-900 dark:text-white">
+                                        {{ popular.price }}$
+                                    </span>
+                                {% endif %}
+                                <a onclick="addToCartAjax({{ popular.id }})"
+                                    id="btnAddCart{{ popular.id }}"
+                                    class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
+                                    <i class="fa-solid fa-cart-arrow-down"
+                                        style="color: #ffffff;">
+
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <span class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] self-center p-2 mt-4">
+            <a href="#">see more</a>
+        </span>
+
+        <h1 class="self-center m-10 text-3xl text-white">
+            Categories
+        </h1>
+
+        <div class="flex justify-center">
+            {% if categories is not empty %}
+                {% for category in featuredCategories %}
+                    <a href="{{
+                        path(
+                            'app_categories',
+                            {
+                                id: category.id
+                            }
+                        )
+                        }}"
+                        class="block max-w-sm p-6 m-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            {{ category.name }}
+                        </h5>
+                    </a>
+                {% endfor %}
+                <a href="{{ path('app_list_categories') }}"
+                    class="block max-w-sm p-6 m-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        See all categories
+                    </h5>
                 </a>
-            {% endfor %}
-                <a href="{{ path('app_list_categories') }}" class="block max-w-sm p-6 m-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">See all categories</h5>
-                </a>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
-
-
-</div>
 {% endblock %}

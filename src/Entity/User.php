@@ -71,6 +71,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Badge::class, mappedBy: 'users')]
     private Collection $badges;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'FriendReceived')]
+    private Collection $FriendSended;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'FriendSended')]
+    private Collection $FriendReceived;
+
+    #[ORM\OneToMany(mappedBy: 'Sender', targetEntity: ChatMessage::class, orphanRemoval: true)]
+    private Collection $chatMessagesSended;
+
+    #[ORM\OneToMany(mappedBy: 'Receiver', targetEntity: ChatMessage::class)]
+    private Collection $chatMessagesReceived;
+
     public function __construct()
     {
         $this->gamesOwned = new ArrayCollection();
@@ -78,6 +90,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reviews = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->badges = new ArrayCollection();
+        $this->FriendSended = new ArrayCollection();
+        $this->FriendReceived = new ArrayCollection();
+        $this->chatMessagesSended = new ArrayCollection();
+        $this->chatMessagesReceived = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -371,7 +387,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->wishList = $wishList;
 
         return $this;
-
     }
 
     /**
@@ -397,6 +412,134 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->badges->removeElement($badge)) {
             $badge->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getFriendSended(): Collection
+    {
+        return $this->FriendSended;
+    }
+
+    public function addFriendSended(self $friendSended): self
+    {
+        if (!$this->FriendSended->contains($friendSended)) {
+            $this->FriendSended->add($friendSended);
+        }
+
+        return $this;
+    }
+
+    public function removeFriendSended(self $friendSended): self
+    {
+        $this->FriendSended->removeElement($friendSended);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getFriendReceived(): Collection
+    {
+        return $this->FriendReceived;
+    }
+
+    public function addFriendReceived(self $friendReceived): self
+    {
+        if (!$this->FriendReceived->contains($friendReceived)) {
+            $this->FriendReceived->add($friendReceived);
+            $friendReceived->addFriendSended($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriendReceived(self $friendReceived): self
+    {
+        if ($this->FriendReceived->removeElement($friendReceived)) {
+            $friendReceived->removeFriendSended($this);
+        }
+
+        return $this;
+    }
+
+    public function getFriends(): Collection
+    {
+        $friends = new ArrayCollection();
+        $friendsReceived = $this->getFriendReceived();
+        $friendsSended = $this->getFriendSended();
+
+        foreach ($friendsReceived as $friend) {
+            $friends->add($friend);
+        }
+
+        foreach ($friendsSended as $friend) {
+            $friends->add($friend);
+        }
+
+        return $friends;
+    }
+
+    /**
+     * @return Collection<int, ChatMessage>
+     */
+    public function getChatMessagesSended(): Collection
+    {
+        return $this->chatMessagesSended;
+    }
+
+    public function addChatMessagesSended(ChatMessage $chatMessagesSended): self
+    {
+        if (!$this->chatMessagesSended->contains($chatMessagesSended)) {
+            $this->chatMessagesSended->add($chatMessagesSended);
+            $chatMessagesSended->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChatMessagesSended(ChatMessage $chatMessagesSended): self
+    {
+        if ($this->chatMessagesSended->removeElement($chatMessagesSended)) {
+            // set the owning side to null (unless already changed)
+            if ($chatMessagesSended->getSender() === $this) {
+                $chatMessagesSended->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ChatMessage>
+     */
+    public function getChatMessagesReceived(): Collection
+    {
+        return $this->chatMessagesReceived;
+    }
+
+    public function addChatMessagesReceived(ChatMessage $chatMessagesReceived): self
+    {
+        if (!$this->chatMessagesReceived->contains($chatMessagesReceived)) {
+            $this->chatMessagesReceived->add($chatMessagesReceived);
+            $chatMessagesReceived->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChatMessagesReceived(ChatMessage $chatMessagesReceived): self
+    {
+        if ($this->chatMessagesReceived->removeElement($chatMessagesReceived)) {
+            // set the owning side to null (unless already changed)
+            if ($chatMessagesReceived->getReceiver() === $this) {
+                $chatMessagesReceived->setReceiver(null);
+            }
         }
 
         return $this;

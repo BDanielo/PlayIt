@@ -1,21 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ListCategoriesController!{% endblock %}
+{% block title %}
+    Categories
+{% endblock %}
 
 {% block body %}
+    <div class="min-h-screen h-full bg-dark-medium-purple text-white flex flex-col items-center">
+        <h1 class="text-3xl font-extrabold my-10">
+            Categories
+        </h1>
 
-<div class="min-h-screen h-full bg-dark-medium-purple text-white flex flex-col items-center">
-    <h1 class="text-3xl font-extrabold my-10">Categories</h1>
-
-    <div class="grid grid-cols-3 gap-6">
-        {% for category in categories %}
-            <div class="border-gradient border-glow bg-medium-purple text-white p-6 ml-10 mr-10 rounded-md">
-                <a href="{{ path('app_categories', {'id': category.id }) }}">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ category.name }}</h5>
-                </a>
-            </div>
-        {% endfor %}
+        <div class="grid grid-cols-3 gap-6">
+            {% for category in categories %}
+                <div class="border-gradient border-glow bg-medium-purple text-white p-6 ml-10 mr-10 rounded-md">
+                    <a href="{{
+                        path(
+                            'app_categories',
+                            {
+                                id: category.id
+                            }
+                        )
+                        }}">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            {{ category.name }}
+                        </h5>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-
-</div>
 {% endblock %}

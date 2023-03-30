@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}PlayIt
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
@@ -70,6 +70,9 @@
 					</li>
 					<li class="my-2">
 						<a href="{{path('app_profil')}}" class="hover:text-transparent-hover"><i class="fa-solid fa-user"></i> Profil</a>
+					</li>
+					<li class="my-2">
+						<a href="{{path('app_friend')}}" class="hover:text-transparent-hover"><i class="fa-solid fa-user"></i> Friends</a>
 					</li>
 					<li class="my-2">
 						<a href="{{path('app_my_orders')}}" class="hover:text-transparent-hover"><i class="fa-solid fa-box"></i> My Orders</a>

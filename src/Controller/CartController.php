@@ -94,6 +94,41 @@ class CartController extends AbstractController
         return $response;
     }
 
+    // add coupon then redirect to checkout
+    #[Route('/cart/checkout/coupon', name: 'app_cart_checkout_coupon_post', methods: ['POST'])]
+    public function checkout_coupon(CartService $cartService, Request $request, CouponRepository $couponRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $cart = $cartService->getCart();
+
+        if ($cart == null) {
+            return $this->redirectToRoute('app_cart');
+        }
+
+        $formCoupon = $this->createForm(AddCouponType::class);
+
+        $formCoupon->handleRequest($request);
+
+
+        if ($formCoupon->isSubmitted() && $formCoupon->isValid()) {
+            $couponName = $formCoupon->get('coupon')->getData();
+            // get coupon from db by name
+            $coupon = $couponRepository->findOneBy(['code' => $couponName]);
+            // if coupon is valid
+            if ($coupon != null) {
+                $cartService->setCoupon($coupon);
+            } else {
+                $this->addFlash('error', 'Invalid coupon.');
+            }
+        }
+
+        return $this->redirectToRoute('app_cart_checkout');
+    }
+
     #[Route('/cart/checkout', name: 'app_cart_checkout', methods: ['GET'])]
     public function checkout(CartService $cartService): Response
     {
@@ -114,10 +149,7 @@ class CartController extends AbstractController
 
         $form = $this->createForm(CardVerificationType::class, $dto);
 
-        $formCoupon = $this->createForm(AddCouponType::class, [
-            'action' => $this->generateUrl('app_cart_checkout_coupon_post'),
-            'method' => 'POST',
-        ]);
+        $formCoupon = $this->createForm(AddCouponType::class);
 
         $total = $cartService->getCartPrice();
 
@@ -157,10 +189,7 @@ class CartController extends AbstractController
 
         $form->handleRequest($request);
 
-        $formCoupon = $this->createForm(AddCouponType::class, [
-            'action' => $this->generateUrl('app_cart_checkout_coupon'),
-            'method' => 'POST',
-        ]);
+        $formCoupon = $this->createForm(AddCouponType::class);
 
         $total = $cartService->getCartPrice();
 
@@ -198,41 +227,6 @@ class CartController extends AbstractController
                 'formCoupon' => $formCoupon->createView()
             ]);
         }
-    }
-
-    // add coupon then redirect to checkout
-    #[Route('/cart/checkout/coupon', name: 'app_cart_checkout_coupon_post', methods: ['POST'])]
-    public function checkout_coupon(CartService $cartService, Request $request, CouponRepository $couponRepository): Response
-    {
-        $user = $this->getUser();
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
-        }
-
-        $cart = $cartService->getCart();
-
-        if ($cart == null) {
-            return $this->redirectToRoute('app_cart');
-        }
-
-        $formCoupon = $this->createForm(AddCouponType::class);
-
-        $formCoupon->handleRequest($request);
-
-
-        if ($formCoupon->isSubmitted() && $formCoupon->isValid()) {
-            $couponName = $formCoupon->get('coupon')->getData();
-            // get coupon from db by name
-            $coupon = $couponRepository->findOneBy(['code' => $couponName]);
-            // if coupon is valid
-            if ($coupon != null) {
-                $cartService->setCoupon($coupon);
-            } else {
-                $this->addFlash('error', 'Invalid coupon.');
-            }
-        }
-
-        return $this->redirectToRoute('app_cart_checkout');
     }
 
     // add coupon then redirect to checkout with get request

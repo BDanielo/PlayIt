@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!
+{% block title %}Checkout
 {% endblock %}
 
 {% block body %}
@@ -40,7 +40,9 @@
 								</div>
 							{% endfor %}
 						{% endfor %}
+						{{path('app_cart_checkout_coupon_post')}}
 						{{ form_start(formCoupon, {'action': path('app_cart_checkout_coupon_post'), 'method': 'POST'}) }}
+						{# {{ form_start(formCoupon) }} #}
 						{{ form_widget(formCoupon) }}
 						{{ form_end(formCoupon) }}
 						<p class="text-2xl">Coupon :
@@ -62,7 +64,9 @@
 				{% for success in app.flashes('success') %}
 					{{ success }}
 				{% endfor %}
-				{{ form_start(form) }}
+				{{path('app_cart_checkout_post')}}
+				{{ form_start(form, {'action': path('app_cart_checkout_post'), 'method': 'POST'}) }}
+				{# {{ form_start(form) }} #}
 				<div class=" text-xl form-group">
 					{{ form_label(form.cardOwner) }}
 					<br>

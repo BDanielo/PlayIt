@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Hello FriendController!
+    Friends list
 {% endblock %}
 
 {% block body %}
@@ -21,9 +21,24 @@
                 <li>No friends found</li>
             {% else %}
                 {% for friend in friends %}
-                    <li>{{ friend.name }}</li>
+                    <li>{{ friend.username }}</li>
+                    <a href="{{
+                        path(
+                            'app_chat',
+                            {
+                                id: friend.id
+                            }
+                        )
+                        }}">
+                        Messages
+                    </a>
                 {% endfor %}
             {% endif %}
+
+            {# add symfony form from variable form #}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
         </ul>
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class ProfilController extends AbstractController
 {
     #[Route('/user/profil', name: 'app_profil', methods: ['GET'])]
-    public function index(): Response
+    public function index(UserRepository $userRepository): Response
     {
         if ($this->getUser()) {
             //** @var User $user */

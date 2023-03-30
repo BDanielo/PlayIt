@@ -69,6 +69,9 @@ class Game
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = 0;
+
+    #[ORM\ManyToMany(targetEntity: WishList::class, mappedBy: 'games')]
+    private Collection $wishLists;
     // 0 waiting for approval
     // 1 approved
     // 2 rejected
@@ -83,6 +86,7 @@ class Game
         $this->authors = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->orderLines = new ArrayCollection();
+        $this->wishLists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -442,6 +446,33 @@ class Game
             default:
                 return 'Unknown';
         }
+    }
+
+    /**
+     * @return Collection<int, WishList>
+     */
+    public function getWishLists(): Collection
+    {
+        return $this->wishLists;
+    }
+
+    public function addWishList(WishList $wishList): self
+    {
+        if (!$this->wishLists->contains($wishList)) {
+            $this->wishLists->add($wishList);
+            $wishList->addGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWishList(WishList $wishList): self
+    {
+        if ($this->wishLists->removeElement($wishList)) {
+            $wishList->removeGame($this);
+        }
+
+        return $this;
     }
 
 }

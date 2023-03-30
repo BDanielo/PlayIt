@@ -5,15 +5,39 @@
 {% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font:
-        18px/1.5 sans-serif; } .example-wrapper code { background: #F5F5F5;
-        padding: 2px 6px; }
-    </style>
 
-    <div class="example-wrapper">
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
+
+    <div class="bg-dark-medium-purple h-full min-h-screen p-20">
+
+        {% for message in app.flashes('error') %}
+            <div class="flash-error text-white bg-red-600 p-2">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('success') %}
+            <div class="flash-success text-white bg-green-600 p-2">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
+            {{ form_start(form) }}
+                <h1 class="text-4xl">Add a new coupon</h1>
+                <br>
+                {{ form_label(form.code) }}
+                <br>
+                {{ form_widget(form.code, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+                {{ form_label(form.percent) }}
+                <br>
+                {{ form_widget(form.percent, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+                {{ form_label(form.startDate) }}
+                <br>
+                {{ form_widget(form.startDate, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple'}}) }}
+                {{ form_label(form.endDate) }}
+                <br>
+                {{ form_widget(form.endDate, {'attr': {'class': 'form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple mb-3'}}) }}
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

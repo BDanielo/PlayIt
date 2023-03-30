@@ -66,6 +66,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?WishList $wishList = null;
+
     public function __construct()
     {
         $this->gamesOwned = new ArrayCollection();
@@ -346,6 +349,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $order->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWishList(): ?WishList
+    {
+        return $this->wishList;
+    }
+
+    public function setWishList(WishList $wishList): self
+    {
+        // set the owning side of the relation if necessary
+        if ($wishList->getUser() !== $this) {
+            $wishList->setUser($this);
+        }
+
+        $this->wishList = $wishList;
 
         return $this;
     }

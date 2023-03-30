@@ -36,7 +36,11 @@ class Coupon
 
     public function getPercent(): ?int
     {
-        return $this->percent;
+        $now = new \DateTime();
+        if ($now > $this->startDate && $now < $this->endDate) {
+            return $this->percent;
+        }
+        return 0;
     }
 
     public function setPercent(int $percent): self

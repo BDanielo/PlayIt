@@ -35,12 +35,17 @@
 						<h2 class="text-xl text-white text-center">{{app.user.levels}}</h2>
 						<h2 class="text-xl text-white text-center">points</h2>
 						<h2 class="text-xl text-white text-center">{{app.user.points}}</h2>
+						<div class="flex justify-around">
+							{% for badge in app.user.badges %}
+								<img src="/images/badges/badge.png" class="w-12"></img>
+							{% endfor %}
+						</div>
 					</div>
 				{% endif %}
 
 				<h2 class="text-white">Games</h2>
 
-				<ul class="px-2 pt-4">
+				<ul class="px-2 pt-4 mb-4">
 					<li class="my-2">
 						<a href="{{ path('app_all_games') }}" class="hover:text-transparent-hover"><i class="fa-solid fa-shop"></i> Games</a>
 					</li>

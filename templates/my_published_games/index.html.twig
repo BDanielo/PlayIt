@@ -22,34 +22,34 @@
                     </caption>
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-medium-purple dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Picture
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Status
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Description
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Sold
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Price
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Version
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Creation Date
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Update Date
                             </th>
-                            <th scope="col" class="px-6 py-3" colspan="2">
+                            <th scope="col" class="px-5 py-3" colspan="2">
                                 Options
                             </th>
                         </tr>
@@ -57,46 +57,46 @@
                     <tbody>
                         {% for game in games %}
                             <tr class="bg-white border-b dark:bg-dark-purple dark:border-medium-purple">
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     <img src="{{ game.picture }}/head.png"
                                         alt="game picture"
                                         class="w-10 h-10 rounded-full" />
                                 </td>
                                 <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-5 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ game.name }}
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.StatusString }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.description }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.sold }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.price }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.version }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.creationDate|date('Y-m-d H:i:s') }}
                                 </td>
 
                                 {% if game.updateDate is not null %}
-                                    <td class="px-6 py-4">
+                                    <td class="px-5 py-4">
                                         {{
                                             game.updateDate|date('Y-m-d H:i:s')
                                         }}
                                     </td>
                                 {% else %}
-                                    <td class="px-6 py-4">
+                                    <td class="px-5 py-4">
                                         no updates
                                     </td>
                                 {% endif %}
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {% if game.status != 0 and game.status!=3 %}
                                     <a href="{{
                                         path(

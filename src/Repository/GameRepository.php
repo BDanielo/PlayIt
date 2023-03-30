@@ -109,7 +109,6 @@ class GameRepository extends ServiceEntityRepository
 
     public function findByName(string $name, int $priceRange, ?int $categoryId): array
     {
-
         if ($categoryId != null) {
             if ($name == "all") {
                 $query = $this->createQueryBuilder('game')
@@ -135,9 +134,9 @@ class GameRepository extends ServiceEntityRepository
 
         if ($name == "all") {
             $query = $this->createQueryBuilder('game')
-            ->andWhere('game.price <= :priceRange')
-            ->setParameter('priceRange', $priceRange)
-            ->getQuery();
+                ->andWhere('game.price <= :priceRange')
+                ->setParameter('priceRange', $priceRange)
+                ->getQuery();
             return $query->getResult();
         }
 
@@ -150,29 +149,44 @@ class GameRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findAll(): array
+    {
+        $query = $this->createQueryBuilder('game')
+            ->andWhere('game.status = 1')
+            ->getQuery();
+        return $query->getResult();
+    }
 
-//    /**
-//     * @return Game[] Returns an array of Game objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('g.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllCrud(): array
+    {
+        $query = $this->createQueryBuilder('game')
+            ->getQuery();
+        return $query->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Game
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+    //    /**
+    //     * @return Game[] Returns an array of Game objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('g')
+    //            ->andWhere('g.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('g.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Game
+    //    {
+    //        return $this->createQueryBuilder('g')
+    //            ->andWhere('g.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

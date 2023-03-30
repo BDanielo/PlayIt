@@ -17,22 +17,48 @@ class HomeController extends AbstractController
         $games = $gamesRepository->findAll();
         $categories = $categoryRepository->findAll();
 
-        $randomsNbr = [];
-
+        $randoms = [];
         for ($i = 0; $i < 5 && $i < count($categories); $i++) {
             $index = rand(0, count($categories) - 1);
             if ($i != 0) {
-                while (in_array($index, $randomsNbr)) {
+                while (in_array($index, $randoms)) {
                     $index = rand(0, count($categories) - 1);
                 }
             }
-            $randomsNbr[] = $index;
+            $randoms[] = $index;
             $featuredCategories[] = $categories[$index];
         }
 
         //TODO: add sales to games table
 
-        $sales = $games;
+        $sales = [];
+        $allSales = [];
+
+        foreach ($games as $game) {
+            if ($game->getPromotion() !== null) {
+                $now = new \DateTime('now');
+                if ($game->getPromotionStart() <= $now && $game->getPromotionEnd() >= $now) {
+                    $allSales[] = $game;
+                    $isPromoted[$game->getId()] = true;
+                } else {
+                    $isPromoted[$game->getId()] = false;
+                }
+            } else {
+                $isPromoted[$game->getId()] = false;
+            }
+        }
+
+        $randoms = [];
+        for ($i = 0; $i < 3 && $i < count($allSales); $i++) {
+            $index = rand(0, count($allSales) - 1);
+            if ($i != 0) {
+                while (in_array($index, $randoms)) {
+                    $index = rand(0, count($allSales) - 1);
+                }
+            }
+            $randoms[] = $index;
+            $sales[] = $allSales[$index];
+        }
 
         $populars = $gamesRepository->getBestSells(3);
 
@@ -75,6 +101,7 @@ class HomeController extends AbstractController
             'avgRatings' => $avgRatings,
             'starsNbr' => $starsNbr,
             'featuredCategories' => $featuredCategories,
+            'isPromoted' => $isPromoted,
             'slider' => $slider
         ]);
     }

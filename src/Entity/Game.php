@@ -190,6 +190,12 @@ class Game
         return $this;
     }
 
+    // check if author is already in the list
+    public function isAuthor(User $author): bool
+    {
+        return $this->authors->contains($author);
+    }
+
     public function removeAuthor(User $author): self
     {
         if ($this->authors->removeElement($author)) {

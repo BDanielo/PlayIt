@@ -20,19 +20,22 @@ class CreatePromotionType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'max' => 100,
-                    'value' => 0,
                 ],
             ])
             ->add('promotionStart', DateTimeType::class, [
-                'widget' => 'choice',
+                'html5' => true,
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
             ])
             ->add('promotionEnd', DateTimeType::class, [
-                'widget' => 'choice',
+                'html5' => true,
+                'widget' => 'single_text',
+                'data' => new \DateTime('+1 day'),
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Create',
+                'label' => 'Save',
                 'attr' => [
-                    'class' => 'btn btn-primary',
+                    'class' => 'btn inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]',
                 ],
             ]);
     }

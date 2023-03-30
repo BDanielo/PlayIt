@@ -117,9 +117,9 @@
                         {% endif %}
                     </div>
                     <div class="flex items-center justify-between">
-                    {% if game.PromotionPrice is not null %}
+                    {% if isPromoted[game.id] %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ game.price }}$</span>
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.PromotionPrice}}$</span>
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.PromotionPrice|number_format(2, '.', '') }}$</span>
                     {% else %}
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ game.price }}$</span>
                     {% endif %}

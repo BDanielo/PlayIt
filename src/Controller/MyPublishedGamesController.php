@@ -26,7 +26,7 @@ class MyPublishedGamesController extends AbstractController
 
         if ($user->getRoles()[0] == 'ROLE_ADMIN') {
             // get all published games
-            $games = $gameRepository->findAll();
+            $games = $gameRepository->findAllCrud();
 
             return $this->render('my_published_games/index.html.twig', [
                 'controller_name' => 'MyPublishedGamesController',
@@ -134,8 +134,20 @@ class MyPublishedGamesController extends AbstractController
 
     public function edit(Game $game, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
-        // get all categories
-        //$categories = $categoryRepository->findAll();
+        // get user
+        $user = $this->getUser();
+
+        if (!$this->isGranted('ROLE_ADMIN') && $this->isGranted('ROLE_DEV') && !$game->isAuthor($user)) {
+            $this->addFlash('error', 'You are not allowed to edit this game');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_DEV')) {
+            $this->addFlash('error', 'You are not allowed to edit this game');
+            return $this->redirectToRoute('app_home');
+        }
+
 
         $form = $this->createForm(AddGameType::class, $game);
         $form->handleRequest($request);
@@ -172,8 +184,23 @@ class MyPublishedGamesController extends AbstractController
             return $this->redirectToRoute('app_published_games');
         }
 
-        if (($this->isGranted('ROLE_DEV') || !$game->getAuthors()->contains($this->getUser())) || $this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'You are not allowed to delete this game');
+        if ($this->isGranted('ROLE_DEV') && !$this->isGranted('ROLE_ADMIN')) {
+            if (!$game->getAuthors()->contains($this->getUser())) {
+                $this->addFlash('error', 'You are not allowed to delete this game');
+                return $this->redirectToRoute('app_published_games');
+            }
+
+            // set game status to 3
+            $game->setStatus(3);
+            $gameRepository->save($game, true);
+
+            $this->addFlash('success', 'Game deleted successfully');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        // if user is not admin
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'You are not allowed to delete games');
             return $this->redirectToRoute('app_published_games');
         }
 
@@ -188,63 +215,6 @@ class MyPublishedGamesController extends AbstractController
                 'game' => $game,
             ]);
         }
-    }
-
-    #[Route('/dev/published-games/promotion/{id}', name: 'app_published_games_promotion', methods: ['GET'])]
-
-    public function promotion(int $id, GameRepository $gameRepository): Response
-    {
-        // check if the game exists
-        $game = $gameRepository->find($id);
-
-        if (!$game) {
-            $this->addFlash('error', 'Game not found');
-            return $this->redirectToRoute('app_published_games');
-        }
-
-        $dto = new CreatePromotionDTO();
-
-        $form = $this->createForm(CreatePromotionType::class, $dto);
-
-        return $this->render('my_published_games/promotion.html.twig', [
-            'controller_name' => 'MyPublishedGamesController',
-            'form' => $form
-        ]);
-    }
-
-    #[Route('/dev/published-games/promotion{id}', name: 'app_published_games_promotion_post', methods: ['POST'])]
-    public function promotionPost(int $id, Request $request, GameRepository $gameRepository): Response
-    {
-        // check if the game exists
-        $game = $gameRepository->find($id);
-
-        if (!$game) {
-            $this->addFlash('error', 'Game not found');
-            return $this->redirectToRoute('app_published_games');
-        }
-
-        $dto = new CreatePromotionDTO();
-
-        $form = $this->createForm(CreatePromotionType::class, $dto);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $percent = $dto->percent;
-            $date_start = $dto->date_start;
-            $date_end = $dto->date_end;
-
-            $game->setPromotion($percent);
-            $game->setPromotionStart($date_start);
-            $game->setPromotionEnd($date_end);
-
-            $gameRepository->save($game, true);
-        }
-
-        return $this->render('my_published_games/promotion.html.twig', [
-            'controller_name' => 'MyPublishedGamesController',
-            'form' => $form
-        ]);
     }
 
     #[Route('/dev/published-games/approve/{id}', name: 'app_published_games_approve', methods: ['GET'])]
@@ -289,5 +259,104 @@ class MyPublishedGamesController extends AbstractController
 
         $this->addFlash('success', 'Game rejected successfully');
         return $this->redirectToRoute('app_published_games');
+    }
+
+    #[Route('/dev/published-games/promotion/{id}', name: 'app_published_games_promotion', methods: ['GET'])]
+
+    public function promotion(int $id, GameRepository $gameRepository): Response
+    {
+        // check if the game exists
+        $game = $gameRepository->find($id);
+
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $dto = new CreatePromotionDTO();
+
+        // fill dto with data from game promotion
+        // set promotion 
+        $dto->promotion = $game->getPromotion();
+        // promotionStart
+        $dto->promotionStart = $game->getPromotionStart();
+        // promotionEnd
+        $dto->promotionEnd = $game->getPromotionEnd();
+
+        $form = $this->createForm(CreatePromotionType::class, $dto);
+
+
+        return $this->render('my_published_games/promotion.html.twig', [
+            'controller_name' => 'MyPublishedGamesController',
+            'form' => $form->createView(),
+            'game' => $game,
+        ]);
+    }
+
+    #[Route('/dev/published-games/promotion/{id}', name: 'app_published_games_promotion_post', methods: ['POST'])]
+    public function promotionPost(int $id, Request $request, GameRepository $gameRepository): Response
+    {
+        // check if the game exists
+        $game = $gameRepository->find($id);
+
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $dto = new CreatePromotionDTO();
+
+        $form = $this->createForm(CreatePromotionType::class, $dto);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $percent = $dto->promotion;
+            $date_start = $dto->promotionStart;
+            $date_end = $dto->promotionEnd;
+
+
+            if ($date_start > $date_end) {
+                $this->addFlash('error', 'The start date must be before the end date');
+                return $this->render('my_published_games/promotion.html.twig', [
+                    'controller_name' => 'MyPublishedGamesController',
+                    'form' => $form
+                ]);
+            }
+
+            $game->setPromotion($percent);
+            $game->setPromotionStart($date_start);
+            $game->setPromotionEnd($date_end);
+
+            $gameRepository->save($game, true);
+
+            return $this->redirectToRoute('app_published_games', [], Response::HTTP_SEE_OTHER);
+        }
+
+
+        return $this->render('my_published_games/promotion.html.twig', [
+            'controller_name' => 'MyPublishedGamesController',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/dev/published-games/promotion/{id}', name: 'app_published_games_promotion_delete', methods: ['POST'])]
+    public function promotionDelete(int $id, GameRepository $gameRepository): Response
+    {
+        // check if the game exists
+        $game = $gameRepository->find($id);
+
+        if (!$game) {
+            $this->addFlash('error', 'Game not found');
+            return $this->redirectToRoute('app_published_games');
+        }
+
+        $game->setPromotion(null);
+        $game->setPromotionStart(null);
+        $game->setPromotionEnd(null);
+
+        $gameRepository->save($game, true);
+
+        return $this->redirectToRoute('app_published_games', [], Response::HTTP_SEE_OTHER);
     }
 }

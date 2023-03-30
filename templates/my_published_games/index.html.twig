@@ -22,34 +22,34 @@
                     </caption>
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-medium-purple dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Picture
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Status
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Description
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Sold
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Price
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Version
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Creation Date
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3">
                                 Update Date
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-5 py-3" colspan="2">
                                 Options
                             </th>
                         </tr>
@@ -57,46 +57,47 @@
                     <tbody>
                         {% for game in games %}
                             <tr class="bg-white border-b dark:bg-dark-purple dark:border-medium-purple">
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     <img src="{{ game.picture }}/head.png"
                                         alt="game picture"
                                         class="w-10 h-10 rounded-full" />
                                 </td>
                                 <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-5 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ game.name }}
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.StatusString }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.description }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.sold }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.price }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.version }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
                                     {{ game.creationDate|date('Y-m-d H:i:s') }}
                                 </td>
 
                                 {% if game.updateDate is not null %}
-                                    <td class="px-6 py-4">
+                                    <td class="px-5 py-4">
                                         {{
                                             game.updateDate|date('Y-m-d H:i:s')
                                         }}
                                     </td>
                                 {% else %}
-                                    <td class="px-6 py-4">
+                                    <td class="px-5 py-4">
                                         no updates
                                     </td>
                                 {% endif %}
-                                <td class="px-6 py-4">
+                                <td class="px-5 py-4">
+                                    {% if game.status == 1 %}
                                     <a href="{{
                                         path(
                                             'app_published_games_promotion',
@@ -108,6 +109,7 @@
                                         class="inline-block rounded-full bg-blue-600 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
                                         Promotion <i class="fas fa-gift"></i>
                                     </a>
+                                    {% endif %}
                                     <a href="{{
                                         path(
                                             'app_published_games_edit',
@@ -120,6 +122,8 @@
                                         Edit <i class="fas fa-edit"></i>
                                     </a>
                                     {% if not is_granted('ROLE_ADMIN') %}
+                                    {# if the game status is not 3 #}
+                                    {% if game.status != 3 %}
                                     <a href="{{
                                         path(
                                             'app_published_games_delete',
@@ -131,6 +135,7 @@
                                         class="inline-block rounded-full bg-red-600 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">
                                         Delete <i class="fa-solid fa-trash"></i>
                                     </a>
+                                    {% endif %}
                                     {% endif %}
                                     {% if is_granted('ROLE_ADMIN') %}
                                         {% if game.status == 0 %}

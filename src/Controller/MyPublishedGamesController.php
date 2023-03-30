@@ -19,6 +19,12 @@ class MyPublishedGamesController extends AbstractController
     #[Route('/dev/published-games', name: 'app_published_games')]
     public function index(UserRepository $userRepository, GameRepository $gameRepository): Response
     {
+        if ($this->getUser()) {
+            //** @var User $user */
+            $user = $this->getUser();
+            $user->setLastSigninDateTime(new \DateTime('now'));
+            $userRepository->save($user, true);
+        }
 
         //get current user
         //** @var User $user */
@@ -351,9 +357,7 @@ class MyPublishedGamesController extends AbstractController
             return $this->redirectToRoute('app_published_games');
         }
 
-        $game->setPromotion(null);
-        $game->setPromotionStart(null);
-        $game->setPromotionEnd(null);
+        $game->deletePromotion();
 
         $gameRepository->save($game, true);
 

@@ -16,6 +16,13 @@ class ProfilController extends AbstractController
     #[Route('/user/profil', name: 'app_profil', methods: ['GET'])]
     public function index(): Response
     {
+        if ($this->getUser()) {
+            //** @var User $user */
+            $user = $this->getUser();
+            $user->setLastSigninDateTime(new \DateTime('now'));
+            $userRepository->save($user, true);
+        }
+        
         //** @var User $user */
         $user = $this->getUser();
 

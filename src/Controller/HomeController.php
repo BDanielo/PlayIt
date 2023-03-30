@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\CategoryRepository;
 use App\Repository\GameRepository;
+use App\Repository\UserRepository;
 use App\Services\GameReviewService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,8 +13,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(GameRepository $gamesRepository, CategoryRepository $categoryRepository, GameReviewService $gameReviewService): Response
+    public function index(GameRepository $gamesRepository, CategoryRepository $categoryRepository, GameReviewService $gameReviewService, UserRepository $userRepository): Response
     {
+        if ($this->getUser()) {
+            //** @var User $user */
+            $user = $this->getUser();
+            $user->setLastSigninDateTime(new \DateTime('now'));
+            $userRepository->save($user, true);
+        }
+
         $games = $gamesRepository->findAll();
         $categories = $categoryRepository->findAll();
 

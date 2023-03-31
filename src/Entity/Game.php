@@ -69,14 +69,13 @@ class Game
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = 0;
-
-    #[ORM\ManyToMany(targetEntity: WishList::class, mappedBy: 'games')]
-    private Collection $wishLists;
     // 0 waiting for approval
     // 1 approved
     // 2 rejected
     // 3 deletion requested
-    // 
+
+    #[ORM\ManyToMany(targetEntity: WishList::class, mappedBy: 'games')]
+    private Collection $wishLists;
 
 
     public function __construct()
@@ -474,5 +473,4 @@ class Game
 
         return $this;
     }
-
 }

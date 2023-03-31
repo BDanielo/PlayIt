@@ -21,7 +21,16 @@ class CartController extends AbstractController
     #[Route('/cart', name: 'app_cart', methods: ['GET'])]
     public function index(CartService $cartService): Response
     {
-        $cart = $cartService->getCart();
+        // get current user
+        $user = $this->getUser();
+
+        if ($user) {
+            $cart = $cartService->getCart($user);
+        } else {
+            $cart = $cartService->getCart();
+        }
+
+
         // dump($cart);
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
@@ -103,7 +112,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $cart = $cartService->getCart();
+        $cart = $cartService->getCart($user);
 
         if ($cart == null) {
             return $this->redirectToRoute('app_cart');
@@ -137,7 +146,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $cart = $cartService->getCart();
+        $cart = $cartService->getCart($user);
 
         if ($cart == null) {
             return $this->redirectToRoute('app_cart');
@@ -177,7 +186,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $cart = $cartService->getCart();
+        $cart = $cartService->getCart($user);
 
         if ($cart == null) {
             return $this->redirectToRoute('app_cart');
@@ -199,7 +208,6 @@ class CartController extends AbstractController
         $total += $taxes;
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $order = $orderService->createOrder($cartService, $user, $total);
             $orderService->payOrder($order);
 
@@ -238,7 +246,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $cart = $cartService->getCart();
+        $cart = $cartService->getCart($user);
 
         if ($cart == null) {
             return $this->redirectToRoute('app_cart');

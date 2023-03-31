@@ -3,6 +3,8 @@
 namespace App\Services;
 
 
+use App\Entity\Game;
+use App\Entity\User;
 use App\Repository\GameRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -111,7 +113,7 @@ class CartService
         return $cart;
     }
 
-    public function getCart()
+    public function getCart(User $user = null)
     {
         $cart = $this->session->get('cart');
         $games = [];
@@ -121,9 +123,16 @@ class CartService
         } else {
             foreach ($cart as $id => $quantity) {
                 $game = $this->gameRepository->find($id);
+                $owned = false;
+                if ($user != null) {
+                    if ($this->checkAlreadyOwned($game, $user)) {
+                        $owned = true;
+                    }
+                }
                 $games[] = [
                     'gameEntity' => $game,
-                    'quantity' => $quantity
+                    'quantity' => $quantity,
+                    'owned' => $owned
                 ];
                 if ($game->getPromotionPrice() == null) {
                     $total += $game->getPrice() * $quantity;
@@ -182,5 +191,10 @@ class CartService
 
             return $total;
         }
+    }
+
+    public function checkAlreadyOwned(Game $game, User $user): bool
+    {
+        return $games = $user->isGameOwned($game);
     }
 }

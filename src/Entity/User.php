@@ -544,4 +544,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function isGameOwned(Game $game): bool
+    {
+        return $this->gamesOwned->contains($game);
+    }
 }

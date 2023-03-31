@@ -21,9 +21,9 @@ class AddFriendType extends AbstractType
                 'class' => User::class,
                 'choice_label' => 'username',
                 'query_builder' => function (UserRepository $repo) {
-                    return $repo->createQueryBuilder('u')
-                        ->where('u.id != :id')
-                        ->setParameter('id', $options['userId']);
+                    return $repo->createQueryBuilder('u');
+                    // ->where('u.id != :id')
+                    // ->setParameter('id', $options['userId']);
                 }
             ])
             ->add('submit', SubmitType::class, [

@@ -28,6 +28,10 @@ class SingleGameController extends AbstractController
 
         // using findByCategories find related games
         $gamesRelated = $gameRepository->findByCategories($gameCategories);
+        // remove current game from related games
+        $gamesRelated = array_filter($gamesRelated, function ($gameRelated) use ($game) {
+            return $gameRelated->getId() !== $game->getId();
+        });
 
 
         // dump($gamesRelated);

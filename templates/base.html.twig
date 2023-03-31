@@ -37,7 +37,7 @@
 						<h2 class="text-xl text-white text-center">{{app.user.points}}</h2>
 						<div class="flex justify-around">
 							{% for badge in app.user.badges %}
-								<img src="/images/badges/badge.png" class="w-12"></img>
+								<img src="/images/badges/badge.png" class="w-12" alt="{{badge.name}}" title="{{badge.name}}"></img>
 							{% endfor %}
 						</div>
 					</div>
@@ -49,9 +49,11 @@
 					<li class="my-2">
 						<a href="{{ path('app_all_games') }}" class="hover:text-transparent-hover"><i class="fa-solid fa-shop"></i> Games</a>
 					</li>
+					{% if is_granted('ROLE_USER') %}
 					<li class="my-2">
 						<a href="{{path('app_my_games')}}" class="hover:text-transparent-hover"><i class="fa-solid fa-gamepad"></i> My Games</a>
 					</li>
+					{% endif %}
 					{% if is_granted('ROLE_DEV') %}
 					<li class="my-2">
 						<a href="{{ path('app_published_games') }}" class="hover:text-transparent-hover"><i class="fa-solid fa-upload"></i> Published Games</a>
@@ -70,6 +72,7 @@
 					<li class="my-2">
 						<a href="{{path('app_cart')}}" class="hover:text-transparent-hover"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
 					</li>
+					{% if is_granted('ROLE_USER') %}
 					<li class="my-2">
 						<a href="{{path('app_profil')}}" class="hover:text-transparent-hover"><i class="fa-solid fa-user"></i> Profil</a>
 					</li>
@@ -82,6 +85,7 @@
 					<li class="my-2">
 						<a href="{{path('app_wish_list')}}" class="hover:text-transparent-hover"><i class="fa-solid fa-list"></i></i> My WishList</a>
 					</li>
+					{% endif %}
 				</ul>
 			</div>
 			{% if is_granted('ROLE_USER') %}

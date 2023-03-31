@@ -28,13 +28,14 @@ class FriendController extends AbstractController
 
         // using findAllExceptCurrentUser method from UserRepository
         $users = $userRepository->findAllExceptCurrentUser($user->getId());
-        // dump($users);
+        //  dump($users);
         // dump($friends);
         // create form AddFriendType
 
-
-        $form = $this->createForm(AddFriendType::class, [
-            'users' => $users,
+        $dto = new AddFriendDTO();
+        $dto->userId = $user->getId();
+        $form = $this->createForm(AddFriendType::class, $dto, [
+            'userId' => $user->getId(),
         ]);
 
         return $this->render('friend/index.html.twig', [
@@ -53,11 +54,10 @@ class FriendController extends AbstractController
         // get all friends of current user
         $friends = $user->getFriends();
 
-        // $dto = new AddFriendDTO();
-        $users = $repo->findAllExceptCurrentUser($user->getId());
-
-        $form = $this->createForm(AddFriendType::class, [
-            'users' => $users,
+        $dto = new AddFriendDTO();
+        $dto->userId = $user->getId();
+        $form = $this->createForm(AddFriendType::class, $dto, [
+            'userId' => $user->getId(),
         ]);
 
         // handle request
@@ -66,11 +66,11 @@ class FriendController extends AbstractController
         // check if form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
             // get data from form
-            $data = $form->getData();
+            $friend = $dto->user;
             // dump($data);
 
             // get friend from database
-            $friend = $repo->find($data['user']);
+            $friend = $repo->find($friend->getId());
             // dump($friend);
 
             // add friend to current user

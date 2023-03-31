@@ -80,16 +80,21 @@ class BadgeService
         return false;
     }
 
-    private function _createBadge(string $name, User $user)
+    private function _createBadge(string $name)
     {
-        $badge = $this->badgeRepository->findOneBy(array('name' => $name));
-        $badge->addUser($user);
+        $badge = new Badge();
+        $badge->setName($name);
+        $badge->setDescription('Badge ' . $name);
+        $this->badgeRepository->save($badge, true);
         return $badge;
     }
 
     private function _addBadgeToUser(string $name, User $user)
     {
         $badge = $this->badgeRepository->findOneBy(array('name' => $name));
+        if (!$badge) {
+            $badge = $this->_createBadge($name);
+        }
         if ($badge) {
             $badge->addUser($user);
             $this->badgeRepository->save($badge, true);

@@ -163,6 +163,7 @@ class CartService
             }
 
             $coupon = $this->getCoupon();
+            // $couponName = $coupon->getCode();
             if ($coupon == null) {
                 $coupon = 0;
             } else {
@@ -174,7 +175,8 @@ class CartService
             return [
                 'games' => $games,
                 'total' => $total,
-                'coupon' => $coupon
+                'coupon' => $coupon,
+                // 'couponName' => $couponName
             ];
         }
     }

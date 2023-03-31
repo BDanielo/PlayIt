@@ -66,11 +66,11 @@ class FriendController extends AbstractController
         // check if form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
             // get data from form
-            $data = $form->getData();
+            $friend = $dto->user;
             // dump($data);
 
             // get friend from database
-            $friend = $repo->find($data['user']);
+            $friend = $repo->find($friend->getId());
             // dump($friend);
 
             // add friend to current user

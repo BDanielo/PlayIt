@@ -24,7 +24,7 @@ class AddFriendType extends AbstractType
                 'choice_label' => 'username',
                 'label' => 'Select user',
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control form-control w-full py-1 rounded-lg px-3 focus:outline-none focus:border-electric-purple hover:shadow bg-dark-purple my-4'
                 ]
             ])
             ->add('submit', SubmitType::class, [

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,6 +25,10 @@ class SearchType extends AbstractType
                     'value' => 100,
                     'step' => 1,
                 ],
+                ])
+                ->add('promotions', CheckboxType::class, [
+                    'label' => 'Sales',
+                    'required' => false,
                 ]);
     }
 

@@ -52,10 +52,17 @@ class CategoriesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             
+            if ($data['promotions'] == '') {
+                $promo = 0;
+            } else {
+                $promo = 1;
+            }
+
             return $this->redirectToRoute('category_search', [
                 'id' => $id,
                 'input' => $data['input'],
-                'rangePrice' => $data['range']
+                'rangePrice' => $data['range'],
+                'promotions' => $promo
             ]);
         }
 
@@ -110,11 +117,18 @@ class CategoriesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            if ($data['promotions'] == '') {
+                $promo = 0;
+            } else {
+                $promo = 1;
+            }
             
             return $this->redirectToRoute('category_search', [
                 'id' => $id,
                 'input' => $data['input'],
-                'rangePrice' => $data['range']
+                'rangePrice' => $data['range'],
+                'promotions' => $promo
             ]);
         }
         
@@ -131,8 +145,8 @@ class CategoriesController extends AbstractController
 
     }
 
-    #[Route('/categories/{id}/search/{input}/{rangePrice}', name: 'category_search')]
-    public function search(int $id, string $input, int $rangePrice, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request, GameReviewService $gameReviewService): Response
+    #[Route('/categories/{id}/search/{input}/{rangePrice}/{promotions}', name: 'category_search')]
+    public function search(int $id, string $input, int $rangePrice, int $promotions, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request, GameReviewService $gameReviewService): Response
     {
 
         $games = $gameRepository->findByName($input, $rangePrice, $id);
@@ -157,6 +171,12 @@ class CategoriesController extends AbstractController
             } else {
                 $isPromoted[$game->getId()] = false;
             }
+
+            if ($promotions != 0) {
+                if (!$isPromoted[$game->getId()]) {
+                    unset($games[array_search($game, $games)]);
+                }
+            }
         }
 
         $form = $this->createForm(SearchType::class);
@@ -164,11 +184,18 @@ class CategoriesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            if ($data['promotions'] == '') {
+                $promo = 0;
+            } else {
+                $promo = 1;
+            }
             
             return $this->redirectToRoute('category_search', [
                 'id' => $id,
                 'input' => $data['input'],
-                'rangePrice' => $data['range']
+                'rangePrice' => $data['range'],
+                'promotions' => $promo
             ]);
         }
 

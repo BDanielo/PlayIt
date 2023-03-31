@@ -132,6 +132,7 @@ class CartController extends AbstractController
             // if coupon is valid
             if ($coupon != null) {
                 $cartService->setCoupon($coupon);
+                $this->addFlash('success', 'Coupon added.');
             } else {
                 $this->addFlash('error', 'Invalid coupon.');
             }

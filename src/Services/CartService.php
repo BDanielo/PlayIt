@@ -81,6 +81,7 @@ class CartService
     public function clearCart()
     {
         $this->session->set('cart', []);
+        $this->session->set('coupon', null);
     }
 
     // get coupon

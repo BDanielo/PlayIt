@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreatePromotionDTO
 {
 
-    #[Assert\Length(max: 2)]
+    #[Assert\Length(max: 3)]
     public ?string $promotion = '0';
 
     #[Assert\NotBlank]

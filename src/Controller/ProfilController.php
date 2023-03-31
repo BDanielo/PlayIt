@@ -22,7 +22,7 @@ class ProfilController extends AbstractController
             $user->setLastSigninDateTime(new \DateTime('now'));
             $userRepository->save($user, true);
         }
-        
+
         //** @var User $user */
         $user = $this->getUser();
 
@@ -62,7 +62,6 @@ class ProfilController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('error', 'testError2');
 
             $currentPassword = $dto->currentPassword;
             $newPassword = $dto->newPassword;
@@ -86,6 +85,12 @@ class ProfilController extends AbstractController
                 }
 
                 if ($dto->email !== $user->getEmail()) {
+                    // check if email already exist
+                    $userByEmail = $userRepository->findOneBy(['email' => $dto->email]);
+                    if ($userByEmail) {
+                        $this->addFlash('error', 'Email already exist');
+                        return $this->redirectToRoute('app_profil');
+                    }
                     $user->setEmail($dto->email);
                 }
 

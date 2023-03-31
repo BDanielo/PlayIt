@@ -142,6 +142,13 @@ class CartService
                         $owned = true;
                     }
                 }
+                if ($owned) {
+                    if (count($cart) == 1) {
+                        $this->clearCart();
+                        return null;
+                    }
+                    continue;
+                }
                 $games[] = [
                     'gameEntity' => $game,
                     'quantity' => $quantity,

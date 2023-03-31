@@ -16,13 +16,16 @@ class AddFriendType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $users = $options['users'];
+        $userId = $options['userId'];
         $builder
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'choices' => $users,
+                'query_builder' => function (UserRepository $repo) use ($userId) {
+                    return $repo->createQueryBuilder('u')
+                        ->where('u.id != :userId')
+                        ->setParameter('userId', $userId);
+                },
                 'choice_label' => 'username',
-                'label' => 'Select user',
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -38,8 +41,8 @@ class AddFriendType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // 'data_class' => AddFriendDTO::class,
-            'users' => null,
+            'data_class' => AddFriendDTO::class,
+            'userId' => null,
         ]);
     }
 }

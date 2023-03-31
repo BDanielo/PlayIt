@@ -41,14 +41,16 @@ class CartController extends AbstractController
     #[Route('/cart/add/{id}/ajax', name: 'app_cart_add_ajax', methods: ['GET'])]
     public function add_ajax(int $id, CartService $cartService): Response
     {
-        $result = $cartService->addToCart($id);
+        $user = $this->getUser();
+        $result = $cartService->addToCart($id, $user->getId());
         return $this->sendResponse(['status' => $result[0], 'result' => $result[1]]);
     }
 
     #[Route('/cart/add/{id}', name: 'app_cart_add', methods: ['GET'])]
     public function add(int $id, CartService $cartService): Response
     {
-        $cartService->addToCart($id);
+        $user = $this->getUser();
+        $cartService->addToCart($id, $user->getId());
         return $this->redirectToRoute('app_cart');
     }
 

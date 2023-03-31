@@ -32,7 +32,11 @@
     {% endif %}
     <div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
         {{ form_start(form) }}
+        {% if game.promotion == null %}
         <h1 class="text-4xl">Add a new promotion</h1>
+        {% else %}
+        <h1 class="text-4xl">Edit promotion</h1>
+        {% endif %}
         <br>
         {{ form_label(form.promotion) }}
         <br>

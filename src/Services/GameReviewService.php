@@ -52,9 +52,10 @@ class GameReviewService
             }
         }
 
-        // if (!$owned) {
-        //     return true;
-        // }
+
+        if (!$owned) {
+            return true;
+        }
 
         // for each review check if the game is the same
         foreach ($userReviews as $review) {

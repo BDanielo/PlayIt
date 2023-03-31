@@ -46,7 +46,7 @@ class SingleGameController extends AbstractController
         } else {
             $finalGamesRelated = $gamesRelated;
         }
-        
+
 
 
         //  dump($finalGamesRelated);
@@ -58,7 +58,7 @@ class SingleGameController extends AbstractController
         if ($user) {
 
             $reviewed = $gameReviewService->hasUserReviewedGame($user, $game);
-
+            // dump($reviewed);
             if (!$reviewed) {
 
                 // create form using PostReviewType

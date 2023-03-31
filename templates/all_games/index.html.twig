@@ -19,15 +19,15 @@
                     </div>
                 </div>
                 <ul class="h-48 py-2 text-sm text-gray-700 dark:text-gray-200 overflow-y-auto" aria-labelledby="dropdownDefaultButton">
-                    <li>
+                    <li class="px-2">
                         <label for="price-range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max price</label>
                         
                         {{ form_widget(form.range, {'attr': {'class': 'w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700', 'oninput':"this.nextElementSibling.value = this.value + '$'"}}) }}
                         <output>100$</output>
                     </li>
-                    <li>
+                    <li class="mt-2 px-2 text-sm font-medium text-gray-900 dark:text-white">
                         {{ form_label(form.promotions)}}
-                        {{ form_widget(form.promotions) }}
+                        {{ form_widget(form.promotions, {'attr': {'class': 'mx-2' }}) }}
                     </li>
                 </ul>
             </div>

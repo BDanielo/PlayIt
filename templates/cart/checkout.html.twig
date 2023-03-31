@@ -40,11 +40,11 @@
 								</div>
 							{% endfor %}
 						{% endfor %}
-						{{path('app_cart_checkout_coupon_post')}}
 						{{ form_start(formCoupon, {'action': path('app_cart_checkout_coupon_post'), 'method': 'POST'}) }}
 						{# {{ form_start(formCoupon) }} #}
 						{{ form_widget(formCoupon) }}
 						{{ form_end(formCoupon) }}
+						<br>
 						<p class="text-2xl">Coupon :
 							{{ cart.coupon }}$</p>
 						<p class="text-2xl">Total :
@@ -56,15 +56,16 @@
 					{% endif %}
 				</div>
 				<br>
-				<h5>Payment</h5>
-				<br>
 				{% for error in app.flashes('error') %}
-					{{ error }}
+					<span class="text-red-500 text-md">{{ error }}</span>
 				{% endfor %}
 				{% for success in app.flashes('success') %}
-					{{ success }}
+					<span class="text-green-500 text-md">{{ success }}</span>
 				{% endfor %}
-				{{path('app_cart_checkout_post')}}
+				<br>
+				<br>
+				<h5>Payment</h5>
+				<br>
 				{{ form_start(form, {'action': path('app_cart_checkout_post'), 'method': 'POST'}) }}
 				{# {{ form_start(form) }} #}
 				<div class=" text-xl form-group">

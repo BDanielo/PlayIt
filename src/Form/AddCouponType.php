@@ -16,7 +16,7 @@ class AddCouponType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Enter coupon code',
-                    'class' => 'text-sm w-full rounded-full bg-gray-100 px-6 pt-2.5 pb-2 font-medium uppercase leading-normal text-gray-700 shadow-[0_4px_9px_-4px_#AE4CDC] transition duration-150 ease-in-out hover:bg-gray-200 hover:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:bg-gray-200 focus:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:outline-none focus:ring-0 active:bg-gray-300 active:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)]'
+                    'class' => 'my-4 text-sm w-full rounded-full bg-gray-100 px-6 pt-2.5 pb-2 font-medium uppercase leading-normal text-gray-700 shadow-[0_4px_9px_-4px_#AE4CDC] transition duration-150 ease-in-out hover:bg-gray-200 hover:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:bg-gray-200 focus:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:outline-none focus:ring-0 active:bg-gray-300 active:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)]'
                 ]
             ])
             ->add('submit', SubmitType::class, [

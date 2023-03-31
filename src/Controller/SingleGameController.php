@@ -96,6 +96,7 @@ class SingleGameController extends AbstractController
         ]);
     }
 
+    // post review
     #[Route('/game/{id}', name: 'app_single_game_post', methods: ['POST'])]
     public function postReview(int $id, GameRepository $gameRepository, GameReviewService $gameReviewService, Request $request, ReviewRepository $reviewRepository): Response
     {
@@ -130,5 +131,26 @@ class SingleGameController extends AbstractController
                 }
             }
         }
+    }
+
+    // delete review
+    #[Route('/admin/game/review/{id}/delete', name: 'app_single_game_delete', methods: ['GET'])]
+    public function deleteReview(int $id, ReviewRepository $reviewRepository, GameRepository $gameRepository): Response
+    {
+        $user = $this->getUser();
+
+        $review = $reviewRepository->find($id);
+
+        // check if review is valid, if not throw an error
+        if (!$review) {
+            throw $this->createNotFoundException('Review not found');
+        }
+
+        $game = $review->getGames();
+
+
+        $reviewRepository->remove($review, true);
+
+        return $this->redirectToRoute('app_single_game', ['id' => $game->getId()]);
     }
 }

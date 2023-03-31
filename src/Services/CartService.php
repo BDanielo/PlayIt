@@ -163,10 +163,11 @@ class CartService
             }
 
             $coupon = $this->getCoupon();
-            // $couponName = $coupon->getCode();
             if ($coupon == null) {
                 $coupon = 0;
+                $couponCode = null;
             } else {
+                $couponCode = $coupon->getCode();
                 $coupon = $coupon->getPercent();
             }
             $coupon = $total * ($coupon / 100);
@@ -176,6 +177,7 @@ class CartService
                 'games' => $games,
                 'total' => $total,
                 'coupon' => $coupon,
+                'couponCode' => $couponCode
                 // 'couponName' => $couponName
             ];
         }

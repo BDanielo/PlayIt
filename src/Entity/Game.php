@@ -78,6 +78,8 @@ class Game
     private Collection $wishLists;
 
 
+
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -151,6 +153,7 @@ class Game
         return substr($categoryName, 0, -2);
     }
 
+    // get all owners of the game
     /**
      * @return Collection<int, User>
      */
@@ -159,6 +162,7 @@ class Game
         return $this->owners;
     }
 
+    // add a owner to the list
     public function addOwner(User $owner): self
     {
         if (!$this->owners->contains($owner)) {
@@ -168,6 +172,7 @@ class Game
         return $this;
     }
 
+    // remove a owner from the list
     public function removeOwner(User $owner): self
     {
         $this->owners->removeElement($owner);
@@ -175,6 +180,7 @@ class Game
         return $this;
     }
 
+    // get all authors of the game
     /**
      * @return Collection<int, User>
      */
@@ -183,6 +189,7 @@ class Game
         return $this->authors;
     }
 
+    // add an author to the list
     public function addAuthor(User $author): self
     {
         if (!$this->authors->contains($author)) {
@@ -199,6 +206,7 @@ class Game
         return $this->authors->contains($author);
     }
 
+    // remove an author from the list
     public function removeAuthor(User $author): self
     {
         if ($this->authors->removeElement($author)) {
@@ -208,11 +216,13 @@ class Game
         return $this;
     }
 
+    // get the number of copy solded
     public function getSold(): ?int
     {
         return $this->sold;
     }
 
+    // set the sold attribute
     public function setSold(int $sold): self
     {
         $this->sold = $sold;
@@ -220,12 +230,14 @@ class Game
         return $this;
     }
 
+    // add 1 to the sold attribute
     public function addSold(): self
     {
         $this->sold++;
         return $this;
     }
 
+    // get the promotion price of the game if the promotion is valid, if not it just return null
     public function getPromotionPrice(): ?float
     {
         if ($this->promotion !== null && $this->promotionStart !== null && $this->promotionEnd !== null) {
@@ -236,6 +248,7 @@ class Game
         return null;
     }
 
+    // check if the game is on promotion
     public function hasPromotion(): bool
     {
         if ($this->promotion !== null && $this->promotionStart !== null && $this->promotionEnd !== null) {
@@ -246,11 +259,13 @@ class Game
         return false;
     }
 
+    // get the price of the game
     public function getPrice(): ?float
     {
         return $this->price;
     }
 
+    // set the price of the game
     public function setPrice(float $price): self
     {
         $this->price = $price;
@@ -258,11 +273,13 @@ class Game
         return $this;
     }
 
+    //get the creation date
     public function getVersion(): ?string
     {
         return $this->version;
     }
 
+    //set the version of the game
     public function setVersion(string $version): self
     {
         $this->version = $version;
@@ -270,11 +287,13 @@ class Game
         return $this;
     }
 
+    //get the picture path
     public function getPicture(): ?string
     {
         return $this->picture;
     }
 
+    //* set the picture path [image name are standardized header.jpg, banner.jpg... Only the directory name change for each game]
     public function setPicture(string $picture): self
     {
         $this->picture = $picture;
@@ -282,11 +301,14 @@ class Game
         return $this;
     }
 
+    // TODO implement file upload
+    // get the file of the game )
     public function getFile(): ?string
     {
         return $this->file;
     }
 
+    // set the file name
     public function setFile(string $file): self
     {
         $this->file = $file;
@@ -294,11 +316,13 @@ class Game
         return $this;
     }
 
+    // get the creation date
     public function getCreationDate(): ?\DateTimeInterface
     {
         return $this->creationDate;
     }
 
+    // set the creation date
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
@@ -306,11 +330,13 @@ class Game
         return $this;
     }
 
+    // get the last update date
     public function getUpdateDate(): ?\DateTimeInterface
     {
         return $this->updateDate;
     }
 
+    // set last update date
     public function setUpdateDate(?\DateTimeInterface $updateDate): self
     {
         $this->updateDate = $updateDate;
@@ -318,6 +344,7 @@ class Game
         return $this;
     }
 
+    // get all the reviews of the game
     /**
      * @return Collection<int, Review>
      */
@@ -326,6 +353,7 @@ class Game
         return $this->reviews;
     }
 
+    // add review
     public function addReview(Review $review): self
     {
         if (!$this->reviews->contains($review)) {
@@ -336,6 +364,7 @@ class Game
         return $this;
     }
 
+    // remove review
     public function removeReview(Review $review): self
     {
         if ($this->reviews->removeElement($review)) {
@@ -348,12 +377,13 @@ class Game
         return $this;
     }
 
-    // tostring
+    // convert the entity into a string
     public function __toString(): string
     {
         return $this->name;
     }
 
+    // get all the order lines of the game
     /**
      * @return Collection<int, OrderLine>
      */
@@ -362,6 +392,7 @@ class Game
         return $this->orderLines;
     }
 
+    // add order line
     public function addOrderLine(OrderLine $orderLine): self
     {
         if (!$this->orderLines->contains($orderLine)) {
@@ -372,6 +403,7 @@ class Game
         return $this;
     }
 
+    // remove order line
     public function removeOrderLine(OrderLine $orderLine): self
     {
         if ($this->orderLines->removeElement($orderLine)) {
@@ -384,11 +416,13 @@ class Game
         return $this;
     }
 
+    // get the promotion of the game
     public function getPromotion(): ?float
     {
         return $this->promotion;
     }
 
+    // set the promotion of the game
     public function setPromotion(float $promotion): self
     {
         $this->promotion = $promotion;
@@ -396,11 +430,13 @@ class Game
         return $this;
     }
 
+    // get the start date of promotion of the game
     public function getPromotionStart(): ?\DateTimeInterface
     {
         return $this->promotionStart;
     }
 
+    // set the start date of promotion of the game
     public function setPromotionStart(?\DateTimeInterface $promotionStart): self
     {
         $this->promotionStart = $promotionStart;
@@ -408,11 +444,13 @@ class Game
         return $this;
     }
 
+    // get the end date of promotion of the game
     public function getPromotionEnd(): ?\DateTimeInterface
     {
         return $this->promotionEnd;
     }
 
+    // set the end date of promotion of the game
     public function setPromotionEnd(\DateTimeInterface $promotionEnd): self
     {
         $this->promotionEnd = $promotionEnd;
@@ -420,6 +458,7 @@ class Game
         return $this;
     }
 
+    // delete the promotion of the game
     public function deletePromotion(): self
     {
         $this->promotion = null;
@@ -429,11 +468,13 @@ class Game
         return $this;
     }
 
+    // get the status of the game
     public function getStatus(): ?int
     {
         return $this->status;
     }
 
+    // set the status of the game
     public function setStatus(int $status): self
     {
         $this->status = $status;
@@ -441,6 +482,7 @@ class Game
         return $this;
     }
 
+    // get the status of the game as a string
     public function getStatusString(): string
     {
         switch ($this->status) {
@@ -457,6 +499,7 @@ class Game
         }
     }
 
+    // get the all the wishlists that contains the game
     /**
      * @return Collection<int, WishList>
      */
@@ -465,6 +508,7 @@ class Game
         return $this->wishLists;
     }
 
+    // add a wishList to the game
     public function addWishList(WishList $wishList): self
     {
         if (!$this->wishLists->contains($wishList)) {
@@ -475,6 +519,7 @@ class Game
         return $this;
     }
 
+    // remove a wishList from the game
     public function removeWishList(WishList $wishList): self
     {
         if ($this->wishLists->removeElement($wishList)) {
@@ -482,5 +527,11 @@ class Game
         }
 
         return $this;
+    }
+
+    // get number of wishes from the game
+    public function getWishCount(): int
+    {
+        return $this->wishLists->count();
     }
 }

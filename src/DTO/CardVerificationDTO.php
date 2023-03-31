@@ -13,7 +13,7 @@ class CardVerificationDTO
 
     #[Assert\NotBlank]
     #[Assert\CardScheme(
-        schemes: [Assert\CardScheme::VISA],
+        schemes: ['VISA', 'MASTERCARD', 'AMEX'],
         message: 'Your credit card number is invalid.',
     )]
     public ?string $cardNumber = null;

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="bg-dark-medium-purple h-full min-h-screen p-20">
+    <div class="bg-dark-medium-purple h-full min-h-screen p-5">
         {% if games is defined and games is not null %}
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -38,6 +38,9 @@
                                 Sold
                             </th>
                             <th scope="col" class="px-5 py-3">
+                                Wishes
+                            </th>
+                            <th scope="col" class="px-5 py-3">
                                 Price
                             </th>
                             <th scope="col" class="px-5 py-3">
@@ -58,9 +61,11 @@
                         {% for game in games %}
                             <tr class="bg-white border-b dark:bg-dark-purple dark:border-medium-purple">
                                 <td class="px-5 py-4">
+                                    <a href="{{path('app_single_game', {id: game.id})}}">
                                     <img src="{{ game.picture }}/head.png"
                                         alt="game picture"
                                         class="w-10 h-10 rounded-full" />
+                                    </a>
                                 </td>
                                 <th scope="row"
                                     class="px-5 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -74,6 +79,9 @@
                                 </td>
                                 <td class="px-5 py-4">
                                     {{ game.sold }}
+                                </td>
+                                <td class="px-5 py-4">
+                                    {{ game.wishCount }}
                                 </td>
                                 <td class="px-5 py-4">
                                     {{ game.price }}

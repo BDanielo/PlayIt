@@ -44,7 +44,11 @@
                     <h3 class="text-lg">Prix : </h3>
                     {% if game.PromotionPrice is not null %}
                         <p class="pl-5 dark:text-red-600 line-through">{{ game.price }}$</p>
-                        <p class="pl-5">{{ game.PromotionPrice }} $</p>
+                        <p class="pl-5">{{ game.PromotionPrice|number_format(
+                            2,
+                            '.',
+                            ''
+                        ) }} $</p>
                     {% else %}
                     <p class="pl-5">{{ game.price }} $</p>
                     {% endif %}

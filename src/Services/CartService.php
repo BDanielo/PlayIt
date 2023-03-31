@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Entity\Game;
 use App\Entity\User;
 use App\Repository\GameRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -14,16 +15,25 @@ class CartService
 
     protected Session $session;
     protected GameRepository $gameRepository;
-    public function __construct(RequestStack $requestStack, GameRepository $repository)
+
+    protected UserRepository $userRepository;
+    public function __construct(RequestStack $requestStack, GameRepository $repository, UserRepository $userRepository)
     {
         $this->session = $requestStack->getSession();
         $this->gameRepository = $repository;
+        $this->userRepository = $userRepository;
     }
-    public function addToCart(int $id): array
+    public function addToCart(int $id, int $userId): array
     {
         $result = ['', ''];
         if (!$this->checkProductValidity($id)) {
             throw new \Exception("Product not found");
+        }
+        $user = $this->userRepository->find($userId);
+
+        if ($this->checkAlreadyOwned($this->gameRepository->find($id), $user)) {
+            $result = ['error', 'already owned'];
+            return $result;
         }
 
         $cart = $this->initCart();

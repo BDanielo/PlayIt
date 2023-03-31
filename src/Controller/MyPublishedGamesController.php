@@ -279,6 +279,12 @@ class MyPublishedGamesController extends AbstractController
             return $this->redirectToRoute('app_published_games');
         }
 
+        if ($this->isGranted('ROLE_DEV') && !$this->isGranted('ROLE_ADMIN')) {
+            if (!$game->getAuthors()->contains($this->getUser())) {
+                $this->addFlash('error', 'You are not allowed to edit this game promotion');
+                return $this->redirectToRoute('app_published_games');
+            }
+        }
         $dto = new CreatePromotionDTO();
 
         // fill dto with data from game promotion
@@ -310,6 +316,13 @@ class MyPublishedGamesController extends AbstractController
             return $this->redirectToRoute('app_published_games');
         }
 
+        if ($this->isGranted('ROLE_DEV') && !$this->isGranted('ROLE_ADMIN')) {
+            if (!$game->getAuthors()->contains($this->getUser())) {
+                $this->addFlash('error', 'You are not allowed to edit this game promotion');
+                return $this->redirectToRoute('app_published_games');
+            }
+        }
+
         $dto = new CreatePromotionDTO();
 
         $form = $this->createForm(CreatePromotionType::class, $dto);
@@ -336,7 +349,7 @@ class MyPublishedGamesController extends AbstractController
 
             $gameRepository->save($game, true);
 
-            return $this->redirectToRoute('app_published_games', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_published_games_promotion', ['id' => $id], Response::HTTP_SEE_OTHER);
         }
 
 
@@ -346,7 +359,7 @@ class MyPublishedGamesController extends AbstractController
         ]);
     }
 
-    #[Route('/dev/published-games/promotion/{id}', name: 'app_published_games_promotion_delete', methods: ['POST'])]
+    #[Route('/dev/published-games/promotion/delete/{id}', name: 'app_published_games_promotion_delete', methods: ['GET'])]
     public function promotionDelete(int $id, GameRepository $gameRepository): Response
     {
         // check if the game exists
@@ -357,10 +370,17 @@ class MyPublishedGamesController extends AbstractController
             return $this->redirectToRoute('app_published_games');
         }
 
+        if ($this->isGranted('ROLE_DEV') && !$this->isGranted('ROLE_ADMIN')) {
+            if (!$game->getAuthors()->contains($this->getUser())) {
+                $this->addFlash('error', 'You are not allowed to delete this game promotion');
+                return $this->redirectToRoute('app_published_games');
+            }
+        }
+
         $game->deletePromotion();
 
         $gameRepository->save($game, true);
 
-        return $this->redirectToRoute('app_published_games', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_published_games_promotion', ['id' => $id], Response::HTTP_SEE_OTHER);
     }
 }

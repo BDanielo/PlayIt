@@ -31,8 +31,6 @@ class FriendController extends AbstractController
         // dump($users);
         // dump($friends);
         // create form AddFriendType
-        $dto = new AddFriendDTO();
-        $dto->userId = $user->getId();
 
 
         $form = $this->createForm(AddFriendType::class, [

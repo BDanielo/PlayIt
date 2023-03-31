@@ -6,13 +6,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class AddFriendDTO
 {
-    // add user field type EntityUser
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    public $user;
-
     // userId
     #[Assert\NotBlank]
-    #[Assert\NotNull]
+    #[Assert\Type('integer')]
     public $userId;
+
+    // add user field which is an USer type
+    #[Assert\NotBlank]
+    #[Assert\Type('App\Entity\User')]
+    public $user;
 }

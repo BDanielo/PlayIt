@@ -74,6 +74,42 @@ class AllGamesController extends AbstractController
 
         $games = $gameRepository->sortBy($sort, $order, null);
 
+        if ($sort == 'price') {
+            if ($order == 'ASC') {
+                usort($games, function ($a, $b) {
+                    if ($a->getPromotion() !== null) {
+                        $aPrice = $a->getPromotionPrice();
+                    } else {
+                        $aPrice = $a->getPrice();
+                    }
+
+                    if ($b->getPromotion() !== null) {
+                        $bPrice = $b->getPromotionPrice();
+                    } else {
+                        $bPrice = $b->getPrice();
+                    }
+
+                    return $aPrice <=> $bPrice;
+                });
+            } else {
+                usort($games, function ($a, $b) {
+                    if ($a->getPromotion() !== null) {
+                        $aPrice = $a->getPromotionPrice();
+                    } else {
+                        $aPrice = $a->getPrice();
+                    }
+
+                    if ($b->getPromotion() !== null) {
+                        $bPrice = $b->getPromotionPrice();
+                    } else {
+                        $bPrice = $b->getPrice();
+                    }
+
+                    return $bPrice <=> $aPrice;
+                });
+            }
+        }
+
         $isPromoted = [];
 
         foreach ($games as $game) {

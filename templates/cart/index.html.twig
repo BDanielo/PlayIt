@@ -37,9 +37,9 @@
                                                 <span class="text-3xl font-bold text-gray-900 dark:text-white">
                                                     {% if
                                                         game.gameEntity.PromotionPrice is not null %}
-                                                        {{
+                                                        <span class="text-red-600 line-through">{{
                                                             game.gameEntity.price
-                                                        }}$
+                                                        }}$</span>
                                                         {{
                                                             game.gameEntity.PromotionPrice
                                                         }}$/unit

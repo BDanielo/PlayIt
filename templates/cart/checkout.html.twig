@@ -23,7 +23,7 @@
 									<div class="flex-row text-end pr-4 text-xl">
 										<h5>Unit price :
 										{% if game.gameEntity.PromotionPrice is not null %}
-											{{ game.gameEntity.price }}$</h5>
+											<span class="text-red-600 line-through">{{ game.gameEntity.price }}$</span></h5>
 											{{ game.gameEntity.PromotionPrice }}$</h5>
 										{% else %}
 											{{ game.gameEntity.price }}$</h5>

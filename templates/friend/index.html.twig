@@ -36,7 +36,15 @@
             {% endif %}
 
             {# add symfony form from variable form #}
-            {{ form_start(form) }}
+            {{
+                form_start(
+                    form,
+                    {
+                        action: path('app_friend_add'),
+                        method: 'POST'
+                    }
+                )
+            }}
             {{ form_widget(form) }}
             {{ form_end(form) }}
         </ul>

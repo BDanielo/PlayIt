@@ -17,7 +17,7 @@ use App\Form\Type\TaskType;
 class FriendController extends AbstractController
 {
     #[Route('/user/friend', name: 'app_friend', methods: ['GET'])]
-    public function index(): Response
+    public function index(UserRepository $userRepository): Response
     {
         // get current user
         $user = $this->getUser();
@@ -25,12 +25,18 @@ class FriendController extends AbstractController
         // get all friends of current user
         $friends = $user->getFriends();
 
+
+        // using findAllExceptCurrentUser method from UserRepository
+        $users = $userRepository->findAllExceptCurrentUser($user->getId());
+        // dump($users);
         // dump($friends);
         // create form AddFriendType
         $dto = new AddFriendDTO();
         $dto->userId = $user->getId();
-        $form = $this->createForm(AddFriendType::class, $dto, [
-            'userId' => $user->getId(),
+
+
+        $form = $this->createForm(AddFriendType::class, [
+            'users' => $users,
         ]);
 
         return $this->render('friend/index.html.twig', [
@@ -49,10 +55,11 @@ class FriendController extends AbstractController
         // get all friends of current user
         $friends = $user->getFriends();
 
-        $dto = new AddFriendDTO();
+        // $dto = new AddFriendDTO();
+        $users = $repo->findAllExceptCurrentUser($user->getId());
 
         $form = $this->createForm(AddFriendType::class, [
-            'userId' => $user->getId(),
+            'users' => $users,
         ]);
 
         // handle request

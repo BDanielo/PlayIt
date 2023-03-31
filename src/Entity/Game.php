@@ -236,6 +236,16 @@ class Game
         return null;
     }
 
+    public function hasPromotion(): bool
+    {
+        if ($this->promotion !== null && $this->promotionStart !== null && $this->promotionEnd !== null) {
+            if ($this->promotionStart <= new \DateTime() && $this->promotionEnd >= new \DateTime()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getPrice(): ?float
     {
         return $this->price;

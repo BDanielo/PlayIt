@@ -52,9 +52,11 @@
 					<li class="my-2">
 						<a href="{{path('app_my_games')}}" class="hover:text-transparent-hover"><i class="fa-solid fa-gamepad"></i> My Games</a>
 					</li>
-										<li class="my-2">
+					{% if is_granted('ROLE_DEV') %}
+					<li class="my-2">
 						<a href="{{ path('app_published_games') }}" class="hover:text-transparent-hover"><i class="fa-solid fa-upload"></i> Published Games</a>
 					</li>
+					{% endif %}
 				</ul>
 
 				<h2 class="text-white">Other</h2>

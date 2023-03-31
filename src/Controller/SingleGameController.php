@@ -26,7 +26,13 @@ class SingleGameController extends AbstractController
             return $category->getId();
         })->toArray();
 
-        $gameWished = $user->isGameWished($game);
+        // if user
+        if ($user) {
+            // check if game is wished
+            $gameWished = $user->isGameWished($game);
+        } else {
+            $gameWished = false;
+        }
 
         // using findByCategories find related games
         $gamesRelated = $gameRepository->findByCategories($gameCategories);

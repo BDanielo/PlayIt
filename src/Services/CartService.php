@@ -145,7 +145,7 @@ class CartService
                     'quantity' => $quantity,
                     'owned' => $owned
                 ];
-                if ($game->getPromotionPrice() == null) {
+                if ($game->getPromotionPrice() == null && $game->getPromotionStart() == null && $game->getPromotionEnd() == null) {
                     $total += $game->getPrice() * $quantity;
                 } else {
                     $total += $game->getPromotionPrice() * $quantity;
@@ -188,7 +188,11 @@ class CartService
         } else {
             foreach ($cart as $id => $quantity) {
                 $game = $this->gameRepository->find($id);
-                $total += $game->getPrice() * $quantity;
+                if ($game->getPromotionPrice() == null && $game->getPromotionStart() == null && $game->getPromotionEnd() == null) {
+                    $total += $game->getPrice() * $quantity;
+                } else {
+                    $total += $game->getPromotionPrice() * $quantity;
+                }
             }
 
             $coupon = $this->getCoupon();

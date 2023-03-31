@@ -1,39 +1,56 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Friends list
+	Friends list
 {% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font:
-        18px/1.5 sans-serif; } .example-wrapper code { background: #F5F5F5;
-        padding: 2px 6px; }
-    </style>
 
-    <div class="example-wrapper">
-        {# list all friend in friends #}
-        <h1>
-            Friends
-        </h1>
-        <ul>
-            {% if (friends|length) == 0 %}
-                <li>No friends found</li>
-            {% else %}
-                {% for friend in friends %}
-                    <li>{{ friend.username }}</li>
-                    <a href="{{
-                        path(
-                            'app_chat',
-                            {
-                                id: friend.id
-                            }
-                        )
-                        }}">
-                        Messages
-                    </a>
-                {% endfor %}
-            {% endif %}
+	<div class="bg-dark-medium-purple h-full min-h-screen p-20">
+
+		<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+			<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+				<caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-dark-purple">
+					Your Friends
+					<p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Here are your friends! Chat with them!</p>
+				</caption>
+				<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-medium-purple dark:text-gray-400">
+					<tr>
+						<th scope="col" class="px-6 py-3">
+							UserName
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Actions
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for friend in friends %}
+						<tr class="bg-white border-b dark:bg-dark-purple dark:border-medium-purple">
+							<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"></th>
+							<td class="px-6 py-4">
+								{{ friend.username }}
+							</td>
+							<td class="px-6 py-4">
+
+								<a href="{{ path('app_chat', {'id': friend.id}) }}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]">Messages</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<br>
+
+
+		<div class="border-gradient border-glow bg-medium-purple text-white p-6 text-xl rounded-md">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			{{ form_end(form) }}
+		</div>
+	</div>
+
 
             {# add symfony form from variable form #}
             {{

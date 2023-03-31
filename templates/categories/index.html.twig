@@ -24,7 +24,10 @@
                         {{ form_widget(form.range, {'attr': {'class': 'w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700', 'oninput':"this.nextElementSibling.value = this.value + '$'"}}) }}
                         <output>100$</output>
                     </li>
-                    
+                    <li>
+                        {{ form_label(form.promotions, {'attr': {'class': 'mt-2 block text-sm font-medium text-gray-900 dark:text-white' }})}}
+                        {{ form_widget(form.promotions) }}
+                    </li>
                 </ul>
             </div>
 

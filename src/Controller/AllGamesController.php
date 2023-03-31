@@ -47,9 +47,16 @@ class AllGamesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            if ($data['promotions'] == '') {
+                $promo = 0;
+            } else {
+                $promo = 1;
+            }
+
             return $this->redirectToRoute('app_search', [
                 'input' => $data['input'],
-                'rangePrice' => $data['range']
+                'rangePrice' => $data['range'],
+                'promotions' => $promo
             ]);
         }
 
@@ -135,9 +142,16 @@ class AllGamesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            if ($data['promotions'] == '') {
+                $promo = 0;
+            } else {
+                $promo = 1;
+            }
+
             return $this->redirectToRoute('app_search', [
                 'input' => $data['input'],
-                'rangePrice' => $data['range']
+                'rangePrice' => $data['range'],
+                'promotions' => $promo
             ]);
         }
 
@@ -153,9 +167,9 @@ class AllGamesController extends AbstractController
         ]);
     }
 
-    #[Route('/all-games/search/{input}/{rangePrice}', name: 'app_search')]
+    #[Route('/all-games/search/{input}/{rangePrice}/{promotions}', name: 'app_search')]
 
-    public function search(string $input, int $rangePrice, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request, GameReviewService $gameReviewService): Response
+    public function search(string $input, int $rangePrice, int $promotions, GameRepository $gameRepository, CategoryRepository $categoryRepository, Request $request, GameReviewService $gameReviewService): Response
     {
         $title = 'Personal filters';
         $games = $gameRepository->findByName($input, $rangePrice, null);
@@ -181,6 +195,12 @@ class AllGamesController extends AbstractController
             } else {
                 $isPromoted[$game->getId()] = false;
             }
+
+            if ($promotions != 0) {
+                if (!$isPromoted[$game->getId()]) {
+                    unset($games[array_search($game, $games)]);
+                }
+            }
         }
 
         $form = $this->createForm(SearchType::class);
@@ -189,9 +209,16 @@ class AllGamesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            if ($data['promotions'] == '') {
+                $promo = 0;
+            } else {
+                $promo = 1;
+            }
+
             return $this->redirectToRoute('app_search', [
                 'input' => $data['input'],
-                'rangePrice' => $data['range']
+                'rangePrice' => $data['range'],
+                'promotions' => $promo
             ]);
         }
 

@@ -42,7 +42,12 @@
                 </div>
                 <div class="flex items-center">
                     <h3 class="text-lg">Prix : </h3>
+                    {% if game.PromotionPrice is not null %}
+                        <p class="pl-5 dark:text-red-600 line-through">{{ game.price }}$</p>
+                        <p class="pl-5">{{ game.PromotionPrice }} $</p>
+                    {% else %}
                     <p class="pl-5">{{ game.price }} $</p>
+                    {% endif %}
                 </div>
                 <div>
                     <button class="inline-block rounded-full bg-electric-light-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#AE4CDC] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(174,76,220,0.3),0_4px_18px_0_rgba(174,76,220,0.2)] mt-5" type="submit">

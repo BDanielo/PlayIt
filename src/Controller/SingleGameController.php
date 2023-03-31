@@ -26,6 +26,8 @@ class SingleGameController extends AbstractController
             return $category->getId();
         })->toArray();
 
+        $gameWished = $user->isGameWished($game);
+
         // using findByCategories find related games
         $gamesRelated = $gameRepository->findByCategories($gameCategories);
         // remove current game from related games
@@ -70,7 +72,8 @@ class SingleGameController extends AbstractController
                     'game' => $game,
                     'avgReview' => $avgReview,
                     'reviews' => $reviews,
-                    'gamesRelated' => $finalGamesRelated
+                    'gamesRelated' => $finalGamesRelated,
+                    'gameWished' => $gameWished
                 ]);
             }
         }
@@ -82,7 +85,8 @@ class SingleGameController extends AbstractController
             'game' => $game,
             'avgReview' => $avgReview,
             'reviews' => $reviews,
-            'gamesRelated' => $gamesRelated
+            'gamesRelated' => $gamesRelated,
+            'gameWished' => $gameWished
         ]);
     }
 

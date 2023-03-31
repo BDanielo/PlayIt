@@ -549,4 +549,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->gamesOwned->contains($game);
     }
+
+    // is game is in wishlist
+    public function isGameWished(Game $game): bool
+    {
+        return $this->wishList->getGames()->contains($game);
+    }
 }

@@ -31,9 +31,11 @@ class CartService
         }
         $user = $this->userRepository->find($userId);
 
-        if ($this->checkAlreadyOwned($this->gameRepository->find($id), $user)) {
-            $result = ['error', 'already owned'];
-            return $result;
+        if ($user) {
+            if ($this->checkAlreadyOwned($this->gameRepository->find($id), $user)) {
+                $result = ['error', 'already owned'];
+                return $result;
+            }
         }
 
         $cart = $this->initCart();
@@ -145,7 +147,8 @@ class CartService
                     'quantity' => $quantity,
                     'owned' => $owned
                 ];
-                if ($game->getPromotionPrice() == null && $game->getPromotionStart() == null && $game->getPromotionEnd() == null) {
+                // check if game is on promotion, with getPromotionPrice, and if promotionStart is before current date and promotionEnd is after current date
+                if ($game->hasPromotion() == false) {
                     $total += $game->getPrice() * $quantity;
                 } else {
                     $total += $game->getPromotionPrice() * $quantity;

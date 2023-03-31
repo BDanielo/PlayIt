@@ -42,7 +42,12 @@ class CartController extends AbstractController
     public function add_ajax(int $id, CartService $cartService): Response
     {
         $user = $this->getUser();
-        $result = $cartService->addToCart($id, $user->getId());
+        if ($user) {
+            $userId = $user->getId();
+        } else {
+            $userId = -1;
+        }
+        $result = $cartService->addToCart($id, $userId);
         return $this->sendResponse(['status' => $result[0], 'result' => $result[1]]);
     }
 

@@ -94,29 +94,30 @@
     </div>
 
     {% if gamesRelated is defined and gamesRelated|length > 0 %}
-    <div>
-        <h1>Related games :</h1>
-        {% for gameRelated in gamesRelated %}
-        <div class="w-full max-w-sm bg-white border-gradient border-glow rounded-lg bg-medium-purple">
-            <a href="{{ path('app_single_game', {'id': gameRelated.id}) }}">
-                <img class="p-8 rounded-t-lg" src="{{ gameRelated.picture }}/head.png" alt="product image" />
-            </a>
-            <div class="px-5 pb-5">
+    <div class="bg-electric-purple text-white p-6 ml-10 mr-10 rounded-md mt-3 flex flex-col">
+        <h1 class="self-center text-xl mb-2">Related games</h1>
+        <div class=" grid grid-cols-2 lg:grid-cols-3">
+            {% for gameRelated in gamesRelated %}
+            <div class="bg-white border-gradient border-glow rounded-lg bg-medium-purple flex">
                 <a href="{{ path('app_single_game', {'id': gameRelated.id}) }}">
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ gameRelated.name }}</h5>
+                    <img class="p-8 rounded-t-lg max-h-72 lg:min-h-full lg:min-w-full" src="{{ gameRelated.picture }}/head.png" alt="product image" />
                 </a>
-                <div class="flex items-center justify-between">
-                {% if gameRelated.PromotionPrice is not null %}
-                    <span class="text-3xl font-bold text-gray-900 dark:text-red-600 line-through">{{ gameRelated.price }}$</span>
-                    <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ gameRelated.PromotionPrice|number_format(2, '.', '') }}$</span>
-                {% else %}
-                    <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ gameRelated.price }}$</span>
-                {% endif %}
-                    <a onclick="addToCartAjax({{gameRelated.id}})" id="btnAddCart{{gameRelated.id}}" class="inline-block rounded-full bg-electric-purple px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#C47BE6] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)] focus:outline-none focus:ring-0 active:bg-electric-purple active:shadow-[0_8px_9px_-4px_rgba(196,123,230,0.3),0_4px_18px_0_rgba(196,123,230,0.2)]"><i class="fa-solid fa-cart-arrow-down" style="color: #ffffff;"></i></a>
+                <div class="px-5 pb-5 flex flex-col justify-around">
+                    <a href="{{ path('app_single_game', {'id': gameRelated.id}) }}">
+                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ gameRelated.name }}</h5>
+                    </a>
+                    <div class="flex flex-col items-center justify-between">
+                    {% if gameRelated.PromotionPrice is not null %}
+                        <span class="text-xl font-bold text-gray-900 dark:text-red-600 line-through">{{ gameRelated.price }}$</span>
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ gameRelated.PromotionPrice|number_format(2, '.', '') }}$</span>
+                    {% else %}
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ gameRelated.price }}$</span>
+                    {% endif %}
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
 
     </div>
     {% endif %}

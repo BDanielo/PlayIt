@@ -33,8 +33,23 @@ class SingleGameController extends AbstractController
             return $gameRelated->getId() !== $game->getId();
         });
 
+        //  dump($gamesRelated);
 
-        // dump($gamesRelated);
+        $finalGamesRelated = [];
+
+        if (count($gamesRelated) > 3) {
+            for ($i = 0; $i <= 3; $i++) {
+                $randomGame = array_rand($gamesRelated, 1);
+                $finalGamesRelated[] = $gamesRelated[$randomGame];
+                unset($gamesRelated[$randomGame]);
+            }
+        } else {
+            $finalGamesRelated = $gamesRelated;
+        }
+        
+
+
+        //  dump($finalGamesRelated);
 
         $reviews = $game->getReviews();
 
@@ -55,7 +70,7 @@ class SingleGameController extends AbstractController
                     'game' => $game,
                     'avgReview' => $avgReview,
                     'reviews' => $reviews,
-                    'gamesRelated' => $gamesRelated
+                    'gamesRelated' => $finalGamesRelated
                 ]);
             }
         }

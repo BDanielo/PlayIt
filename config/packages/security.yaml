@@ -47,6 +47,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/dev, roles: ROLE_DEV }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/wish-list, roles: ROLE_USER }
 
 when@test:
     security:

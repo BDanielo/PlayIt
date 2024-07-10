@@ -1,3 +1,2 @@
 # PlayIt
-LPSMIN symfony project for php courses
-test
+LPSMIN Projet symfony store de jeux vidéo ( steam like )
